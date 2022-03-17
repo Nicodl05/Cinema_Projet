@@ -6,7 +6,10 @@ module com.example.cinema_projet {
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
     requires themoviedbapi;
+    requires java.sql;
 
     opens com.example.cinema_projet to javafx.fxml;
     exports com.example.cinema_projet;
+    exports model;
+    opens model to javafx.fxml;
 }
