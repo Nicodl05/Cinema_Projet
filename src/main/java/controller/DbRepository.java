@@ -7,7 +7,10 @@ import info.movito.themoviedbapi.model.Genre;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.Multi;
 
+<<<<<<< HEAD
 import info.movito.themoviedbapi.model.Video;
+=======
+>>>>>>> 26384d7767d83037790a2e62a5d45472ba0debc1
 import model.Movie;
 import model.User;
 
@@ -22,16 +25,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+<<<<<<< HEAD
 
 public class DbRepository  {
+=======
+/**
+ * To DO s'occuper des BLOB
+ */
+public class DbRepository {
+>>>>>>> 26384d7767d83037790a2e62a5d45472ba0debc1
     public String url = "jdbc:mysql://fournierfamily.ovh:3306/Nico_database", user_id = "jps", pwd = "poojava";
     public Connection conn;
     public Statement st;
     ResultSet rs;
     ArrayList<String> movieTitles;
+<<<<<<< HEAD
+
+    public DbRepository() {
+=======
+>>>>>>> 26384d7767d83037790a2e62a5d45472ba0debc1
 
     public DbRepository() {
 
+    }
+    public ResultSet executeQueryWithRs(String query){
+        try {
+            conn=DriverManager.getConnection(url,user_id,pwd);
+            st=conn.createStatement();
+            rs=st.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
 
     public ResultSet executeQueryWithRs(String query) {
@@ -54,8 +79,16 @@ public class DbRepository  {
     public int GetNbRow(String table) {
         int cpt_col = 0;
         try {  // Code permettant de compter le nb de rows dans une table sql
+<<<<<<< HEAD
             String query = "Select count(*) from  " + table + ";";
             rs = executeQueryWithRs(query);
+=======
+            rs=executeQueryWithRs("truc");
+            conn = DriverManager.getConnection(url, user_id, pwd);
+            st = conn.createStatement();
+            String query = "Select count(*) from  " + table + ";";
+            ResultSet rs = st.executeQuery(query);
+>>>>>>> 26384d7767d83037790a2e62a5d45472ba0debc1
             while (rs.next()) {
                 cpt_col = rs.getInt(1);   // fonction a retenir
             }
@@ -74,8 +107,15 @@ public class DbRepository  {
     public int GetNbCol(String table) {
         int cpt_col = 0;
         try {// Code permettant de compter le nb de colonnes d'attributs dans une table sql
+<<<<<<< HEAD
             String query = "Select * from " + table + ";";
             rs = executeQueryWithRs(query);
+=======
+            conn = DriverManager.getConnection(url, user_id, pwd);
+            st = conn.createStatement();
+            String query = "Select * from " + table + ";";
+            ResultSet rs = st.executeQuery(query);
+>>>>>>> 26384d7767d83037790a2e62a5d45472ba0debc1
             ResultSetMetaData rsmd = rs.getMetaData();
             cpt_col = rsmd.getColumnCount();
         } catch (SQLException e) {
@@ -95,6 +135,7 @@ public class DbRepository  {
         return input;
     }
 
+<<<<<<< HEAD
     /**
      * Saisie sécurisée 1 ou 2 INT
      * @return
@@ -123,10 +164,25 @@ public class DbRepository  {
             retrievedTime -= 60;
         }
         t = new Time(cpt_hour, retrievedTime, 0);
+=======
+    // TO FINISH
+    /**
+     * Charger les infos d'un Film
+     */
+    public Time translateTime(int retrievedTime){
+        Time t ;
+        int cpt_hour=0;
+        while (retrievedTime>=60){
+            cpt_hour++;
+            retrievedTime-=60;
+        }
+        t= new Time(cpt_hour,retrievedTime,0);
+>>>>>>> 26384d7767d83037790a2e62a5d45472ba0debc1
         return t;
     }
 
     /**
+<<<<<<< HEAD
      * Récupère le lien du trailer
      * @param id
      * @return
@@ -159,6 +215,12 @@ public class DbRepository  {
      * @return
      */
     public Movie loadMovieDataAutomatic() {
+=======
+     * Load Movie info with the public database
+     * @return
+     */
+    public Movie loadMovieData() {
+>>>>>>> 26384d7767d83037790a2e62a5d45472ba0debc1
         Movie movie_selected = new Movie();
         MovieDb moviedb = new MovieDb();
         String query = "Star Wars ";
@@ -167,12 +229,33 @@ public class DbRepository  {
         TmdbSearch.MultiListResultsPage resultsPage = search.searchMulti(query, "fr", 1);
         List<Multi> multiList = resultsPage.getResults();
         ArrayList<MovieDb> list_movies = new ArrayList<MovieDb>();
+<<<<<<< HEAD
         for (var elem : multiList) {
             if (elem.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb"))
                 list_movies.add((MovieDb) elem); // On récupère tous les films et le user choisit lequel rajouter
         }
         for (var title : list_movies)
             System.out.println(title.getTitle());
+=======
+        ArrayList<Integer> id_movies = new ArrayList<Integer>();
+        ArrayList<Genre> genres = new ArrayList<Genre>();
+
+        for (var elem : multiList) {
+            if (elem.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb")) {
+                // moviedb = (MovieDb) elem;
+                list_movies.add((MovieDb) elem); // On récupère tous les films et le user choisit lequel rajouter
+                // genres.add(movieDb.getGenres());
+                // String url = "https://image.tmdb.org/t/p/w600_and_h900_bestv2%22"+movieDb.getPosterPath();
+                // TmdbMovies movies = new TmdbApi("810c86d39163e1219bbe9a906af41da0").getMovies();
+                //MovieDb movie = movies.getMovie(5353, "fr");
+                //System.out.println(movie.getTitle());
+                //System.out.println(movie.getGenres());
+            }
+        }
+        for (var title : list_movies) {
+            System.out.println(title.getTitle());
+        }
+>>>>>>> 26384d7767d83037790a2e62a5d45472ba0debc1
         // Ajout du Click sur le film pour récupérer le nom du film;
         String chosenMovie = "";
         for (var elem : multiList) {
@@ -182,6 +265,7 @@ public class DbRepository  {
                     movie_selected.title = moviedb.getTitle();
                     movie_selected.recap = moviedb.getOverview();
                     movie_selected.genre = moviedb.getGenres().get(0).getName();
+<<<<<<< HEAD
                     movie_selected.trailer=getTrailer(movie_selected.movieId);
                     movie_selected.releaseDate = java.sql.Date.valueOf(LocalDate.parse(moviedb.getReleaseDate(), DateTimeFormatter.ISO_DATE));
                     movie_selected.ticketPrice = 8;
@@ -189,6 +273,14 @@ public class DbRepository  {
                     movie_selected.urlImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2/" + moviedb.getPosterPath();
                     movie_selected.actorIds=loadactorIds(movie_selected);
                 }
+=======
+                  //movie_selected.trailer=moviedb.get    Regarder le trailer, rechercher comment retrive le youtube url from tdmb
+                    movie_selected.releaseDate = java.sql.Date.valueOf(LocalDate.parse(moviedb.getReleaseDate(), DateTimeFormatter.ISO_DATE));
+                    movie_selected.ticketPrice = 8;
+                    movie_selected.duration=translateTime(moviedb.getRuntime());
+                    movie_selected.urlImage="https://image.tmdb.org/t/p/w600_and_h900_bestv2/"+moviedb.getPosterPath();
+                }//
+>>>>>>> 26384d7767d83037790a2e62a5d45472ba0debc1
             }
         }
         return movie_selected;
@@ -234,6 +326,7 @@ public class DbRepository  {
      * @param
      */
     public void addMovie() {
+<<<<<<< HEAD
       //  String titleToSearch = inputString();
         System.out.println("1.Manual\2.Automatic");
         int choice=input1Or2();
@@ -247,6 +340,12 @@ public class DbRepository  {
                 break;
         }
         movie.movieId = GetNbRow("Movies") + 1;
+=======
+        String titleToSearch = inputString();
+        Movie movie = loadMovieData();
+        movie.movieId = GetNbRow("Movies") + 1;
+        //Blob x= new Blob();
+>>>>>>> 26384d7767d83037790a2e62a5d45472ba0debc1
         try {
             conn = DriverManager.getConnection(url, user_id, pwd);
             String query = "INSERT INTO Movies (movie_id, title, genre, release_time, r_time, ticket_price, recap, available, trailer,cover) VALUES (?,?,?,?,?,?,?,?,?,?);";
@@ -263,7 +362,12 @@ public class DbRepository  {
             else
                 stmt.setInt(8, 0);
             stmt.setString(9, movie.trailer);   // A dev le trailer avec Api
+<<<<<<< HEAD
             stmt.setString(10, movie.urlImage);
+=======
+            stmt.setString(10,movie.urlImage);
+            // stmt.setBlob(10,x);
+>>>>>>> 26384d7767d83037790a2e62a5d45472ba0debc1
             stmt.execute();
         } catch (SQLException e) {
             System.out.println(e);
