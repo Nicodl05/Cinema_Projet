@@ -1,40 +1,59 @@
 package controller;
+
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbSearch;
 import info.movito.themoviedbapi.model.Genre;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.Multi;
-import info.movito.themoviedbapi.model.people.Person;
+
 import model.Movie;
 import model.User;
 
 import java.sql.*;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * To DO s'occuper des BLOB
+ */
 public class DbRepository {
     public String url = "jdbc:mysql://fournierfamily.ovh:3306/Nico_database", user_id = "jps", pwd = "poojava";
     public Connection conn;
     public Statement st;
+    ResultSet rs;
     ArrayList<String> movieTitles;
-    public DbRepository(){
 
+    public DbRepository() {
+
+    }
+    public ResultSet executeQueryWithRs(String query){
+        try {
+            conn=DriverManager.getConnection(url,user_id,pwd);
+            st=conn.createStatement();
+            rs=st.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
 
     /**
      * Récupère le nb de lignes dans une table SQL
+     *
      * @param table
      * @return
      */
     public int GetNbRow(String table) {
         int cpt_col = 0;
         try {  // Code permettant de compter le nb de rows dans une table sql
+            rs=executeQueryWithRs("truc");
             conn = DriverManager.getConnection(url, user_id, pwd);
             st = conn.createStatement();
-            String query = "Select count(*) from  "+table+";";
+            String query = "Select count(*) from  " + table + ";";
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
                 cpt_col = rs.getInt(1);   // fonction a retenir
@@ -48,15 +67,16 @@ public class DbRepository {
 
     /**
      * Récupère le nb de colonnes dans une table SQL
+     *
      * @param table
      * @return
      */
-    public  int GetNbCol(String table) {
+    public int GetNbCol(String table) {
         int cpt_col = 0;
         try {// Code permettant de compter le nb de colonnes d'attributs dans une table sql
             conn = DriverManager.getConnection(url, user_id, pwd);
             st = conn.createStatement();
-            String query = "Select * from "+table+";";
+            String query = "Select * from " + table + ";";
             ResultSet rs = st.executeQuery(query);
             ResultSetMetaData rsmd = rs.getMetaData();
             cpt_col = rsmd.getColumnCount();
@@ -68,6 +88,7 @@ public class DbRepository {
 
     /**
      * Retourne un String
+     *
      * @return
      */
     String inputString() {
@@ -76,27 +97,41 @@ public class DbRepository {
         return input;
     }
 
-
     // TO FINISH
     /**
      * Charger les infos d'un Film
      */
-    public Movie test_api() {
-        Movie movie_selected=new Movie();
+    public Time translateTime(int retrievedTime){
+        Time t ;
+        int cpt_hour=0;
+        while (retrievedTime>=60){
+            cpt_hour++;
+            retrievedTime-=60;
+        }
+        t= new Time(cpt_hour,retrievedTime,0);
+        return t;
+    }
+
+    /**
+     * Load Movie info with the public database
+     * @return
+     */
+    public Movie loadMovieData() {
+        Movie movie_selected = new Movie();
         MovieDb moviedb = new MovieDb();
         String query = "Star Wars ";
         TmdbApi api = new TmdbApi("810c86d39163e1219bbe9a906af41da0");  // apic créee
         TmdbSearch search = new TmdbSearch(api); // objet recherche
         TmdbSearch.MultiListResultsPage resultsPage = search.searchMulti(query, "fr", 1);
         List<Multi> multiList = resultsPage.getResults();
-        ArrayList<String> list_movie = new ArrayList<String>();
+        ArrayList<MovieDb> list_movies = new ArrayList<MovieDb>();
         ArrayList<Integer> id_movies = new ArrayList<Integer>();
         ArrayList<Genre> genres = new ArrayList<Genre>();
 
         for (var elem : multiList) {
             if (elem.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb")) {
-                 moviedb = (MovieDb) elem;
-                list_movie.add(moviedb.getTitle());
+                // moviedb = (MovieDb) elem;
+                list_movies.add((MovieDb) elem); // On récupère tous les films et le user choisit lequel rajouter
                 // genres.add(movieDb.getGenres());
                 // String url = "https://image.tmdb.org/t/p/w600_and_h900_bestv2%22"+movieDb.getPosterPath();
                 // TmdbMovies movies = new TmdbApi("810c86d39163e1219bbe9a906af41da0").getMovies();
@@ -105,43 +140,39 @@ public class DbRepository {
                 //System.out.println(movie.getGenres());
             }
         }
-        for(var title: list_movie)
-            System.out.println(title);
+        for (var title : list_movies) {
+            System.out.println(title.getTitle());
+        }
         // Ajout du Click sur le film pour récupérer le nom du film;
-        String movieSelected="";
+        String chosenMovie = "";
         for (var elem : multiList) {
             if (elem.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb")) {
-                if(elem.getClass().getName().equals(movieSelected)) {
-                    movie_selected.movieId=GetNbRow("Movie")+1;
-                    movie_selected.title=moviedb.getTitle();
-                    movie_selected.recap=moviedb.getOverview();
-                //    movie_selected.trailer=moviedb.get    Regarder le trailer
-                 //   movie_selected.releaseDate=(java.util.Date) moviedb.getReleaseDate().getClass();
-                    movie_selected.ticketPrice=8;
-                    //movie_selected.duration=(Time) moviedb.getRuntime();
-
-
-
-                }
-//                    movie = (MovieDb) elem;
-//                list_movie.add(movie.getTitle());
-
-                movie_selected.genre=moviedb.getGenres().get(0).getName();
+                if (elem.getClass().getName().equals(chosenMovie)) {
+                    movie_selected.movieId = GetNbRow("Movie") + 1;
+                    movie_selected.title = moviedb.getTitle();
+                    movie_selected.recap = moviedb.getOverview();
+                    movie_selected.genre = moviedb.getGenres().get(0).getName();
+                  //movie_selected.trailer=moviedb.get    Regarder le trailer, rechercher comment retrive le youtube url from tdmb
+                    movie_selected.releaseDate = java.sql.Date.valueOf(LocalDate.parse(moviedb.getReleaseDate(), DateTimeFormatter.ISO_DATE));
+                    movie_selected.ticketPrice = 8;
+                    movie_selected.duration=translateTime(moviedb.getRuntime());
+                    movie_selected.urlImage="https://image.tmdb.org/t/p/w600_and_h900_bestv2/"+moviedb.getPosterPath();
+                }//
             }
         }
-
         return movie_selected;
     }
 
     /**
      * Ajoute un film dans la db
-     * @param movie
+     *
+     * @param
      */
-    public void addMovie(Movie movie) {
-        String titleToSearch=inputString();
-
+    public void addMovie() {
+        String titleToSearch = inputString();
+        Movie movie = loadMovieData();
         movie.movieId = GetNbRow("Movies") + 1;
-        // Blob x= new Blob();
+        //Blob x= new Blob();
         try {
             conn = DriverManager.getConnection(url, user_id, pwd);
             String query = "INSERT INTO Movies (movie_id, title, genre, release_time, r_time, ticket_price, recap, available, trailer,cover) VALUES (?,?,?,?,?,?,?,?,?,?);";
@@ -153,11 +184,12 @@ public class DbRepository {
             stmt.setTime(5, movie.duration);
             stmt.setDouble(6, movie.ticketPrice);
             stmt.setString(7, movie.recap);
-            if(movie.isAvailable)
+            if (movie.isAvailable)
                 stmt.setInt(8, 1);
             else
                 stmt.setInt(8, 0);
-            stmt.setString(9, movie.trailer);
+            stmt.setString(9, movie.trailer);   // A dev le trailer avec Api
+            stmt.setString(10,movie.urlImage);
             // stmt.setBlob(10,x);
             stmt.execute();
         } catch (SQLException e) {
@@ -167,6 +199,7 @@ public class DbRepository {
 
     /**
      * MAJ Dispo d'un film
+     *
      * @param update
      * @param movie_id
      */
@@ -208,6 +241,7 @@ public class DbRepository {
 
     /**
      * Récupère toutes les infos d'un film à partir de son titre
+     *
      * @param _title
      */
     public void getInfoMovieBasedTitle(String _title) {
@@ -239,6 +273,7 @@ public class DbRepository {
 
     /**
      * Récupère toutes les infos d'un film à partir de son genre
+     *
      * @param _genre
      */
     public void getInfoMovieBasedGenre(String _genre) {
@@ -270,6 +305,7 @@ public class DbRepository {
 
     /**
      * Ajoute à l'historique d'une personne, le film regardé
+     *
      * @param user
      */
     public void add_to_Historic(User user, Movie movie) {
@@ -291,9 +327,10 @@ public class DbRepository {
 
     /**
      * Ajouter un film à la liste des films aimés
+     *
      * @param user
      */
-    public void add_movie_like(User user,Movie movie) {
+    public void add_movie_like(User user, Movie movie) {
         try {
             conn = DriverManager.getConnection(url, user_id, pwd);
             String query = "INSERT INTO Movies_liked (movie_id,user_id) VALUES (?,?);";
