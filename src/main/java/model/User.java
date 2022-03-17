@@ -8,12 +8,12 @@ import java.util.Date;
 public class User {
 
     public int id;
-    String firstName, lastName, email, passwd;
+   public  String firstName, lastName, email, passwd;
     public Date bday;
-    boolean isEmployee = false;
-    ArrayList<Integer> likedMovieIds;
+   public  boolean isEmployee = false;
+    public ArrayList<Integer> likedMovieIds;
 
-    User(){
+    public User(){
 
     }
 
