@@ -1,10 +1,13 @@
 package controller;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class EmpModification {
 
+    public String url = "jdbc:mysql://fournierfamily.ovh:3306/Nico_database", user_id = "jps", pwd = "poojava";
+    public Connection conn;
+    public Statement st;
+    public ResultSet rs;
     EmpModification(){
 
     }
