@@ -42,6 +42,7 @@ public class DbRepository {
     }
 
 
+
     public ResultSet executeQueryWithRs(String query) {
         try {
             conn = DriverManager.getConnection(url, user_id, pwd);
@@ -451,5 +452,20 @@ public class DbRepository {
         }
     }
 
-
+    void load_movies_liked(){
+        ArrayList<String>likedMovieIds = new ArrayList<String>();
+        try{
+            conn = DriverManager.getConnection(url, user_id, pwd);
+            String query = "Select m.title from Movies as m, Movies_liked as ml where m.movie_id=ml.movie_id and ml.user_id="+ id;
+            st=conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()){
+                likedMovieIds.add(rs.getString("title"));
+            }
+        }
+        catch (SQLException e )
+        {
+            System.out.println(e);
+        }
+    }
 }

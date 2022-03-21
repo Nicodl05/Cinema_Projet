@@ -24,7 +24,7 @@ public class DisplayMovie {
         }
         return cpt_col;
     }
-    public  int Get_nb_Col(String table) {
+    public  int GetNbCol(String table) {
         int cpt_col = 0;
         try {// Code permettant de compter le nb de colonnes d'attributs dans une table sql
             conn = DriverManager.getConnection(url, user_id, pwd);
@@ -38,7 +38,6 @@ public class DisplayMovie {
         }
         return cpt_col;
     }
-
     String inputString() {
         Scanner sc = new Scanner(System.in);
         String input = sc.next();
@@ -46,7 +45,7 @@ public class DisplayMovie {
     }
 
     //Display movies with an actor
-   /* public void loadMoviesActor() {
+  /* public void loadMoviesActor() {
         try {
             conn = DriverManager.getConnection(url, user_id, pwd);
             String query = "Select m.title from Actors as a,Movies as m, Movies_Actors as ma  where ma.ac_id=" + ac_id + " and m.movie_id=ma.movie_id;";
