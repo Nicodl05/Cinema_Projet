@@ -2,12 +2,19 @@ package controller;
 
 
 
+import com.example.cinema_projet.*;
+import javafx.event.ActionEvent;
 import model.User;
 
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 
 public class LoginAccountCreate  {
     public String url = "jdbc:mysql://fournierfamily.ovh:3306/Nico_database", user_id = "jps", pwd = "poojava";
@@ -73,7 +80,10 @@ public class LoginAccountCreate  {
      * @param email
      * @param password
      */
-    void login(String email, String password){
+    public void login(String email, String password){
+
+        LoginController verif = new LoginController();
+
         User user = new User();
         try {
             conn = DriverManager.getConnection(url, user_id, pwd);
@@ -82,7 +92,6 @@ public class LoginAccountCreate  {
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
                 if (email.equals(rs.getString("email")) && password.equals(rs.getString("pwd"))) {
-                    System.out.println("Connected");
                     user.id = rs.getInt("person_id");
                     user.firstName = rs.getString("f_name");
                     user.lastName = rs.getString("l_name");
@@ -93,18 +102,23 @@ public class LoginAccountCreate  {
                         user.isEmployee=true;
                     else
                         user.isEmployee=false;
+                    verif.Connected();
 
                 }
                 if (email != rs.getString("email") && password == rs.getString("pwd"))
                     System.out.println("Mauvais Mail");
                 if (email == rs.getString("email") && password != rs.getString("pwd"))
                     System.out.println("Mauvais Mot de passe");
+                if (email != rs.getString("email") && password != rs.getString("pwd"))
+                    System.out.println("Mauvais Mot de passe et mail");
             }
         } catch (SQLException e) {
             throw new Error("Problem", e);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-    void Create_Account() {
+    public void Create_Account() {
         int nb_id = GetNbRow("Person") + 1;
         System.out.println("First name: ");
         String _fname = inputString();
