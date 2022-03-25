@@ -118,8 +118,9 @@ public class LoginAccountCreate  {
             e.printStackTrace();
         }
     }
-    public void Create_Account() {
+    public void Create_Account(String _fname,String _lname,String _email,String _pwd,String _bday) {
         int nb_id = GetNbRow("Person") + 1;
+        /*
         System.out.println("First name: ");
         String _fname = inputString();
         System.out.println("\nLast name: ");
@@ -130,6 +131,8 @@ public class LoginAccountCreate  {
         String _pwd = inputString();
         System.out.println("\nBirthday (Format 1900-01-01) : ");
         String _bday = inputString();
+
+         */
         LocalDate date=LocalDate.parse(_bday, DateTimeFormatter.ISO_DATE);
         Date d=java.sql.Date.valueOf(date);
         try {
