@@ -12,7 +12,6 @@ import info.movito.themoviedbapi.model.Video;
 
 import model.Movie;
 import model.User;
-
 import view.*;
 
 import java.sql.*;
@@ -28,24 +27,14 @@ import java.util.Scanner;
 
 
 public class DbRepository {
-    /**
-     * To DO s'occuper des BLOB
-     */
-
-
     public String url = "jdbc:mysql://fournierfamily.ovh:3306/Nico_database", user_id = "jps", pwd = "poojava";
     public Connection conn;
     public Statement st;
     public ResultSet rs;
     public ArrayList<String> movieTitles;
-
-
     public DbRepository() {
 
     }
-
-
-
     public ResultSet executeQueryWithRs(String query) {
         try {
             conn = DriverManager.getConnection(url, user_id, pwd);
@@ -56,7 +45,6 @@ public class DbRepository {
         }
         return rs;
     }
-
     /**
      * Récupère le nb de lignes dans une table SQL
      *
@@ -66,11 +54,8 @@ public class DbRepository {
     public int GetNbRow(String table) {
         int cpt_col = 0;
         try {  // Code permettant de compter le nb de rows dans une table sql
-
             String query = "Select count(*) from  " + table + ";";
             rs = executeQueryWithRs(query);
-
-
             while (rs.next()) {
                 cpt_col = rs.getInt(1);   // fonction a retenir
             }
@@ -108,7 +93,10 @@ public class DbRepository {
      */
     public String inputString() {
         Scanner sc = new Scanner(System.in);
-        String input = sc.next();
+        String input="";
+        do{
+         input=sc.next();
+        }while(input.length()==0);
         return input;
     }
 
@@ -125,6 +113,17 @@ public class DbRepository {
         do {
             choice = sc.nextInt();
             if (choice == 1 || choice == 2)
+                test = true;
+        } while (!test);
+        return choice;
+    }
+    Integer inputclean() {
+        int choice = 0;
+        Scanner sc = new Scanner(System.in);
+        boolean test = false;
+        do {
+            choice = sc.nextInt();
+            if (choice>0)
                 test = true;
         } while (!test);
         return choice;
@@ -162,6 +161,11 @@ public class DbRepository {
         return ytlink;
     }
 
+    /**
+     * Load an array with actors
+     * @param movie
+     * @return
+     */
     public ArrayList<Integer> loadactorIds(Movie movie) {
         ArrayList<Integer> actorsID = new ArrayList<>();
         String query = "Select ac_id from Movies_Actors where movie_id=" + movie.movieId;
@@ -176,157 +180,7 @@ public class DbRepository {
         return actorsID;
     }
 
-    /**
-     * Load Movie info with the public database
-     *
-     * @return
-     */
-    public Movie loadMovieDataAutomatic() {
-        /*
-         * Load Movie info with the public database
-         * @return
-         */
 
-
-        Movie movie_selected = new Movie();
-        MovieDb moviedb = new MovieDb();
-        String query = "Star Wars ";
-        TmdbApi api = new TmdbApi("810c86d39163e1219bbe9a906af41da0");  // apic créee
-        TmdbSearch search = new TmdbSearch(api); // objet recherche
-        TmdbSearch.MultiListResultsPage resultsPage = search.searchMulti(query, "fr", 1);
-        List<Multi> multiList = resultsPage.getResults();
-        ArrayList<MovieDb> list_movies = new ArrayList<MovieDb>();
-
-        for (var elem : multiList) {
-            if (elem.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb"))
-                list_movies.add((MovieDb) elem); // On récupère tous les films et le user choisit lequel rajouter
-        }
-        for (var title : list_movies)
-            System.out.println(title.getTitle());
-
-        ArrayList<Integer> id_movies = new ArrayList<Integer>();
-        ArrayList<Genre> genres = new ArrayList<Genre>();
-
-        for (var elem : multiList) {
-            if (elem.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb")) {
-                // moviedb = (MovieDb) elem;
-                list_movies.add((MovieDb) elem); // On récupère tous les films et le user choisit lequel rajouter
-
-            }
-        }
-        for (var title : list_movies) {
-            System.out.println(title.getTitle());
-        }
-
-        // Ajout du Click sur le film pour récupérer le nom du film;
-        String chosenMovie = "";
-        for (var elem : multiList) {
-            if (elem.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb")) {
-                if (elem.getClass().getName().equals(chosenMovie)) {
-                    movie_selected.movieId = GetNbRow("Movie") + 1;
-                    movie_selected.title = moviedb.getTitle();
-                    movie_selected.recap = moviedb.getOverview();
-                    movie_selected.genre = moviedb.getGenres().get(0).getName();
-                    movie_selected.releaseDate = java.sql.Date.valueOf(LocalDate.parse(moviedb.getReleaseDate(), DateTimeFormatter.ISO_DATE));
-                    movie_selected.ticketPrice = 8;
-                    movie_selected.duration = translateTime(moviedb.getRuntime());
-                    movie_selected.urlImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2/" + moviedb.getPosterPath();
-                    movie_selected.actorIds = loadactorIds(movie_selected);
-                }
-
-            }//
-
-        }
-
-        return movie_selected;
-}
-
-    /**
-     * Load Movie info with the public database
-     *
-     * @return
-     */
-    public Movie loadMovieDataManual() {
-        Movie movie = new Movie();
-        Scanner sc = new Scanner(System.in);
-        System.out.println("title");
-        movie.title = sc.next();
-        System.out.println("genre");
-        movie.genre = sc.next();
-        System.out.println("recap");
-        movie.recap = sc.next();
-        System.out.println("trailer");
-        movie.trailer = sc.next();
-        System.out.println("urlimage");
-        movie.urlImage = sc.next();
-        System.out.println("r date");
-        String date = sc.next();
-        try {
-            movie.releaseDate = new SimpleDateFormat("yyyy-mm-dd").parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println("prix");
-        movie.ticketPrice = sc.nextInt();
-        System.out.println("durée");
-        String duration = sc.next();
-        movie.duration = Time.valueOf(duration);
-        movie.actorIds = loadactorIds(movie);
-        return movie;
-    }
-
-    /**
-     * Ajoute un film dans la db
-     *
-     * @param
-     */
-    public void addMovie() {
-
-        //  String titleToSearch = inputString();
-        System.out.println("1.Manual\2.Automatic");
-        int choice = input1Or2();
-        Movie movie = new Movie();
-        switch (choice) {
-            case 1:
-                movie = loadMovieDataManual();
-                break;
-            case 2:
-                movie = loadMovieDataAutomatic();
-                break;
-        }
-        movie.movieId = GetNbRow("Movies") + 1;
-
-
-
-        //Blob x= new Blob();
-
-        try {
-            conn = DriverManager.getConnection(url, user_id, pwd);
-            String query = "INSERT INTO Movies (movie_id, title, genre, release_time, r_time, ticket_price, recap, available, trailer,cover) VALUES (?,?,?,?,?,?,?,?,?,?);";
-            PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            stmt.setInt(1, movie.movieId);
-            stmt.setString(2, movie.title);
-            stmt.setString(3, movie.genre);
-            stmt.setDate(4, (Date) movie.releaseDate);
-            stmt.setTime(5, movie.duration);
-            stmt.setDouble(6, movie.ticketPrice);
-            stmt.setString(7, movie.recap);
-            if (movie.isAvailable)
-                stmt.setInt(8, 1);
-            else
-                stmt.setInt(8, 0);
-            stmt.setString(9, movie.trailer);   // A dev le trailer avec Api
-
-            stmt.setString(10, movie.urlImage);
-
-            stmt.setString(10, movie.urlImage);
-            // stmt.setBlob(10,x);
-
-            stmt.execute();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
 
 
     /**
