@@ -1,25 +1,17 @@
 package com.example.cinema_projet;
 
+import controller.LoginAccountCreate;
+import controller.SQLTools;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import view.*;
 
 
-import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.TmdbMovies;
-import info.movito.themoviedbapi.TmdbSearch;
-import info.movito.themoviedbapi.model.Genre;
-import info.movito.themoviedbapi.model.MovieDb;
-import info.movito.themoviedbapi.model.Multi;
+
 
 
 public class HelloApplication extends Application {
@@ -33,10 +25,33 @@ public class HelloApplication extends Application {
     }
 
 
-
     public static void main(String[] args) {
-        launch(args);
+        LoginAccountCreate cr = new LoginAccountCreate();
+        cr.login("nicolas.dreyfus@outlook.fr","cecile05!");
+
+        //launch(args);
         //System.out.println("Hello world");
+//        ArrayList<String> ta = new ArrayList<String>();
+//        String query = "Select * from Movies";
+//        try{
+//            SQLTools t = new SQLTools();
+//            ResultSet rs = t.executeQueryWithRs(query);
+//            while(rs.next()) {
+//                ta.add(rs.getString("title"));
+//            }
+//
+//        }
+//        catch (SQLException e){
+//            System.out.println(e);
+//        }
+//        for(var title: ta)
+//            System.out.println(title);
+
+
+
+
+
+
     }
 
 

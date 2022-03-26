@@ -31,7 +31,7 @@ public class MoviesController implements Initializable {
 
         ButtonList.add(button1);
 
-        ButtonList.get(1).setOnAction();
+      //  ButtonList.get(1).setOnAction();
 
 
 
