@@ -42,6 +42,7 @@ public final class SQLTools {
     catch (SQLException e){
         System.out.println(e);
         }
+        System.out.println("Done");
     return stmt;
     }
 
@@ -128,6 +129,17 @@ public final class SQLTools {
         do {
             choice = sc.nextInt();
             if (choice == 1 || choice == 2)
+                test = true;
+        } while (!test);
+        return choice;
+    }
+    Integer input1OrX(int x) {
+        int choice = 0;
+        Scanner sc = new Scanner(System.in);
+        boolean test = false;
+        do {
+            choice = sc.nextInt();
+            if (choice >=1 && choice<=x)
                 test = true;
         } while (!test);
         return choice;

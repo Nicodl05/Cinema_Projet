@@ -1,11 +1,15 @@
 package controller;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class EmpModification {
 
     SQLTools sqlTools = new SQLTools();
     //public ResultSet rs;
+    public PreparedStatement stmt;
 
-    EmpModification() {
+   public  EmpModification() {
 
     }
 
@@ -17,6 +21,12 @@ public class EmpModification {
      */
     public void update_movie_status(int update, int movie_id) {
         String query = "Update Movies Set available=" + update + " where movie_id=" + movie_id + ";";
-        sqlTools.executeQueryWithRs(query);
+       stmt= sqlTools.executeQueryWithPS(query);
+        try {
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("done");
     }
 }

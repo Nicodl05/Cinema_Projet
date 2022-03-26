@@ -53,52 +53,5 @@ public class DisplayMovie {
         return actorsID;
     }
 
-    /**
-     * Load Movie info with the public database
-     *
-     * @return
-     */
-    public Movie loadMovieDataAutomatic() {
-        Movie movie_selected = new Movie();
-        MovieDb moviedb = new MovieDb();
-        String query = "Star Wars ";
-        TmdbApi api = new TmdbApi("810c86d39163e1219bbe9a906af41da0");  // apic créee
-        TmdbSearch search = new TmdbSearch(api); // objet recherche
-        TmdbSearch.MultiListResultsPage resultsPage = search.searchMulti(query, "fr", 1);
-        List<Multi> multiList = resultsPage.getResults();
-        ArrayList<MovieDb> list_movies = new ArrayList<MovieDb>();
-        for (var elem : multiList) {
-            if (elem.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb"))
-                list_movies.add((MovieDb) elem); // On récupère tous les films et le user choisit lequel rajouter        }
-            for (var title : list_movies)
-                System.out.println(title.getTitle());
-            for (var thing : multiList) {
-                if (thing.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb")) {
-                    list_movies.add((MovieDb) thing); // On récupère tous les films et le user choisit lequel rajouter
 
-                }
-            }
-            for (var title : list_movies) {
-                System.out.println(title.getTitle());
-            }
-            // Ajout du Click sur le film pour récupérer le nom du film;
-            String chosenMovie = "";
-            for (var element : multiList) {
-                if (element.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb")) {
-                    if (element.getClass().getName().equals(chosenMovie)) {
-                        movie_selected.movieId = sqlTools.GetNbRow("Movie") + 1;
-                        movie_selected.title = moviedb.getTitle();
-                        movie_selected.recap = moviedb.getOverview();
-                        movie_selected.genre = moviedb.getGenres().get(0).getName();
-                        movie_selected.releaseDate = java.sql.Date.valueOf(LocalDate.parse(moviedb.getReleaseDate(), DateTimeFormatter.ISO_DATE));
-                        movie_selected.ticketPrice = 8;
-                        movie_selected.duration = sqlTools.translateTime(moviedb.getRuntime());
-                        movie_selected.urlImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2/" + moviedb.getPosterPath();
-                        movie_selected.actorIds = loadactorIds(movie_selected);
-                    }
-                }
-            }
-        }
-        return movie_selected;
-    }
 }

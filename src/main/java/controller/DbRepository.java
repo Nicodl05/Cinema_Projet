@@ -1,40 +1,76 @@
 package controller;
 
+import info.movito.themoviedbapi.TmdbApi;
+import info.movito.themoviedbapi.TmdbMovies;
+import info.movito.themoviedbapi.TmdbSearch;
+import info.movito.themoviedbapi.model.MovieDb;
+import info.movito.themoviedbapi.model.Multi;
+import info.movito.themoviedbapi.model.Video;
 import model.Movie;
 import model.User;
+
 import java.sql.*;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import static java.time.LocalDate.*;
 
 public class DbRepository {
 
 
     SQLTools sqlTools = new SQLTools();
     public ResultSet rs;
-    public ArrayList<String> movieTitles;
-
+    public ArrayList<Movie> movieArrayList = new ArrayList<Movie>();
 
     public DbRepository() {
+        String query = "Select * from Movies";
+        rs = sqlTools.executeQueryWithRs(query);
+        try {
+            while (rs.next()) {
+                try {
+                    Movie tosave = new Movie();
+                    tosave.movieId = rs.getInt("movie_id");
+                    tosave.title = rs.getString("title");
+                    tosave.genre = rs.getString("genre");
+                    tosave.releaseDate = rs.getDate("release_time");
+                    tosave.duration = rs.getTime("r_time");
+                    tosave.ticketPrice = 8;
+                    tosave.recap = rs.getString("recap");
+                    if (rs.getInt("available") == 1)
+                        tosave.isAvailable = true;
+                    else
+                        tosave.isAvailable = false;
+                    tosave.trailer = rs.getString("trailer");
+                    tosave.urlImage = rs.getString("cover");
+                    movieArrayList.add(tosave);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
 
     }
 
     /**
-     * Charger les infos d'un Film
+     * Récupère le lien du trailer
+     *
+     * @param id id du film
+     * @return
      */
-    public Time translateTime(int retrievedTime) {
-        Time t;
-        int cpt_hour = 0;
-        while (retrievedTime >= 60) {
-            cpt_hour++;
-            retrievedTime -= 60;
-        }
-        t = new Time(cpt_hour, retrievedTime, 0);
-
-        return t;
+    public String getTrailer(int id) {
+        TmdbMovies movies = new TmdbApi("810c86d39163e1219bbe9a906af41da0").getMovies();
+        List<Video> path = movies.getVideos(id, "fr");
+        String ytlink = "https://youtu.be/" + path.get(0).getKey();
+        return ytlink;
     }
 
     public ArrayList<Integer> loadactorIds(Movie movie) {
@@ -54,11 +90,56 @@ public class DbRepository {
     /**
      * Load Movie info with the public database
      *
+     * @return
+     */
+    public Movie addMovieDataAutomatic() {
+        Movie movie_selected = new Movie();
+        MovieDb moviedb = new MovieDb();
+        System.out.println("title of the movie");
+        String query = "Narnia";
+        TmdbApi api = new TmdbApi("810c86d39163e1219bbe9a906af41da0");  // apic créee
+        TmdbSearch search = new TmdbSearch(api); // objet recherche
+        TmdbSearch.MultiListResultsPage resultsPage = search.searchMulti(query, "fr", 1);
+        List<Multi> multiList = resultsPage.getResults();
+        ArrayList<MovieDb> list_movies = new ArrayList<MovieDb>();
+        for (var elem : multiList) {
+            if (elem.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb"))
+                list_movies.add((MovieDb) elem); // On récupère tous les films et le user choisit lequel rajouter
+        }
+        for (var title : list_movies) {
+            System.out.println(title.getTitle());
+        }
+        // Ajout du Click sur le film pour récupérer le nom du film;
+        String chosenMovie = list_movies.get(0).getTitle();
+        for (var element : list_movies) {
+            if (element.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb")) {
+                MovieDb mdv = api.getMovies().getMovie(element.getId(), "fr");
+                if (element.getTitle().equals(chosenMovie)) {
+                    movie_selected.movieId = sqlTools.GetNbRow("Movies") + 1;
+                    movie_selected.title = mdv.getTitle();
+                    movie_selected.recap = mdv.getOverview();
+                    movie_selected.genre = mdv.getGenres().get(0).getName();
+                    movie_selected.duration = sqlTools.translateTime(mdv.getRuntime());
+                    movie_selected.urlImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2/" + mdv.getPosterPath();
+                    movie_selected.actorIds = loadactorIds(movie_selected);
+                    movie_selected.releaseDate = java.sql.Date.valueOf(parse(mdv.getReleaseDate(), DateTimeFormatter.ISO_DATE));
+                    movie_selected.ticketPrice = 8;
+                    movie_selected.trailer = getTrailer(mdv.getId());
+                }
+            }
+        }
+        return movie_selected;
+    }
+
+    /**
+     * Load Movie info with the public database
+     *
      * @return le film chargé
      */
     public Movie addMovieDataManual() {
         Movie movie = new Movie();
         Scanner sc = new Scanner(System.in);
+        movie.movieId = sqlTools.GetNbRow("Movies") + 1;
         System.out.println("title");
         movie.title = sc.next();
         System.out.println("genre");
@@ -92,6 +173,7 @@ public class DbRepository {
      */
     public void addMovie() {
         System.out.println("1.Manual\2.Automatic");
+        // int choice = sqlTools.input1Or2();
         int choice = sqlTools.input1Or2();
         Movie movie = new Movie();
         switch (choice) {
@@ -99,10 +181,9 @@ public class DbRepository {
                 movie = addMovieDataManual();
                 break;
             case 2:
-                // movie = loadMovieDataAutomatic();
+                movie = addMovieDataAutomatic();
                 break;
         }
-        movie.movieId = sqlTools.GetNbRow("Movies") + 1;
         try {
             String query = "INSERT INTO Movies (movie_id, title, genre, release_time, r_time, ticket_price, recap, available, trailer,cover) VALUES (?,?,?,?,?,?,?,?,?,?);";
             PreparedStatement stmt = sqlTools.executeQueryWithPS(query);
@@ -124,30 +205,6 @@ public class DbRepository {
             System.out.println(e);
         }
     }
-
-
-    /**
-     * Stock les titres de films dans un Arraylist
-     */
-    public void storeMoviesTitles() {
-        int nb_row = sqlTools.GetNbRow("Movies");
-        movieTitles = new ArrayList<>(nb_row);
-        {
-            try {
-                String query = "Select title from Movies";
-                rs = sqlTools.executeQueryWithRs(query);
-                while (rs.next()) {
-                    movieTitles.add(rs.getString("title"));
-                }
-            } catch (SQLException E) {
-                System.out.println(E);
-            }
-        }
-        for (var movie : movieTitles) {
-            System.out.println(movie);
-        }
-    }
-
     /**
      * Récupère toutes les infos d'un film à partir de son titre
      *
@@ -216,7 +273,7 @@ public class DbRepository {
      * @param user
      */
     public void add_to_Historic(User user, Movie movie) {
-        LocalDate now = LocalDate.now();
+        LocalDate now = now();
         Date d = java.sql.Date.valueOf(now);
         try {
             String query = "INSERT INTO Historic (id_user,movie_id,last_viewed) VALUES (?,?,?);";

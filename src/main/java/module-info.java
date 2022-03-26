@@ -7,6 +7,7 @@ module com.example.cinema_projet {
     requires org.kordamp.bootstrapfx.core;
     requires themoviedbapi;
     requires java.sql;
+    requires mail;
 
     opens com.example.cinema_projet to javafx.fxml;
     exports com.example.cinema_projet;
