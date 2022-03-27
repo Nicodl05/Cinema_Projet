@@ -10,7 +10,7 @@ public class Profile {
     public SQLTools sql = new SQLTools();
     public ResultSet rs;
 
-    Profile() {
+    public Profile() {
 
     }
 
@@ -23,5 +23,13 @@ public class Profile {
         String query = "DELETE from Person where person_id=" + user.id + ";";
         rs = sql.executeQueryWithRs(query);
     }
+    public void modifyInfo(User user){
+        System.out.println("Info a modif");
+        String attribute="f_name";    // for example
+        String newinfo="Nicolas";
+        String query ="Update Person Set"+attribute+"="+newinfo+" where person_id="+user.id;
+        rs= sql.executeQueryWithRs(query);
+    }
+
 
 }

@@ -1,13 +1,11 @@
 package com.example.cinema_projet;
 
-import controller.DbRepository;
-import controller.EmpModification;
-import controller.LoginAccountCreate;
-import controller.SQLTools;
+import controller.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -25,17 +23,6 @@ public class HelloApplication extends Application {
 
 
     public static void main(String[] args)  {
-//        LoginAccountCreate cr = new LoginAccountCreate();
-//        cr.login("nicolas.dreyfus@outlook.fr","cecile05!");
-
         //launch(args);
-//        DbRepository dbRepository = new DbRepository();
-//       dbRepository.addMovie();
-//            LoginAccountCreate loginAccountCreate = new LoginAccountCreate();
-//            loginAccountCreate.resetPassword("arthur.fournier@gmail.com");
-        EmpModification empModification = new EmpModification();
-        empModification.update_movie_status(0,1);
     }
-
-
 }

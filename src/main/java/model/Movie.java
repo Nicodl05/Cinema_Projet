@@ -14,7 +14,7 @@ public class Movie {
     public Date releaseDate;//= new Date(2000,12,10);
     public double ticketPrice;
     public Time duration;//= new Time(02,32,00);
-    public ArrayList<Integer> actorIds;
+    //public ArrayList<Integer> actorIds;
 
 
     /**

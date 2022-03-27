@@ -8,6 +8,7 @@ module com.example.cinema_projet {
     requires themoviedbapi;
     requires java.sql;
     requires mail;
+    requires activation;
 
     opens com.example.cinema_projet to javafx.fxml;
     exports com.example.cinema_projet;

@@ -19,6 +19,7 @@ public class LoginAccountCreate {
     ResultSet rs;
     public PreparedStatement stmt;
     SQLTools sqlTools = new SQLTools();
+    public User user;
 
     String inputString() {
         Scanner sc = new Scanner(System.in);
@@ -34,7 +35,7 @@ public class LoginAccountCreate {
      */
     public void login(String email, String password) {
         LoginController verif = new LoginController();
-        User user = new User();
+        user = new User();
         try {
             String query = "Select * from Person ";
             ResultSet rs = sqlTools.executeQueryWithRs(query);
@@ -86,15 +87,14 @@ public class LoginAccountCreate {
         }
     }
 
-    public void resetPassword(String email)  {
+    public void resetPassword(String email) {
         System.out.println("New Pwd");
         String newPassword = sqlTools.inputString();
-        String query = "Update Person Set pwd= '" + newPassword +"'  where email= '" +email + "' ;";
-        try{
+        String query = "Update Person Set pwd= '" + newPassword + "'  where email= '" + email + "' ;";
+        try {
             stmt = sqlTools.executeQueryWithPS(query);
             stmt.executeUpdate();
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e);
         }
 
