@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -35,16 +36,20 @@ public class LoginController {
     }
 
     public void Connected() throws IOException {
+
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Movies.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 600);
+
+        MoviesController  controller = new MoviesController();
+        controller =fxmlLoader.getController();
+
         Stage stage = new Stage();
-        stage.setTitle("Hello!");
+        stage.setTitle("okrgr");
         stage.setScene(scene);
         stage.show();
+        
     }
-    public void Lab(){
 
-    }
 
 
 }

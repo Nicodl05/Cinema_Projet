@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -25,38 +26,48 @@ import java.util.ResourceBundle;
 
 public class MoviesController implements Initializable {
 
-    private ArrayList<Button> ButtonList;
-
     @FXML
-    private AnchorPane root;
+    private AnchorPane pane;
 
-    DbRepository info = new DbRepository();
-
+    private ArrayList<Button> ButtonList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        DbRepository info = new DbRepository();
 
+        Stage stage = new Stage();
 
+        int a = 100;
+        int b = 100;
+    for(int i=0;i<info.movieArrayList.size();i++) {
 
-    /*
-    for(int i=0;i<info.movieArrayList.size();i++){
-
-
-        //CreateAButton(urlImage);
-        }
-
-     */
-        String urlImage = info.movieArrayList.get(0).urlImage;
+        String urlImage = info.movieArrayList.get(i).urlImage;
         ImageView view = new ImageView(urlImage);
-        Button button1 = new Button("", view);
 
-        button1.setPrefSize(20, 20);
-        button1.setLayoutX(200);
-        button1.setLayoutY(200);
-        Change();
+        Button button1 = new Button("", view);
+        button1.setMaxHeight(50);
+
+            a += 200;
+            b += 100;
+            if (i % 3 == 0) {
+                a = 100;
+            }
+
+        button1.setLayoutX(a);
+        button1.setLayoutY(b);
+        //pane =new AnchorPane();
+        pane.getChildren().add(button1);
     }
 
+        System.out.println("affichage");
+
+
+        Scene scene = new Scene(pane, 600, 600);
+        stage.setScene(scene);
+        stage.show();
+
+    }
 
 
 /*
