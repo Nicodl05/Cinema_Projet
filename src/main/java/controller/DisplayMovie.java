@@ -22,8 +22,6 @@ public class DisplayMovie {
     DisplayMovie(){
 
     }
-
-
     /**Récupère le lien du trailer
 
      *
