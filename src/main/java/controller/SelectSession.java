@@ -13,11 +13,17 @@ import java.util.Date;
 public class SelectSession {
     public SQLTools sqlTools = new SQLTools();
     public ResultSet rs;
+<<<<<<< Updated upstream
     public PreparedStatement preparedStatement;
     User user;
 
     public SelectSession(User user1) {
         user = user1;
+=======
+    User user;
+    public SelectSession(User user1){
+        user=user1;
+>>>>>>> Stashed changes
     }
 
     //    public boolean getTimeSession(int room, Time time){
@@ -77,6 +83,48 @@ public class SelectSession {
             e.printStackTrace();
         }
     }
+    public void addToHistoric(Movie movie){
+        Date date = new Date();
+        String query = "Insert into Historic (id_user,id_movie,last_viewed) Values (?,?,?);";
+        try{
+            PreparedStatement statement= sqlTools.executeQueryWithPS(query);
+            statement.setInt(1,user.id);
+            statement.setInt(2,movie.movieId);
+            statement.setDate(3, (java.sql.Date) date);
+        }
+        catch (SQLException e){
+            System.out.println(e);
+        }
+    }
+    public void userSelectSession(Session session, MovieSession movieSession){
+        if(movieSession.sessionId==session.sessionId){
+            int reservId = sqlTools.GetNbRow("Reservation");
+            String query ="Insert into Reservation (reserv_id, user_id, movie_id, session_id) Values (?,?,?,?);";
+            try{
+                PreparedStatement preparedStatement= sqlTools.executeQueryWithPS(query);
+                preparedStatement.setInt(1,reservId);
+                preparedStatement.setInt(2,user.id);
+                preparedStatement.setInt(3,movieSession.movieId);
+                preparedStatement.setInt(4,session.sessionId);
+            }
+            catch (SQLException e){
+                System.out.println(e);
+            }
+            query ="Select seats from Room where session_id="+session.sessionId;
+            try {
+
+            }
+            catch (SQLException e){
+                System.out.println(e);
+            }
+        }
+        else
+            System.out.println("Erreur de session");
+
+
+    }
+
+
 
     public void addToHistoric(Movie movie) {
         Date date = new Date();
