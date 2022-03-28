@@ -7,32 +7,29 @@ import java.sql.*;
 public class Profile {
 
 
-    public String url = "jdbc:mysql://fournierfamily.ovh:3306/Nico_database", user_id = "jps", pwd = "poojava";
-    public Connection conn;
-    public Statement st;
+    public SQLTools sql = new SQLTools();
     public ResultSet rs;
-    Profile(){
+
+    public Profile() {
 
     }
-    void become_Emp(User user){
-        try {
-            conn = DriverManager.getConnection(url, user_id, pwd);
-            String query = "Update Person Set emp=" + 1 + " where person_id=" + user.id + ";";
-            st = conn.createStatement();
-            st.execute(query);
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+
+    void become_Emp(User user) {
+        String query = "Update Person Set emp=" + 1 + " where person_id=" + user.id + ";";
+        rs = sql.executeQueryWithRs(query);
     }
 
-    void delete_account(User user){
-        try {
-            conn = DriverManager.getConnection(url, user_id, pwd);
-            String query = "DELETE from Person where person_id=" + user.id + ";";
-            st = conn.createStatement();
-            st.execute(query);
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+    void delete_account(User user) {
+        String query = "DELETE from Person where person_id=" + user.id + ";";
+        rs = sql.executeQueryWithRs(query);
     }
+    public void modifyInfo(User user){
+        System.out.println("Info a modif");
+        String attribute="f_name";    // for example
+        String newinfo="Nicolas";
+        String query ="Update Person Set"+attribute+"="+newinfo+" where person_id="+user.id;
+        rs= sql.executeQueryWithRs(query);
+    }
+
+
 }

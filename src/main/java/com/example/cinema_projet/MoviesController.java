@@ -42,7 +42,11 @@ public class MoviesController implements Initializable {
             ButtonList.get(i).setLayoutX(a);
             ButtonList.get(i).setLayoutY(b);
 
+
         }
+
+      //  ButtonList.get(1).setOnAction();
+
 
     }
     public void CreateAButton(String ImageUrl){

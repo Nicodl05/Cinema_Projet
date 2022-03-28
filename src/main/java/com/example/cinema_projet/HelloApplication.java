@@ -1,25 +1,14 @@
 package com.example.cinema_projet;
 
+import controller.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.User;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import view.*;
-
-
-import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.TmdbMovies;
-import info.movito.themoviedbapi.TmdbSearch;
-import info.movito.themoviedbapi.model.Genre;
-import info.movito.themoviedbapi.model.MovieDb;
-import info.movito.themoviedbapi.model.Multi;
+import java.sql.SQLException;
 
 
 public class HelloApplication extends Application {
@@ -33,11 +22,7 @@ public class HelloApplication extends Application {
     }
 
 
-
-    public static void main(String[] args) {
-        launch(args);
-        //System.out.println("Hello world");
+    public static void main(String[] args)  {
+        //launch(args);
     }
-
-
 }
