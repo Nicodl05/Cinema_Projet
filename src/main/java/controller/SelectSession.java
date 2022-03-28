@@ -44,10 +44,6 @@ public class SelectSession {
                 e.printStackTrace();
             }
         }
-
-
-
-
         public void addToHistoric(Movie movie){
             Date date = new Date();
             String query = "Insert into Historic (id_user,id_movie,last_viewed) Values (?,?,?);";
@@ -90,5 +86,4 @@ public class SelectSession {
             } else
                 System.out.println("Erreur de session");
         }
-
-    }
+}

@@ -17,7 +17,7 @@ User user;
     }
 
 
-    
+
 
     void become_Emp(User user) {
         String query = "Update Person Set emp=" + 1 + " where person_id=" + user.id + ";";
@@ -49,9 +49,4 @@ User user;
             System.out.println(E);
         }
     }
-
-
-
-
-
 }
