@@ -10,10 +10,14 @@ public class Profile {
 
     public SQLTools sql = new SQLTools();
     public ResultSet rs;
+
 User user;
     public Profile(User user1) {
-user=user1;
+        user = user1;
     }
+
+
+    
 
     void become_Emp(User user) {
         String query = "Update Person Set emp=" + 1 + " where person_id=" + user.id + ";";
@@ -24,13 +28,14 @@ user=user1;
         String query = "DELETE from Person where person_id=" + user.id + ";";
         rs = sql.executeQueryWithRs(query);
     }
-    public void modifyInfo(User user){
+    public void modifyInfo(){
         System.out.println("Info a modif");
         String attribute="f_name";    // for example
         String newinfo="Nicolas";
         String query ="Update Person Set"+attribute+"="+newinfo+" where person_id="+user.id;
         rs= sql.executeQueryWithRs(query);
     }
+
     public void addToMovieLiked(){
         // on suppose qu'on display tt l'historique
         Movie movie=new Movie();     // pour des test
@@ -44,6 +49,9 @@ user=user1;
             System.out.println(E);
         }
     }
+
+
+
 
 
 }

@@ -16,7 +16,11 @@ public class Employe extends Application
 {
     Stage window;
     BorderPane layout;
+
     Button butPageDacc,butPageDacc2,butPageDacc3,butPageDacc4,butPageDacc5;
+
+
+
     Scene scene1,scene2,scene3,scene4,scene5;
     Label label1,label2,label3,label4,label5;
     public static void main(String args[])
@@ -81,32 +85,43 @@ public class Employe extends Application
         VBox layout2=new VBox(10);
         label2 = new Label("Mise à jour des films");
         layout2.setAlignment(Pos.BOTTOM_CENTER);
+
         layout2.setBackground(new Background(new BackgroundFill(Color.CYAN,CornerRadii.EMPTY,Insets.EMPTY)));
         layout2.getChildren().addAll(butPageDacc2,label2);
+
+
         scene2 = new Scene(layout2,800,600);
 
         //Scene 3 Mise a jour des prix
         VBox layout3 = new VBox(10);
         label3 = new Label("Mise à jour des prix");
         layout3.setAlignment(Pos.BOTTOM_CENTER);
+
         layout3.setBackground(new Background(new BackgroundFill(Color.CYAN,CornerRadii.EMPTY,Insets.EMPTY)));
         layout3.getChildren().addAll(butPageDacc3,label3);
+
+
         scene3 = new Scene(layout3,800,600);
 
         //Scene 4 Dossier Clients
         VBox layout4 = new VBox(10);
         label4 = new Label("Dossier Clients");
         layout4.setAlignment(Pos.BOTTOM_CENTER);
+
         layout4.setBackground(new Background(new BackgroundFill(Color.CYAN,CornerRadii.EMPTY,Insets.EMPTY)));
         layout4.getChildren().addAll(butPageDacc4,label4);
+
+
         scene4 = new Scene(layout4,800,600);
 
         //Scene 5 Ajouter un film
         VBox layout5 = new VBox(10);
         label5 = new Label("Ajouter un Film");
         layout5.setAlignment(Pos.BOTTOM_CENTER);
+
         layout5.setBackground(new Background(new BackgroundFill(Color.DARKCYAN,CornerRadii.EMPTY,Insets.EMPTY)));
         layout5.getChildren().addAll(butPageDacc5,label5);
+
         scene5= new Scene(layout5,800,600);
 
         layout=new BorderPane();
