@@ -1,8 +1,6 @@
 package controller;
 
-import model.Movie;
-import model.Room;
-import model.Session;
+import model.*;
 import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
 
 import java.sql.PreparedStatement;
@@ -10,13 +8,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SelectSession
 {
     public SQLTools sqlTools = new SQLTools();
     public ResultSet rs;
-    public SelectSession(){
+    public PreparedStatement preparedStatement;
+    User user;
 
+    public SelectSession(User user1){
+user=user1;
     }
 //    public boolean getTimeSession(int room, Time time){
 //        boolean test=true;
@@ -74,6 +76,53 @@ public class SelectSession
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public void addToHistoric(Movie movie){
+        Date date = new Date();
+        String query = "Insert into Historic (id_user,id_movie,last_viewed) Values (?,?,?);";
+        try{
+            PreparedStatement statement= sqlTools.executeQueryWithPS(query);
+            statement.setInt(1,user.id);
+            statement.setInt(2,movie.movieId);
+            statement.setDate(3, (java.sql.Date) date);
+        }
+        catch (SQLException e){
+            System.out.println(e);
+        }
+    }
+    public void userSelectedSession(Session session, MovieSession movieSession){
+        if(movieSession.sessionId==session.sessionId){
+            int reservId = sqlTools.GetNbRow("Reservation");
+            String query ="Insert into Reservation (reserv_id, user_id, movie_id, session_id) Values (?,?,?,?);";
+            try{
+                preparedStatement= sqlTools.executeQueryWithPS(query);
+                preparedStatement.setInt(1,reservId);
+                preparedStatement.setInt(2,user.id);
+                preparedStatement.setInt(3,movieSession.movieId);
+                preparedStatement.setInt(4,session.sessionId);
+            }
+            catch (SQLException e){
+                System.out.println(e);
+            }
+            int originalSeats=-1;
+            query ="Select seats from Room where session_id="+session.sessionId;
+            try {
+                rs= sqlTools.executeQueryWithRs(query);
+                while (rs.next()){
+                    originalSeats=rs.getInt("seats");
+                }
+            }
+            catch (SQLException e){
+                System.out.println(e);
+            }
+            query ="Update Room Set seats="+(originalSeats-1) +" where session_id="+session.sessionId;
+            rs= sqlTools.executeQueryWithRs(query);
+        }
+        else
+            System.out.println("Erreur de session");
+
+
+
     }
 
 }

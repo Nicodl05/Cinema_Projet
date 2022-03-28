@@ -27,6 +27,7 @@ public class DbRepository {
     public ResultSet rs;
     public ArrayList<Movie> movieArrayList = new ArrayList<Movie>();
 
+
     public DbRepository() {
         String query = "Select * from Movies";
         rs = sqlTools.executeQueryWithRs(query);
