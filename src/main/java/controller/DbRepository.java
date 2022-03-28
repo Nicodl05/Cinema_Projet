@@ -1,5 +1,6 @@
 package controller;
 
+import com.example.cinema_projet.MoviesController;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.TmdbSearch;
@@ -29,6 +30,7 @@ public class DbRepository {
 
 
     public DbRepository() {
+        MoviesController image = new MoviesController();
         String query = "Select * from Movies";
         rs = sqlTools.executeQueryWithRs(query);
         try {
@@ -49,6 +51,8 @@ public class DbRepository {
                     tosave.trailer = rs.getString("trailer");
                     tosave.urlImage = rs.getString("cover");
                     movieArrayList.add(tosave);
+
+
                 } catch (Exception e) {
                     System.out.println(e);
                 }
