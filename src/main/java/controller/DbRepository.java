@@ -28,6 +28,7 @@ public class DbRepository {
     public ResultSet rs;
     public ArrayList<Movie> movieArrayList = new ArrayList<Movie>();
 
+
     public DbRepository() {
         MoviesController image = new MoviesController();
         String query = "Select * from Movies";
