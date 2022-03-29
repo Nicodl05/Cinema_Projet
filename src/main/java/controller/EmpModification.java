@@ -103,16 +103,16 @@ public class EmpModification {
             if (element.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb")) {
                 MovieDb mdv = api.getMovies().getMovie(element.getId(), "fr");
                 if (element.getTitle().equals(chosenMovie)) {
-                    movie_selected.movieId = sqlTools.GetNbRow("Movies") + 1;
-                    movie_selected.title = mdv.getTitle();
-                    movie_selected.recap = mdv.getOverview();
-                    movie_selected.genre = mdv.getGenres().get(0).getName();
-                    movie_selected.duration = sqlTools.translateTime(mdv.getRuntime());
-                    movie_selected.urlImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2/" + mdv.getPosterPath();
+                    movie_selected.setMovieId(sqlTools.GetNbRow("Movies") + 1);
+                    movie_selected.setTitle(mdv.getTitle());
+                    movie_selected.setRecap(mdv.getOverview());
+                    movie_selected.setGenre(mdv.getGenres().get(0).getName());
+                    movie_selected.setDuration(sqlTools.translateTime(mdv.getRuntime()));
+                    movie_selected.setUrlImage("https://image.tmdb.org/t/p/w600_and_h900_bestv2/" + mdv.getPosterPath());
                     //movie_selected.actorIds = loadactorIds(movie_selected);
-                    movie_selected.releaseDate = java.sql.Date.valueOf(parse(mdv.getReleaseDate(), DateTimeFormatter.ISO_DATE));
-                    movie_selected.ticketPrice = 8;
-                    movie_selected.trailer = getTrailer(mdv.getId());
+                    movie_selected.setReleaseDate(java.sql.Date.valueOf(parse(mdv.getReleaseDate(), DateTimeFormatter.ISO_DATE)));
+                    movie_selected.setTicketPrice(8);
+                    movie_selected.setTrailer(getTrailer(mdv.getId()));
                 }
             }
         }
@@ -127,29 +127,29 @@ public class EmpModification {
     public Movie addMovieDataManual() {
         Movie movie = new Movie();
         Scanner sc = new Scanner(System.in);
-        movie.movieId = sqlTools.GetNbRow("Movies") + 1;
+        movie.setMovieId(sqlTools.GetNbRow("Movies") + 1);
         System.out.println("title");
-        movie.title = sc.next();
+        movie.setTitle(sc.next());
         System.out.println("genre");
-        movie.genre = sc.next();
+        movie.setGenre(sc.next());
         System.out.println("recap");
-        movie.recap = sc.next();
+        movie.setRecap(sc.next());
         System.out.println("trailer");
-        movie.trailer = sc.next();
+        movie.setTrailer(sc.next());
         System.out.println("urlimage");
-        movie.urlImage = sc.next();
+        movie.setUrlImage(sc.next());
         System.out.println("r date");
         String date = sc.next();
         try {
-            movie.releaseDate = new SimpleDateFormat("yyyy-mm-dd").parse(date);
+            movie.setReleaseDate(new SimpleDateFormat("yyyy-mm-dd").parse(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
         System.out.println("prix");
-        movie.ticketPrice = sc.nextInt();
+        movie.setTicketPrice( sc.nextInt());
         System.out.println("durée");
         String duration = sc.next();
-        movie.duration = Time.valueOf(duration);
+        movie.setDuration( Time.valueOf(duration));
         //movie.actorIds = loadactorIds(movie);
         return movie;
     }
@@ -175,19 +175,19 @@ public class EmpModification {
         try {
             String query = "INSERT INTO Movies (movie_id, title, genre, release_time, r_time, ticket_price, recap, available, trailer,cover) VALUES (?,?,?,?,?,?,?,?,?,?);";
             PreparedStatement stmt = sqlTools.executeQueryWithPS(query);
-            stmt.setInt(1, movie.movieId);
-            stmt.setString(2, movie.title);
-            stmt.setString(3, movie.genre);
-            stmt.setDate(4, (Date) movie.releaseDate);
-            stmt.setTime(5, movie.duration);
-            stmt.setDouble(6, movie.ticketPrice);
-            stmt.setString(7, movie.recap);
-            if (movie.isAvailable)
+            stmt.setInt(1, movie.getMovieId());
+            stmt.setString(2, movie.getTitle());
+            stmt.setString(3, movie.getGenre());
+            stmt.setDate(4, (Date) movie.getReleaseDate());
+            stmt.setTime(5, movie.getDuration());
+            stmt.setDouble(6, movie.getTicketPrice());
+            stmt.setString(7, movie.getRecap());
+            if (movie.isAvailable())
                 stmt.setInt(8, 1);
             else
                 stmt.setInt(8, 0);
-            stmt.setString(9, movie.trailer);   // A dev le trailer avec Api
-            stmt.setString(10, movie.urlImage);
+            stmt.setString(9, movie.getTrailer());   // A dev le trailer avec Api
+            stmt.setString(10, movie.getUrlImage());
             stmt.execute();
         } catch (SQLException e) {
             System.out.println(e);
@@ -199,17 +199,17 @@ public class EmpModification {
             rs = sqlTools.executeQueryWithRs(query);
             while (rs.next()){
                 User toSave = new User();
-                toSave.id= rs.getInt("person_id");
-                toSave.firstName=rs.getString("f_name");
-                toSave.lastName=rs.getString("l_name");
-                toSave.email=rs.getString("email");
-                toSave.passwd=rs.getString("pwd");
+                toSave.setId(rs.getInt("person_id"));
+                toSave.setFirstName(rs.getString("f_name"));
+                toSave.setLastName(rs.getString("l_name"));
+                toSave.setEmail(rs.getString("email"));
+                toSave.setPasswd(rs.getString("pwd"));
                 if(rs.getInt("emp")==1)
-                    toSave.isEmployee=true;
+                    toSave.setEmployee(true);
                 else
-                    toSave.isEmployee=false;
+                    toSave.setEmployee(false);
 
-                toSave.bday=rs.getDate("bday");
+                toSave.setBday(rs.getDate("bday"));
                 dataUser.add(toSave);
             }
         }
@@ -220,7 +220,7 @@ public class EmpModification {
     public User getUserBasedOnLName(String lName){
         User toget =new  User();
         for(var element: dataUser){
-            if (element.lastName.equals(lName))
+            if (element.getLastName().equals(lName))
                 toget=element;
         }
         return toget;

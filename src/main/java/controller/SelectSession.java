@@ -27,7 +27,7 @@ public class SelectSession {
         int nbSession = (sqlTools.GetNbRow("Session") + 1);
         //On suppose qu'on reçoit le array issu de movies déjà chargé de dbRepository
         ArrayList<Movie> movieArrayList = new ArrayList<Movie>();
-        int chosenMovie = movieArrayList.get(0).movieId;  // on récup un film( le 1 ici)
+        int chosenMovie = movieArrayList.get(0).getMovieId();  // on récup un film( le 1 ici)
         int t = 780;  // Le temps selectionné au clic
         try {
             String query = "INSERT INTO Session (session_id, movie_id,reserv_id,session_time) VALUES (?,?,?,?);";
@@ -48,8 +48,8 @@ public class SelectSession {
         String query = "Insert into Historic (id_user,id_movie,last_viewed) Values (?,?,?);";
         try {
             PreparedStatement statement = sqlTools.executeQueryWithPS(query);
-            statement.setInt(1, user.id);
-            statement.setInt(2, movie.movieId);
+            statement.setInt(1, user.getId());
+            statement.setInt(2, movie.getMovieId());
             statement.setDate(3, (java.sql.Date) date);
         } catch (SQLException e) {
             System.out.println(e);
@@ -57,20 +57,20 @@ public class SelectSession {
     }
 
     public void userSelectedSession(Session session, MovieSession movieSession) {
-        if (movieSession.sessionId == session.sessionId) {
+        if (movieSession.getSessionId() == session.getSessionId()) {
             int reservId = sqlTools.GetNbRow("Reservation");
             String query = "Insert into Reservation (reserv_id, user_id, movie_id, session_id) Values (?,?,?,?);";
             try {
                 preparedStatement = sqlTools.executeQueryWithPS(query);
                 preparedStatement.setInt(1, reservId);
-                preparedStatement.setInt(2, user.id);
-                preparedStatement.setInt(3, movieSession.movieId);
-                preparedStatement.setInt(4, session.sessionId);
+                preparedStatement.setInt(2, user.getId());
+                preparedStatement.setInt(3, movieSession.getMovieId());
+                preparedStatement.setInt(4, session.getSessionId());
             } catch (SQLException e) {
                 System.out.println(e);
             }
             int originalSeats = -1;
-            query = "Select seats from Room where session_id=" + session.sessionId;
+            query = "Select seats from Room where session_id=" + session.getSessionId();
             try {
                 rs = sqlTools.executeQueryWithRs(query);
                 while (rs.next()) {
@@ -79,7 +79,7 @@ public class SelectSession {
             } catch (SQLException e) {
                 System.out.println(e);
             }
-            query = "Update Room Set seats=" + (originalSeats - 1) + " where session_id=" + session.sessionId;
+            query = "Update Room Set seats=" + (originalSeats - 1) + " where session_id=" + session.getSessionId();
             rs = sqlTools.executeQueryWithRs(query);
         } else
             System.out.println("Erreur de session");

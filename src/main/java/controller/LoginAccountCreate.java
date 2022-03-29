@@ -41,16 +41,16 @@ public class LoginAccountCreate {
             ResultSet rs = sqlTools.executeQueryWithRs(query);
             while (rs.next()) {
                 if (email.equals(rs.getString("email")) && password.equals(rs.getString("pwd"))) {
-                    user.id = rs.getInt("person_id");
-                    user.firstName = rs.getString("f_name");
-                    user.lastName = rs.getString("l_name");
-                    user.bday = rs.getDate("bday");
-                    user.email = rs.getString("email");
-                    user.passwd = rs.getString("pwd");
+                    user.setId(rs.getInt("person_id"));
+                    user.setFirstName( rs.getString("f_name"));
+                    user.setLastName(rs.getString("l_name"));
+                    user.setBday( rs.getDate("bday"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPasswd(rs.getString("pwd"));
                     if (rs.getInt("emp") == 1)
-                        user.isEmployee = true;
+                        user.setEmployee( true);
                     else
-                        user.isEmployee = false;
+                        user.setEmployee( false);
                     verif.Connected();
                 }
                 if (email != rs.getString("email") && password == rs.getString("pwd"))

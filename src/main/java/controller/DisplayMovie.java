@@ -43,7 +43,7 @@ public class DisplayMovie {
      */
     public ArrayList<Integer> loadactorIds(Movie movie) {
         ArrayList<Integer> actorsID = new ArrayList<>();
-        String query = "Select ac_id from Movies_Actors where movie_id=" + movie.movieId;
+        String query = "Select ac_id from Movies_Actors where movie_id=" + movie.getMovieId();
         try {
             rs = sqlTools.executeQueryWithRs(query);
             while (rs.next()) {
@@ -66,8 +66,8 @@ public class DisplayMovie {
         try {
             String query = "INSERT INTO Historic (id_user,movie_id,last_viewed) VALUES (?,?,?);";
             PreparedStatement stmt = sqlTools.executeQueryWithPS(query);
-            stmt.setInt(1, user.id);
-            stmt.setInt(2, movie.movieId);
+            stmt.setInt(1, user.getId());
+            stmt.setInt(2, movie.getMovieId());
             stmt.setDate(3, d);
             stmt.execute();
         } catch (SQLException e) {
@@ -85,8 +85,8 @@ public class DisplayMovie {
 
             String query = "INSERT INTO Movies_liked (movie_id,user_id) VALUES (?,?);";
             PreparedStatement stmt = sqlTools.executeQueryWithPS(query);
-            stmt.setInt(1, user.id);
-            stmt.setInt(2, movie.movieId);
+            stmt.setInt(1, user.getId());
+            stmt.setInt(2, movie.getMovieId());
             stmt.execute();
         } catch (SQLException e) {
             System.out.println(e);

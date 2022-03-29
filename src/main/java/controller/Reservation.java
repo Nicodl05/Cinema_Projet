@@ -21,7 +21,7 @@ public class Reservation {
         // On suppose qu'on reçoit en paramètre un user
         int price =8; // on considère qu'il a été récupéré
         User user = new User();
-        String query="Select * from Person where person_id="+user.id;
+        String query="Select * from Person where person_id="+user.getId();
         try {
             rs=sqlTools.executeQueryWithRs(query);
             Date bday = rs.getDate("bday");

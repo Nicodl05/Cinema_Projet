@@ -37,19 +37,19 @@ public class DbRepository {
             while (rs.next()) {
                 try {
                     Movie tosave = new Movie();
-                    tosave.movieId = rs.getInt("movie_id");
-                    tosave.title = rs.getString("title");
-                    tosave.genre = rs.getString("genre");
-                    tosave.releaseDate = rs.getDate("release_time");
-                    tosave.duration = rs.getTime("r_time");
-                    tosave.ticketPrice = 8;
-                    tosave.recap = rs.getString("recap");
+                    tosave.setMovieId(rs.getInt("movie_id"));
+                    tosave.setTitle(rs.getString("title"));
+                    tosave.setGenre(rs.getString("genre"));
+                    tosave.setReleaseDate( rs.getDate("release_time"));
+                    tosave.setDuration( rs.getTime("r_time"));
+                    tosave.setTicketPrice( 8);
+                    tosave.setRecap(rs.getString("recap"));
                     if (rs.getInt("available") == 1)
-                        tosave.isAvailable = true;
+                        tosave.setAvailable(true);
                     else
-                        tosave.isAvailable = false;
-                    tosave.trailer = rs.getString("trailer");
-                    tosave.urlImage = rs.getString("cover");
+                        tosave.setAvailable(false);
+                    tosave.setTrailer(rs.getString("trailer"));
+                    tosave.setUrlImage( rs.getString("cover"));
                     movieArrayList.add(tosave);
 
 
@@ -71,7 +71,7 @@ public class DbRepository {
      */
     public ArrayList<Integer> loadactorIds(Movie movie) {
         ArrayList<Integer> actorsID = new ArrayList<>();
-        String query = "Select ac_id from Movies_Actors where movie_id=" + movie.movieId;
+        String query = "Select ac_id from Movies_Actors where movie_id=" + movie.getMovieId();
         try {
             rs = sqlTools.executeQueryWithRs(query);
             while (rs.next()) {
@@ -95,18 +95,18 @@ public class DbRepository {
             String query = "Select * from Movies where title=" + _title + ";";
             ResultSet rs = sqlTools.executeQueryWithRs(query);
             while (rs.next()) {
-                movie.movieId = rs.getInt("movie_id");
+                movie.setMovieId( rs.getInt("movie_id"));
                 if (rs.getInt("available") == 1)
-                    movie.isAvailable = true;
+                    movie.setAvailable(true);
                 else
-                    movie.isAvailable = false;
-                movie.genre = rs.getString("genre");
-                movie.recap = rs.getString("recap");
-                movie.trailer = rs.getString("trailer");
-                movie.urlImage = rs.getString("cover");
-                movie.releaseDate = rs.getDate("release_date");
-                movie.ticketPrice = rs.getDouble("ticket_price");
-                movie.duration = rs.getTime("r_time");
+                    movie.setAvailable( false);
+                movie.setGenre(rs.getString("genre"));
+                movie.setRecap( rs.getString("recap"));
+                movie.setTrailer( rs.getString("trailer"));
+                movie.setUrlImage(rs.getString("cover"));
+                movie.setReleaseDate( rs.getDate("release_date"));
+                movie.setTicketPrice(rs.getDouble("ticket_price"));
+                movie.setDuration( rs.getTime("r_time"));
                 //movie.actorIds = loadactorIds(movie);
             }
         } catch (SQLException E) {
@@ -126,18 +126,18 @@ public class DbRepository {
             String query = "Select * from Movies where genre=" + _genre + ";";
             rs = sqlTools.executeQueryWithRs(query);
             while (rs.next()) {
-                movie.movieId = rs.getInt("movie_id");
+                movie.setMovieId(rs.getInt("movie_id"));
                 if (rs.getInt("available") == 1)
-                    movie.isAvailable = true;
+                    movie.setAvailable(true);
                 else
-                    movie.isAvailable = false;
-                movie.title = rs.getString("title");
-                movie.recap = rs.getString("recap");
-                movie.trailer = rs.getString("trailer");
-                movie.releaseDate = rs.getDate("release_date");
-                movie.ticketPrice = rs.getDouble("ticket_price");
-                movie.duration = rs.getTime("r_time");
-                movie.urlImage = rs.getString("cover");
+                    movie.setAvailable(false);
+                movie.setTitle(rs.getString("title"));
+                movie.setRecap(rs.getString("recap"));
+                movie.setTrailer(rs.getString("trailer"));
+                movie.setReleaseDate(rs.getDate("release_date"));
+                movie.setTicketPrice( rs.getDouble("ticket_price"));
+                movie.setDuration( rs.getTime("r_time"));
+                movie.setUrlImage( rs.getString("cover"));
 
             }
         } catch (SQLException E) {
