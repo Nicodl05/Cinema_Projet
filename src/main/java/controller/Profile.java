@@ -80,7 +80,7 @@ public class Profile {
     }
     public  Date getLastViewed(Movie m){
         Date d= new Date();
-        String query = "Selet last_viewed from Historic where movie.id="+m.getMovieId() +" and user_id="+user.getId();
+        String query = "Select last_viewed from Historic where movie.id="+m.getMovieId() +" and user_id="+user.getId();
         try{
             rs=sql.executeQueryWithRs(query);
             while(rs.next()){
