@@ -14,12 +14,18 @@ public class SelectSession {
     private final SQLTools sqlTools = new SQLTools();
     User user;
 
+    /**
+     * Constructeur
+     * @param user1
+     */
     public SelectSession(User user1) {
 
         user = user1;
     }
 
-
+    /**
+     * Permet de créer une session et de l'insérer dans la db
+     */
     public void createSession() {
         int nbSession = (sqlTools.GetNbRow("Session") + 1);
         //On suppose qu'on reçoit le array issu de movies déjà chargé de dbRepository
@@ -39,7 +45,10 @@ public class SelectSession {
         }
     }
 
-
+    /**
+     * Permet de rajouter dans la table historique, le film visionné par un user
+     * @param movie
+     */
     public void addToHistoric(Movie movie) {
         Date date = new Date();
         String query = "Insert into Historic (id_user,id_movie,last_viewed) Values (?,?,?);";
@@ -53,6 +62,11 @@ public class SelectSession {
         }
     }
 
+    /**
+     * Permet de faire une modification dans la session quand une réservation a été faite
+     * @param session correspond à la session pour la table reservation
+     * @param movieSession correspond à la session du film
+     */
     public void userSelectedSession(Session session, MovieSession movieSession) {
         if (movieSession.getSessionId() == session.getSessionId()) {
             int reservId = sqlTools.GetNbRow("Reservation");

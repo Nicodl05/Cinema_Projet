@@ -11,7 +11,12 @@ import model.User;
 import java.io.IOException;
 import java.sql.SQLException;
 
-
+/**
+ * @author Nicolas Dreyfus--Laquièze
+ * @author Adrien Leboeuf
+ * @author John Samaha
+ * @author Groupe 10 TD 9
+ */
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {

@@ -23,6 +23,9 @@ public class Movie {
     public Movie(){
 
     }
+
+    // Following
+    // Getter et setter des attributs de notre classe
     public Movie(String movietitle){
         title=movietitle;
     }

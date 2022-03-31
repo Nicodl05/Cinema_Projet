@@ -74,9 +74,9 @@ public class EmpModification {
     }
 
     /**
-     * Utilise l'api The Movie DataBase, permet
+     * Utilise l'api The Movie DataBase, permet de charger un film via la database tmdb et l'enregistrer dans la notre par la suite
      *
-     * @return
+     * @return un film enregistré
      */
     public Movie addMovieDataAutomatic() {
         Movie movie_selected = new Movie();
@@ -118,44 +118,45 @@ public class EmpModification {
     }
 
     /**
-     * Load Movie info with the public database
+     * Permet à l'utilisateur de rentrer toutes les infos d'un film à ajouter dans notre bdd
      *
-     * @return le film chargé
+     * @return le film chargé par l'utilisateur
      */
     public Movie addMovieDataManual() {
         Movie movie = new Movie();
-        Scanner sc = new Scanner(System.in);
-        movie.setMovieId(sqlTools.GetNbRow("Movies") + 1);
-        System.out.println("title");
-        movie.setTitle(sc.next());
-        System.out.println("genre");
-        movie.setGenre(sc.next());
-        System.out.println("recap");
-        movie.setRecap(sc.next());
-        System.out.println("trailer");
-        movie.setTrailer(sc.next());
-        System.out.println("urlimage");
-        movie.setUrlImage(sc.next());
-        System.out.println("r date");
-        String date = sc.next();
-        try {
-            movie.setReleaseDate(new SimpleDateFormat("yyyy-mm-dd").parse(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println("prix");
-        movie.setTicketPrice(sc.nextInt());
-        System.out.println("durée");
-        String duration = sc.next();
-        movie.setDuration(Time.valueOf(duration));
+//        Scanner sc = new Scanner(System.in);
+//        movie.setMovieId(sqlTools.GetNbRow("Movies") + 1);
+//        System.out.println("title");
+//        movie.setTitle(sc.next());
+//        System.out.println("genre");
+//        movie.setGenre(sc.next());
+//        System.out.println("recap");
+//        movie.setRecap(sc.next());
+//        System.out.println("trailer");
+//        movie.setTrailer(sc.next());
+//        System.out.println("urlimage");
+//        movie.setUrlImage(sc.next());
+//        System.out.println("r date");
+//        String date = sc.next();
+//        try {
+//            movie.setReleaseDate(new SimpleDateFormat("yyyy-mm-dd").parse(date));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println("prix");
+//        movie.setTicketPrice(sc.nextInt());
+//        System.out.println("durée");
+//        String duration = sc.next();
+//        movie.setDuration(Time.valueOf(duration));
+
+        //ICI TU METS L APPEL DE TA FCT JOHN
+        //movie = ...
         //movie.actorIds = loadactorIds(movie);
         return movie;
     }
 
     /**
-     * Ajoute un film dans la db
-     *
-     * @param
+     * Ajoute un film dans la db qui a été chargé manuellement ou automatiquement
      */
     public void addMovie() {
         System.out.println("1.Manual\2.Automatic");
@@ -192,6 +193,9 @@ public class EmpModification {
         }
     }
 
+    /**
+     * Permet de charger dans un array toutes les informations de toutes les personnes enregistrées dans notre db
+     */
     public void loadUsersData() {
         String query = "Select * from Person";
         try {
@@ -216,6 +220,11 @@ public class EmpModification {
         }
     }
 
+    /**
+     * Permet de retourner un user à partir de son nom de famille
+     * @param lName nom de famille
+     * @return un user
+     */
     public User getUserBasedOnLName(String lName) {
         User toget = new User();
         for (var element : dataUser) {
