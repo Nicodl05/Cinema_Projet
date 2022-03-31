@@ -116,12 +116,16 @@ public class EmpModification {
         }
         return movie_selected;
     }
+
     /**
      * Permet à l'utilisateur de rentrer toutes les infos d'un film à ajouter dans notre bdd
      *
      * @return le film chargé par l'utilisateur
      */
-
+    public Movie addMovieDataManual(int movieId, boolean isAvailable, String title, String genre, String recap, String trailer, String urlImage,Date releaseDate, double ticketPrice, Time duration) {
+        Movie movie = new Movie(movieId,isAvailable,title,genre,recap,trailer,urlImage,releaseDate,ticketPrice,duration);
+        return movie;
+    }
 
     /**
      * Ajoute un film dans la db qui a été chargé manuellement ou automatiquement
@@ -133,7 +137,7 @@ public class EmpModification {
         Movie movie = new Movie();
         switch (choice) {
             case 1:
-                movie = addMovieDataManual();
+                //movie = addMovieDataManual();
                 break;
             case 2:
                 movie = addMovieDataAutomatic();
