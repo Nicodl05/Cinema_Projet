@@ -48,10 +48,7 @@ public class Employe extends Application
         window.setTitle("Employés");//Set the Window title
 
         //Image of the main menu
-
-
-        //userImage=new Image("C:\\Users\\johns\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
-        userImage=new Image("C:\\Users\\Nicolas\\OneDrive - Groupe INSEEC (POCE)\\ING3\\S6\\Java\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
+        userImage=new Image("C:\\Users\\johns\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
         ImageUser=new ImageView();
         ImageUser.setImage(userImage);
 
