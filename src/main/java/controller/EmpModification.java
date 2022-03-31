@@ -27,7 +27,6 @@ public class EmpModification {
     public EmpModification() {
 
     }
-
     /**
      * MAJ Disponibilité  d'un film
      *
@@ -47,9 +46,9 @@ public class EmpModification {
 
     /**
      * Maj prix d'un film
+     * @param whichMovie titre du film auquel on doit modifier le prix
      */
-    public void updateMoviePrice() {
-        String whichMovie = "";
+    public void updateMoviePrice(String whichMovie) {
         int newprice = sqlTools.input1OrX(20);
         String query = "Update Movies Set ticket_price=" + newprice + " where title=" + whichMovie + ";";
         sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
@@ -62,7 +61,7 @@ public class EmpModification {
     }
 
     /**
-     * Récupère le lien du trailer
+     * Récupère le lien du trailer via l'api
      *
      * @param id id du film
      * @return
@@ -75,7 +74,7 @@ public class EmpModification {
     }
 
     /**
-     * Load Movie info with the public database
+     * Utilise l'api The Movie DataBase, permet
      *
      * @return
      */
