@@ -22,9 +22,9 @@ public class Employe extends Application
     Stage window;//Create a stage and call it window
     BorderPane layout;//Create the window layout
     Button butPageDacc,butPageDacc2,butPageDacc3,butPageDacc4,butPageDacc5,buttAjouterUnFilm,buttManuel,buttAuto;//Create buttons
-    ListView nomsFilms;//Create a lsit view that will contain the array list of the movies in the Repository class
-    ImageView imageDisp,ImageUser;//Image to display the Movie's Image
-    Image movieImage,userImage;
+    ListView nomsFilms;//Create a list view that will contain the array list of the movies in the Repository class
+    ImageView ImageUser;//Image to display the Movie's Image
+    Image userImage;
     Scene scene1,scene2,scene3,scene4,scene5,scene6;//Create different scene
     Label label1,label2,label3,label4;//Create label in case needed
     Text textScene6;
@@ -96,7 +96,6 @@ public class Employe extends Application
         MenuItem miseAjourPrix=new MenuItem("Mise à jours des Prix");
         MenuItem accesDossiers=new MenuItem("Accès Dossiers Clients");
         MenuItem ajouterunFilm=new MenuItem("Ajouter un Film");
-        //MenuItem ajouterunFilm2=new MenuItem("Ajouter un Film");
 
         //What happens the button is pressed
         prevueFilms.setOnAction(onClick-> window.setScene(scene1));
@@ -187,6 +186,7 @@ public class Employe extends Application
         butPageDacc3.setOnAction(onClick->window.setScene(scene));
         butPageDacc4.setOnAction(onClick->window.setScene(scene));
         butPageDacc5.setOnAction(onClick->window.setScene(scene));
+
         window.show();
     }
 }
