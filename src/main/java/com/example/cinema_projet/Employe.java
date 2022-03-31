@@ -96,6 +96,7 @@ public class Employe extends Application
         MenuItem miseAjourPrix=new MenuItem("Mise à jours des Prix");
         MenuItem accesDossiers=new MenuItem("Accès Dossiers Clients");
         MenuItem ajouterunFilm=new MenuItem("Ajouter un Film");
+        //MenuItem ajouterunFilm2=new MenuItem("Ajouter un Film");
 
         //What happens the button is pressed
         prevueFilms.setOnAction(onClick-> window.setScene(scene1));
@@ -163,6 +164,7 @@ public class Employe extends Application
         layout5.getChildren().addAll(buttAjouterUnFilm,butPageDacc5,nomsFilms);
 
 
+
         //Scene 6 where the Employee chooses to enter a new movie
         textScene6= new Text("Ajouter un film manuellement ou automatiquement?");
         textScene6.setX(250);
@@ -171,7 +173,6 @@ public class Employe extends Application
         layout6.setBackground(new Background(new BackgroundFill(Color.DARKCYAN,CornerRadii.EMPTY,Insets.EMPTY)));
         layout6.getChildren().addAll(buttAuto,buttManuel);
         scene6=new Scene(layout6,800,600);
-
 
         //Create a layout
         layout=new BorderPane(ImageUser);

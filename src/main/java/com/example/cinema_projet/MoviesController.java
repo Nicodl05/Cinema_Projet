@@ -59,32 +59,32 @@ public class MoviesController implements Initializable {
 
 
 
-/*
-        FXMLLoader fxmlLoader = new FXMLLoader(MoviesController.class.getResource("Movies.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 595, 170);
-        Stage stage = new Stage();
+    /*
+            FXMLLoader fxmlLoader = new FXMLLoader(MoviesController.class.getResource("Movies.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 595, 170);
+            Stage stage = new Stage();
 
-        stage.setTitle("Button Graphics");
-        stage.setScene(scene);
-        stage.show();
+            stage.setTitle("Button Graphics");
+            stage.setScene(scene);
+            stage.show();
 
-        //CreateAllButtonToDisplay();
-        //call new method to get all Image url
-        //GetAllImageUrl();
+            //CreateAllButtonToDisplay();
+            //call new method to get all Image url
+            //GetAllImageUrl();
 
- */
-public void Change() {
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-            "Movies.fxml"));
-    fxmlLoader.setRoot(this);
-    fxmlLoader.setController(this);
+     */
+    public void Change() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                "Movies.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
 
-    try {
-        fxmlLoader.load();
-    } catch (IOException exception) {
-        throw new RuntimeException(exception);
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
     }
-}
 
 
     public void CreateAllButtonToDisplay() {

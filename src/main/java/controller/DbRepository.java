@@ -17,17 +17,18 @@ public class DbRepository {
      * On charge dans notre ArrayList: movieArrayList tous les films de notre base de données avec ses informations
      */
     public DbRepository() {
-        MoviesController image = new MoviesController();
+        //MoviesController image = new MoviesController();
         String query = "Select * from Movies";
         sqlTools.setRs(sqlTools.executeQueryWithRs(query));
         try {
             while (sqlTools.getRs().next()) {
                 try {
                     Movie tosave = new Movie();
+                    // System.out.println(sqlTools.getRs().getString("title"));
                     tosave.setMovieId(sqlTools.getRs().getInt("movie_id"));
                     tosave.setTitle(sqlTools.getRs().getString("title"));
                     tosave.setGenre(sqlTools.getRs().getString("genre"));
-                    tosave.setReleaseDate(sqlTools.getRs().getDate("release_time"));
+                    tosave.setReleaseDate(sqlTools.getRs().getDate("release_date"));
                     tosave.setDuration(sqlTools.getRs().getTime("r_time"));
                     tosave.setTicketPrice(8);
                     tosave.setRecap(sqlTools.getRs().getString("recap"));
@@ -78,9 +79,10 @@ public class DbRepository {
     public Movie getInfoMovieBasedTitle(String _title) {
         Movie movie = new Movie();
         try {
-            String query = "Select * from Movies where title=" + _title + ";";
+            String query = "Select * from Movies where title='" + _title + "';";
             sqlTools.setRs(sqlTools.executeQueryWithRs(query));
             while (sqlTools.getRs().next()) {
+                //System.out.println(sqlTools.getRs().getInt("movie_id"));
                 movie.setMovieId(sqlTools.getRs().getInt("movie_id"));
                 if (sqlTools.getRs().getInt("available") == 1)
                     movie.setAvailable(true);
