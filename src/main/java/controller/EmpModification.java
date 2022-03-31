@@ -74,9 +74,9 @@ public class EmpModification {
     }
 
     /**
-     * Utilise l'api The Movie DataBase, permet
+     * Utilise l'api The Movie DataBase, permet de charger un film via la database tmdb et l'enregistrer dans la notre par la suite
      *
-     * @return
+     * @return un film enregistré
      */
     public Movie addMovieDataAutomatic() {
         Movie movie_selected = new Movie();
@@ -118,9 +118,9 @@ public class EmpModification {
     }
 
     /**
-     * Load Movie info with the public database
+     * Permet à l'utilisateur de rentrer toutes les infos d'un film à ajouter dans notre bdd
      *
-     * @return le film chargé
+     * @return le film chargé par l'utilisateur
      */
     public Movie addMovieDataManual() {
         Movie movie = new Movie();
@@ -153,9 +153,7 @@ public class EmpModification {
     }
 
     /**
-     * Ajoute un film dans la db
-     *
-     * @param
+     * Ajoute un film dans la db qui a été chargé manuellement ou automatiquement
      */
     public void addMovie() {
         System.out.println("1.Manual\2.Automatic");
@@ -192,6 +190,9 @@ public class EmpModification {
         }
     }
 
+    /**
+     * Permet de charger dans un array toutes les informations de toutes les personnes enregistrées dans notre db
+     */
     public void loadUsersData() {
         String query = "Select * from Person";
         try {
@@ -216,6 +217,11 @@ public class EmpModification {
         }
     }
 
+    /**
+     * Permet de retourner un user à partir de son nom de famille
+     * @param lName nom de famille
+     * @return un user
+     */
     public User getUserBasedOnLName(String lName) {
         User toget = new User();
         for (var element : dataUser) {

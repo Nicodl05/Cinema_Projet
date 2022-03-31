@@ -13,6 +13,7 @@ public class LoginAccountCreate {
     private final SQLTools sqlTools = new SQLTools();
     public User user;
 
+    // A delete, servait pour des test
     String inputString() {
         Scanner sc = new Scanner(System.in);
         return sc.next();
@@ -58,6 +59,14 @@ public class LoginAccountCreate {
         }
     }
 
+    /**
+     * Permet de créer un compte et de le save dans la db
+     * @param _fname prénom
+     * @param _lname nom de famille
+     * @param _email mail du user
+     * @param _pwd  mdp
+     * @param _bday date de naissance
+     */
     public void Create_Account(String _fname, String _lname, String _email, String _pwd, String _bday) {
         int nb_id = sqlTools.GetNbRow("Person") + 1;
         // Faire les saisies pour affichage
@@ -78,6 +87,10 @@ public class LoginAccountCreate {
         }
     }
 
+    /**
+     * Permet de faire un mot de passe oublié à partir du mail du user
+     * @param email le mail
+     */
     public void resetPassword(String email) {
         System.out.println("New Pwd");
         String newPassword = sqlTools.inputString();

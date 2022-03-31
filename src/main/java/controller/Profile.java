@@ -16,17 +16,25 @@ public class Profile {
         user = user1;
     }
 
-
+    /**
+     * Permet de mettre un user en tant qu'employé
+     */
     void become_Emp() {
         String query = "Update Person Set emp=" + 1 + " where person_id=" + user.getId() + ";";
         sql.setRs(sql.executeQueryWithRs(query));
     }
 
+    /**
+     * Permet de supprimer le compte d'une personne
+     */
     void delete_account() {
         String query = "DELETE from Person where person_id=" + user.getId() + ";";
         sql.setRs(sql.executeQueryWithRs(query));
     }
 
+    /**
+     * Permet de modifier un attribut d'une personne avec sélection de l'attribut
+     */
     public void modifyInfo() {
         System.out.println("Info a modif");
         String attribute = "f_name";    // for example
@@ -35,6 +43,9 @@ public class Profile {
         sql.setRs( sql.executeQueryWithRs(query));
     }
 
+    /**
+     * Permet à l'utilsateur de save un movie dans les films liked à partir d'un film de son historique
+     */
     public void addToMovieLiked() {
         // on suppose qu'on display tt l'historique
         Movie movie = new Movie();     // pour des test
@@ -47,6 +58,11 @@ public class Profile {
             System.out.println(E);
         }
     }
+
+    /**
+     * Permet de charger entièrement l'historique d'un utilisateur
+     * @return
+     */
     public ArrayList<Movie> loadHistoric(){
         ArrayList<Movie> movieArrayList = new ArrayList<>();
         String query = "Select * from Movies as m, Historic as h where h.id_user="+user.getId()+" and m.movie_id=h.movie_id;";
@@ -75,6 +91,12 @@ public class Profile {
         }
         return movieArrayList;
     }
+
+    /**
+     * Permet de récupérer la dernière date de visionnage d'un film vu par un user
+     * @param m correspond au film regardé par le user
+     * @return une date de visionnage
+     */
     public  Date getLastViewed(Movie m){
         Date d= new Date();
         String query = "Select last_viewed from Historic where movie.id="+m.getMovieId() +" and user_id="+user.getId();

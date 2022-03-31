@@ -13,10 +13,12 @@ public class User {
     private boolean isEmployee = false;
     private ArrayList<Integer> likedMovieIds;
 
+    //Constructor
     public User() {
 
     }
-
+    // Following
+    // Getter et setter des attributs de notre classe
     public ArrayList<Integer> getLikedMovieIds() {
         return likedMovieIds;
     }

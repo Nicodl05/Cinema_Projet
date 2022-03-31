@@ -6,10 +6,12 @@ public class Room {
     private int roomId, seatCount;
     private int sessionId;
 
+    //Constructor
    public  Room() {
 
     }
-
+    // Following
+    // Getter et setter des attributs de notre classe
     public int getSessionId() {
         return sessionId;
     }

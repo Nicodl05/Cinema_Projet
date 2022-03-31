@@ -5,10 +5,12 @@ import java.sql.Time;
 public class Session {
     private int sessionId, movieId, reservId;
     private Time sessionTime;
+    //Constructor
     public Session(){
 
     }
-
+    // Following
+    // Getter et setter des attributs de notre classe
     public Time getSessionTime() {
         return sessionTime;
     }

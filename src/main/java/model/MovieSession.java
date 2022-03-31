@@ -6,9 +6,12 @@ public class MovieSession {
     private int sessionId, movieId, usedSeatCount;
     private Time sessionTIme;
 
-   public MovieSession() {
+    //Constructor
+    public MovieSession() {
     }
 
+    // Following
+    // Getter et setter des attributs de notre classe
     public Time getSessionTIme() {
         return sessionTIme;
     }
