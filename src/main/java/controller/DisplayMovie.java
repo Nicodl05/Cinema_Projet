@@ -21,7 +21,7 @@ public class DisplayMovie {
     }
 
     /**
-     * Récupère le lien du trailer
+     * Récupère le lien du trailer à partir d'un identifiant
      *
      * @param id id du film
      * @return
@@ -35,7 +35,7 @@ public class DisplayMovie {
 
     /**
      * Charge les actor id en fct du movie
-     *
+     * A DELETE
      * @param movie film selectionne
      * @return
      */
@@ -54,9 +54,9 @@ public class DisplayMovie {
     }
 
     /**
-     * Ajoute à l'historique d'une personne, le film regardé
-     *
-     * @param user
+     * Ajoute à l'historique d'une personne, le film regardé dans la table historique de notre bdd
+     * @param user correspond à l'utilisateur qui a regardé le film
+     * @param movie correspond au film qui a été regardé par le user
      */
     public void add_to_Historic(User user, Movie movie) {
         LocalDate now = now();
@@ -74,13 +74,12 @@ public class DisplayMovie {
     }
 
     /**
-     * Ajouter un film à la liste des films aimés
-     *
-     * @param user
+     * Ajouter un film à la liste des films aimés dans la bdd
+     * @param movie Correspond au film aimé par le user
+     * @param user correspond à l'utilisateur qui a aimé le film
      */
     public void add_movie_like(User user, Movie movie) {
         try {
-
             String query = "INSERT INTO Movies_liked (movie_id,user_id) VALUES (?,?);";
             sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
             sqlTools.getStmt().setInt(1, user.getId());
@@ -92,13 +91,13 @@ public class DisplayMovie {
     }
 
     /**
-     * Load Movies liked by the user
+     * Charge dans un ArrayList, les titres films aimés dans la base de données
+     * @param user l'utilisateur pour charger les films aimés
      */
-    void load_movies_liked() {
+    public ArrayList<String> load_movies_liked(User user) {
         ArrayList<String> likedMovieIds = new ArrayList<String>();
         try {
-            String query = "";//= //"Select m.title from Movies as m, Movies_liked as ml where m.movie_id=ml.movie_id and ml.user_id="+ id;
-
+            String query = "Select m.title from Movies as m, Movies_liked as ml where m.movie_id=ml.movie_id and ml.user_id="+user.getId();
             sqlTools.setRs(sqlTools.executeQueryWithRs(query));
             while (sqlTools.getRs().next()) {
                 likedMovieIds.add(sqlTools.getRs().getString("title"));
@@ -106,6 +105,7 @@ public class DisplayMovie {
         } catch (SQLException e) {
             System.out.println(e);
         }
+        return likedMovieIds;
     }
 
 

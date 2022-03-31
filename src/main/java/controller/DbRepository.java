@@ -11,6 +11,11 @@ public class DbRepository {
 
     private final SQLTools sqlTools = new SQLTools();
     public ArrayList<Movie> movieArrayList = new ArrayList<Movie>();
+
+    /**
+     * Constructeur
+     * On charge dans notre ArrayList: movieArrayList tous les films de notre base de données avec ses informations
+     */
     public DbRepository() {
         MoviesController image = new MoviesController();
         String query = "Select * from Movies";
@@ -66,9 +71,9 @@ public class DbRepository {
 
 
     /**
-     * Récupère toutes les infos d'un film à partir de son titre
-     *
-     * @param _title
+     * Retourne un film de type movie à partir de son titre
+     * Nous permet d'avoir accès à toutes les infos du film
+     * @param _title le titre du film
      */
     public Movie getInfoMovieBasedTitle(String _title) {
         Movie movie = new Movie();
@@ -97,9 +102,9 @@ public class DbRepository {
     }
 
     /**
-     * Récupère toutes les infos d'un film à partir de son genre
-     *
-     * @param _genre
+     * Retourne un film de type movie à partir de son titre
+     * * Nous permet d'avoir accès à toutes les infos du film     *
+     * @param _genre le genre du film
      */
     public Movie getInfoMovieBasedGenre(String _genre) {
         Movie movie = new Movie();
@@ -127,6 +132,11 @@ public class DbRepository {
         return movie;
     }
 
+    /**
+     * Retourne un ArrayList contenant tous les films étant disponible au visionnage
+     * ( emp = 1)
+     * @return notre liste de tableau
+     */
     public ArrayList<Movie> getAvailableMovies() {
         String query = "Select * from Movies where available=" + 1;
         ArrayList<Movie> availableMovies = new ArrayList<>();
