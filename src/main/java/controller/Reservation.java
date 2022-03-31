@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class Reservation {
     public SQLTools sqlTools = new SQLTools();
-    public ResultSet rs;
+
     Reservation(){
 
     }
@@ -23,8 +23,8 @@ public class Reservation {
         User user = new User();
         String query="Select * from Person where person_id="+user.getId();
         try {
-            rs=sqlTools.executeQueryWithRs(query);
-            Date bday = rs.getDate("bday");
+            sqlTools.setRs(sqlTools.executeQueryWithRs(query));
+            Date bday = sqlTools.getRs().getDate("bday");
             if((2022-bday.getYear()>60) || (2022-bday.getYear()<25))
                 price=6;
             if(2022- bday.getYear()<10)

@@ -1,55 +1,37 @@
 package controller;
 
 import com.example.cinema_projet.MoviesController;
-import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.TmdbMovies;
-import info.movito.themoviedbapi.TmdbSearch;
-import info.movito.themoviedbapi.model.MovieDb;
-import info.movito.themoviedbapi.model.Multi;
-import info.movito.themoviedbapi.model.Video;
 import model.Movie;
-import model.User;
-
 import java.sql.*;
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
-import static java.time.LocalDate.*;
+
 
 public class DbRepository {
 
-    SQLTools sqlTools = new SQLTools();
-    public ResultSet rs;
+    private final SQLTools sqlTools = new SQLTools();
     public ArrayList<Movie> movieArrayList = new ArrayList<Movie>();
-
-
     public DbRepository() {
         MoviesController image = new MoviesController();
         String query = "Select * from Movies";
-        rs = sqlTools.executeQueryWithRs(query);
+        sqlTools.setRs(sqlTools.executeQueryWithRs(query));
         try {
-            while (rs.next()) {
+            while (sqlTools.getRs().next()) {
                 try {
                     Movie tosave = new Movie();
-                    tosave.setMovieId(rs.getInt("movie_id"));
-                    tosave.setTitle(rs.getString("title"));
-                    tosave.setGenre(rs.getString("genre"));
-                    tosave.setReleaseDate( rs.getDate("release_time"));
-                    tosave.setDuration( rs.getTime("r_time"));
-                    tosave.setTicketPrice( 8);
-                    tosave.setRecap(rs.getString("recap"));
-                    if (rs.getInt("available") == 1)
+                    tosave.setMovieId(sqlTools.getRs().getInt("movie_id"));
+                    tosave.setTitle(sqlTools.getRs().getString("title"));
+                    tosave.setGenre(sqlTools.getRs().getString("genre"));
+                    tosave.setReleaseDate(sqlTools.getRs().getDate("release_time"));
+                    tosave.setDuration(sqlTools.getRs().getTime("r_time"));
+                    tosave.setTicketPrice(8);
+                    tosave.setRecap(sqlTools.getRs().getString("recap"));
+                    if (sqlTools.getRs().getInt("available") == 1)
                         tosave.setAvailable(true);
                     else
                         tosave.setAvailable(false);
-                    tosave.setTrailer(rs.getString("trailer"));
-                    tosave.setUrlImage( rs.getString("cover"));
+                    tosave.setTrailer(sqlTools.getRs().getString("trailer"));
+                    tosave.setUrlImage(sqlTools.getRs().getString("cover"));
                     movieArrayList.add(tosave);
 
 
@@ -60,11 +42,10 @@ public class DbRepository {
         } catch (SQLException e) {
             System.out.println(e);
         }
-
-
     }
 
-    /**A delete
+    /**
+     * A delete
      *
      * @param movie
      * @return
@@ -73,9 +54,9 @@ public class DbRepository {
         ArrayList<Integer> actorsID = new ArrayList<>();
         String query = "Select ac_id from Movies_Actors where movie_id=" + movie.getMovieId();
         try {
-            rs = sqlTools.executeQueryWithRs(query);
-            while (rs.next()) {
-                actorsID.add(rs.getInt("ac_id"));
+            sqlTools.setRs(sqlTools.executeQueryWithRs(query));
+            while (sqlTools.getRs().next()) {
+                actorsID.add(sqlTools.getRs().getInt("ac_id"));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -93,20 +74,20 @@ public class DbRepository {
         Movie movie = new Movie();
         try {
             String query = "Select * from Movies where title=" + _title + ";";
-            ResultSet rs = sqlTools.executeQueryWithRs(query);
-            while (rs.next()) {
-                movie.setMovieId( rs.getInt("movie_id"));
-                if (rs.getInt("available") == 1)
+            sqlTools.setRs(sqlTools.executeQueryWithRs(query));
+            while (sqlTools.getRs().next()) {
+                movie.setMovieId(sqlTools.getRs().getInt("movie_id"));
+                if (sqlTools.getRs().getInt("available") == 1)
                     movie.setAvailable(true);
                 else
-                    movie.setAvailable( false);
-                movie.setGenre(rs.getString("genre"));
-                movie.setRecap( rs.getString("recap"));
-                movie.setTrailer( rs.getString("trailer"));
-                movie.setUrlImage(rs.getString("cover"));
-                movie.setReleaseDate( rs.getDate("release_date"));
-                movie.setTicketPrice(rs.getDouble("ticket_price"));
-                movie.setDuration( rs.getTime("r_time"));
+                    movie.setAvailable(false);
+                movie.setGenre(sqlTools.getRs().getString("genre"));
+                movie.setRecap(sqlTools.getRs().getString("recap"));
+                movie.setTrailer(sqlTools.getRs().getString("trailer"));
+                movie.setUrlImage(sqlTools.getRs().getString("cover"));
+                movie.setReleaseDate(sqlTools.getRs().getDate("release_date"));
+                movie.setTicketPrice(sqlTools.getRs().getDouble("ticket_price"));
+                movie.setDuration(sqlTools.getRs().getTime("r_time"));
                 //movie.actorIds = loadactorIds(movie);
             }
         } catch (SQLException E) {
@@ -124,20 +105,20 @@ public class DbRepository {
         Movie movie = new Movie();
         try {
             String query = "Select * from Movies where genre=" + _genre + ";";
-            rs = sqlTools.executeQueryWithRs(query);
-            while (rs.next()) {
-                movie.setMovieId(rs.getInt("movie_id"));
-                if (rs.getInt("available") == 1)
+            sqlTools.setRs( sqlTools.executeQueryWithRs(query));
+            while (sqlTools.getRs().next()) {
+                movie.setMovieId(sqlTools.getRs().getInt("movie_id"));
+                if (sqlTools.getRs().getInt("available") == 1)
                     movie.setAvailable(true);
                 else
                     movie.setAvailable(false);
-                movie.setTitle(rs.getString("title"));
-                movie.setRecap(rs.getString("recap"));
-                movie.setTrailer(rs.getString("trailer"));
-                movie.setReleaseDate(rs.getDate("release_date"));
-                movie.setTicketPrice( rs.getDouble("ticket_price"));
-                movie.setDuration( rs.getTime("r_time"));
-                movie.setUrlImage( rs.getString("cover"));
+                movie.setTitle(sqlTools.getRs().getString("title"));
+                movie.setRecap(sqlTools.getRs().getString("recap"));
+                movie.setTrailer(sqlTools.getRs().getString("trailer"));
+                movie.setReleaseDate(sqlTools.getRs().getDate("release_date"));
+                movie.setTicketPrice(sqlTools.getRs().getDouble("ticket_price"));
+                movie.setDuration(sqlTools.getRs().getTime("r_time"));
+                movie.setUrlImage(sqlTools.getRs().getString("cover"));
 
             }
         } catch (SQLException E) {
@@ -146,5 +127,28 @@ public class DbRepository {
         return movie;
     }
 
+    public ArrayList<Movie> getAvailableMovies() {
+        String query = "Select * from Movies where available=" + 1;
+        ArrayList<Movie> availableMovies = new ArrayList<>();
 
+        try {
+            sqlTools.setRs(sqlTools.executeQueryWithRs(query));
+            while (sqlTools.getRs().next()) {
+                Movie movie = new Movie();
+                movie.setMovieId(sqlTools.getRs().getInt("movie_id"));
+                movie.setAvailable(true);
+                movie.setTitle(sqlTools.getRs().getString("title"));
+                movie.setRecap(sqlTools.getRs().getString("recap"));
+                movie.setTrailer(sqlTools.getRs().getString("trailer"));
+                movie.setReleaseDate(sqlTools.getRs().getDate("release_date"));
+                movie.setTicketPrice(sqlTools.getRs().getDouble("ticket_price"));
+                movie.setDuration(sqlTools.getRs().getTime("r_time"));
+                movie.setUrlImage(sqlTools.getRs().getString("cover"));
+                availableMovies.add(movie);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return availableMovies;
+    }
 }

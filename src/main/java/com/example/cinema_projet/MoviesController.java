@@ -47,7 +47,7 @@ public class MoviesController implements Initializable {
         }
 
      */
-        String urlImage = info.movieArrayList.get(0).urlImage;
+        String urlImage = info.movieArrayList.get(0).getUrlImage();
         ImageView view = new ImageView(urlImage);
         Button button1 = new Button("", view);
 

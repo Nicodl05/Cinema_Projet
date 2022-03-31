@@ -27,9 +27,7 @@ public class Movie {
         title=movietitle;
     }
 
-    public void setDuration(Time duration) {
-        this.duration = duration;
-    }
+    public void setDuration(Time duration) { this.duration = duration;  }
 
     public void setTicketPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;

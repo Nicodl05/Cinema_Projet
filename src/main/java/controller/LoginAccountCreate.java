@@ -2,29 +2,20 @@ package controller;
 
 
 import com.example.cinema_projet.*;
-import javafx.event.ActionEvent;
 import model.User;
-
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
-
 public class LoginAccountCreate {
-    ResultSet rs;
-    public PreparedStatement stmt;
-    SQLTools sqlTools = new SQLTools();
+    private final SQLTools sqlTools = new SQLTools();
     public User user;
 
     String inputString() {
         Scanner sc = new Scanner(System.in);
-        String input = sc.next();
-        return input;
+        return sc.next();
     }
 
     /**
@@ -38,26 +29,26 @@ public class LoginAccountCreate {
         user = new User();
         try {
             String query = "Select * from Person ";
-            ResultSet rs = sqlTools.executeQueryWithRs(query);
-            while (rs.next()) {
-                if (email.equals(rs.getString("email")) && password.equals(rs.getString("pwd"))) {
-                    user.setId(rs.getInt("person_id"));
-                    user.setFirstName( rs.getString("f_name"));
-                    user.setLastName(rs.getString("l_name"));
-                    user.setBday( rs.getDate("bday"));
-                    user.setEmail(rs.getString("email"));
-                    user.setPasswd(rs.getString("pwd"));
-                    if (rs.getInt("emp") == 1)
+            sqlTools.setRs(sqlTools.executeQueryWithRs(query));
+            while (sqlTools.getRs().next()) {
+                if (email.equals(sqlTools.getRs().getString("email")) && password.equals(sqlTools.getRs().getString("pwd"))) {
+                    user.setId(sqlTools.getRs().getInt("person_id"));
+                    user.setFirstName( sqlTools.getRs().getString("f_name"));
+                    user.setLastName(sqlTools.getRs().getString("l_name"));
+                    user.setBday( sqlTools.getRs().getDate("bday"));
+                    user.setEmail(sqlTools.getRs().getString("email"));
+                    user.setPasswd(sqlTools.getRs().getString("pwd"));
+                    if (sqlTools.getRs().getInt("emp") == 1)
                         user.setEmployee( true);
                     else
                         user.setEmployee( false);
                     verif.Connected();
                 }
-                if (email != rs.getString("email") && password == rs.getString("pwd"))
+                if (email != sqlTools.getRs().getString("email") && password == sqlTools.getRs().getString("pwd"))
                     System.out.println("Mauvais Mail");
-                if (email == rs.getString("email") && password != rs.getString("pwd"))
+                if (email == sqlTools.getRs().getString("email") && password != sqlTools.getRs().getString("pwd"))
                     System.out.println("Mauvais Mot de passe");
-                if (email != rs.getString("email") && password != rs.getString("pwd"))
+                if (email != sqlTools.getRs().getString("email") && password != sqlTools.getRs().getString("pwd"))
                     System.out.println("Mauvais Mot de passe et mail");
             }
         } catch (SQLException e) {
@@ -74,14 +65,14 @@ public class LoginAccountCreate {
         Date d = java.sql.Date.valueOf(date);
         try {
             String query = "INSERT INTO Person (person_id, f_name, l_name, bday, email, pwd, emp ) VALUES (?,?,?,?,?,?,+0);";
-            PreparedStatement stmt = sqlTools.executeQueryWithPS(query);
-            stmt.setInt(1, nb_id);
-            stmt.setString(2, _fname);
-            stmt.setString(3, _lname);
-            stmt.setDate(4, (java.sql.Date) d);
-            stmt.setString(5, _email);
-            stmt.setString(6, _pwd);
-            stmt.execute();
+            sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
+            sqlTools.getStmt().setInt(1, nb_id);
+            sqlTools.getStmt().setString(2, _fname);
+            sqlTools.getStmt().setString(3, _lname);
+            sqlTools.getStmt().setDate(4, (java.sql.Date) d);
+            sqlTools.getStmt().setString(5, _email);
+            sqlTools.getStmt().setString(6, _pwd);
+            sqlTools.getStmt().execute();
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -92,8 +83,8 @@ public class LoginAccountCreate {
         String newPassword = sqlTools.inputString();
         String query = "Update Person Set pwd= '" + newPassword + "'  where email= '" + email + "' ;";
         try {
-            stmt = sqlTools.executeQueryWithPS(query);
-            stmt.executeUpdate();
+            sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
+            sqlTools.getStmt().executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }

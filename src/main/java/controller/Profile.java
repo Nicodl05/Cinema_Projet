@@ -10,11 +10,8 @@ import java.util.Date;
 public class Profile {
 
 
-    public SQLTools sql = new SQLTools();
-    public ResultSet rs;
-
+    private final SQLTools sql = new SQLTools();
     User user;
-
     public Profile(User user1) {
         user = user1;
     }
@@ -22,12 +19,12 @@ public class Profile {
 
     void become_Emp() {
         String query = "Update Person Set emp=" + 1 + " where person_id=" + user.getId() + ";";
-        rs = sql.executeQueryWithRs(query);
+        sql.setRs(sql.executeQueryWithRs(query));
     }
 
     void delete_account() {
         String query = "DELETE from Person where person_id=" + user.getId() + ";";
-        rs = sql.executeQueryWithRs(query);
+        sql.setRs(sql.executeQueryWithRs(query));
     }
 
     public void modifyInfo() {
@@ -35,7 +32,7 @@ public class Profile {
         String attribute = "f_name";    // for example
         String newinfo = "Nicolas";
         String query = "Update Person Set" + attribute + "=" + newinfo + " where person_id=" + user.getId();
-        rs = sql.executeQueryWithRs(query);
+        sql.setRs( sql.executeQueryWithRs(query));
     }
 
     public void addToMovieLiked() {
@@ -43,9 +40,9 @@ public class Profile {
         Movie movie = new Movie();     // pour des test
         String query = "Insert into Movies_liked (movie_id, id_user) Values (?,?);";
         try {
-            PreparedStatement statement = sql.executeQueryWithPS(query);
-            statement.setInt(1, movie.getMovieId());
-            statement.setInt(2, user.getId());
+            sql.setStmt(sql.executeQueryWithPS(query));
+            sql.getStmt().setInt(1, movie.getMovieId());
+            sql.getStmt().setInt(2, user.getId());
         } catch (SQLException E) {
             System.out.println(E);
         }
@@ -54,22 +51,22 @@ public class Profile {
         ArrayList<Movie> movieArrayList = new ArrayList<>();
         String query = "Select * from Movies as m, Historic as h where h.id_user="+user.getId()+" and m.movie_id=h.movie_id;";
         try{
-            rs= sql.executeQueryWithRs(query);
-            while (rs.next()){
+            sql.setRs(sql.executeQueryWithRs(query));
+            while (sql.getRs().next()){
                Movie m= new Movie();
-               m.setMovieId(rs.getInt("movie_id"));
-               m.setTitle(rs.getString("title"));
-               m.setGenre(rs.getString("genre"));
-               m.setReleaseDate(rs.getDate("release_time"));
-               m.setDuration(rs.getTime("r_time"));
-               m.setTicketPrice(rs.getInt("ticket_price"));
-               m.setRecap(rs.getString("recap"));
-               if(rs.getInt("available")==1)
+               m.setMovieId(sql.getRs().getInt("movie_id"));
+               m.setTitle(sql.getRs().getString("title"));
+               m.setGenre(sql.getRs().getString("genre"));
+               m.setReleaseDate(sql.getRs().getDate("release_time"));
+               m.setDuration(sql.getRs().getTime("r_time"));
+               m.setTicketPrice(sql.getRs().getInt("ticket_price"));
+               m.setRecap(sql.getRs().getString("recap"));
+               if(sql.getRs().getInt("available")==1)
                    m.setAvailable(true);
                else
                    m.setAvailable(false);
-               m.setTrailer(rs.getString("trailer"));
-               m.setUrlImage(rs.getString("cover"));
+               m.setTrailer(sql.getRs().getString("trailer"));
+               m.setUrlImage(sql.getRs().getString("cover"));
                movieArrayList.add(m);
             }
         }
@@ -82,9 +79,9 @@ public class Profile {
         Date d= new Date();
         String query = "Select last_viewed from Historic where movie.id="+m.getMovieId() +" and user_id="+user.getId();
         try{
-            rs=sql.executeQueryWithRs(query);
-            while(rs.next()){
-                d=rs.getDate("last_viewed");
+            sql.setRs(sql.executeQueryWithRs(query));
+            while(sql.getRs().next()){
+                d=sql.getRs().getDate("last_viewed");
             }
         }
         catch (SQLException E){
