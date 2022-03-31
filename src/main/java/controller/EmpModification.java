@@ -122,36 +122,8 @@ public class EmpModification {
      *
      * @return le film chargé par l'utilisateur
      */
-    public Movie addMovieDataManual() {
-        Movie movie = new Movie();
-//        Scanner sc = new Scanner(System.in);
-//        movie.setMovieId(sqlTools.GetNbRow("Movies") + 1);
-//        System.out.println("title");
-//        movie.setTitle(sc.next());
-//        System.out.println("genre");
-//        movie.setGenre(sc.next());
-//        System.out.println("recap");
-//        movie.setRecap(sc.next());
-//        System.out.println("trailer");
-//        movie.setTrailer(sc.next());
-//        System.out.println("urlimage");
-//        movie.setUrlImage(sc.next());
-//        System.out.println("r date");
-//        String date = sc.next();
-//        try {
-//            movie.setReleaseDate(new SimpleDateFormat("yyyy-mm-dd").parse(date));
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println("prix");
-//        movie.setTicketPrice(sc.nextInt());
-//        System.out.println("durée");
-//        String duration = sc.next();
-//        movie.setDuration(Time.valueOf(duration));
-
-        //ICI TU METS L APPEL DE TA FCT JOHN
-        //movie = ...
-        //movie.actorIds = loadactorIds(movie);
+    public Movie addMovieDataManual(int movieId, boolean isAvailable, String title, String genre, String recap, String trailer, String urlImage,Date releaseDate, double ticketPrice, Time duration) {
+        Movie movie = new Movie(movieId,isAvailable,title,genre,recap,trailer,urlImage,releaseDate,ticketPrice,duration);
         return movie;
     }
 
@@ -165,7 +137,7 @@ public class EmpModification {
         Movie movie = new Movie();
         switch (choice) {
             case 1:
-                movie = addMovieDataManual();
+                //movie = addMovieDataManual();
                 break;
             case 2:
                 movie = addMovieDataAutomatic();

@@ -2,23 +2,22 @@ package com.example.cinema_projet;
 
 import controller.DbRepository;
 import controller.EmpModification;
+import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import javafx.scene.text.Text;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import java.sql.Date;
+import java.sql.Time;
 
 public class Employe extends Application
 {
@@ -33,7 +32,8 @@ public class Employe extends Application
     Scene scene1,scene2,scene3,scene4,scene5,scene6,scene7;//Create different scene
     Label label1,label2,label3,label4;//Create label in case needed
     Text textScene6;
-    TextField titreduFilm,genreduFilm,recapduFilm,trailerFilm,urlImageFilm,releaseDateFilm;
+    TextField titreduFilm,genreduFilm,recapduFilm,trailerFilm,urlImageFilm,releaseDateFilm,durationFilm,prixDuTicketFilm;
+    String nouveauTitre,nouveauGenre,nouveauRecap,nouveauTrailer,nouveauUrlImage,nouveauRelaseDate,nouveauPrix,nouveauDuration;
 
     public static void main(String args[])
     {
@@ -61,13 +61,14 @@ public class Employe extends Application
         }
 
         //Add a movie
-        moviesModif = new EmpModification();
         titreduFilm = new TextField();
         genreduFilm = new TextField();
         recapduFilm = new TextField();
         trailerFilm = new TextField();
         urlImageFilm = new TextField();
         releaseDateFilm = new TextField();
+        prixDuTicketFilm = new TextField();
+        durationFilm = new TextField();
 
         titreduFilm.setPromptText("Titre du film");
         titreduFilm.setFocusTraversable(false);
@@ -80,6 +81,10 @@ public class Employe extends Application
         urlImageFilm.setPromptText("URL Image du film");
         urlImageFilm.setFocusTraversable(false);
         releaseDateFilm.setPromptText("Date de Sortie");
+        releaseDateFilm.setFocusTraversable(false);
+        prixDuTicketFilm.setPromptText("Prix du billet");
+        releaseDateFilm.setFocusTraversable(false);
+        durationFilm.setPromptText("Movie Duration");
         releaseDateFilm.setFocusTraversable(false);
 
         titreduFilm.setLayoutX(30);
@@ -94,6 +99,10 @@ public class Employe extends Application
         urlImageFilm.setLayoutY(140);
         releaseDateFilm.setLayoutX(30);
         releaseDateFilm.setLayoutY(170);
+        prixDuTicketFilm.setLayoutX(30);
+        prixDuTicketFilm.setLayoutY(200);
+        durationFilm.setLayoutX(30);
+        durationFilm.setLayoutY(230);
 
         //Get the movies image
         /*imageDisp = new ImageView();
@@ -148,13 +157,51 @@ public class Employe extends Application
         buttAjouterUnFilm.setOnAction(onClick->window.setScene(scene6));
         buttAuto.setOnAction(onClick->moviesModif.addMovieDataAutomatic());
         buttManuel.setOnAction(onClick->window.setScene(scene7));
-        titreduFilm.setOnAction(dataEntered-> System.out.println(titreduFilm.getText()));
-        genreduFilm.setOnAction(dataEntered-> System.out.println(genreduFilm.getText()));
-        recapduFilm.setOnAction(dataEntered-> System.out.println(recapduFilm.getText()));
-        trailerFilm.setOnAction(dataEntered-> System.out.println(trailerFilm.getText()));
-        urlImageFilm.setOnAction(dataEntered-> System.out.println(urlImageFilm.getText()));
-        releaseDateFilm.setOnAction(dataEntered-> System.out.println(releaseDateFilm.getText()));
+        titreduFilm.setOnAction(dataEntered->{
+            nouveauTitre=titreduFilm.getText();
+            System.out.println(nouveauTitre);
+        });
+        genreduFilm.setOnAction(dataEntered->{
+            nouveauGenre=genreduFilm.getText();
+            System.out.println(nouveauGenre);
+        });
+        recapduFilm.setOnAction(dataEntered->{
+            nouveauRecap=recapduFilm.getText();
+            System.out.println(nouveauRecap);
+        });
+        trailerFilm.setOnAction(dataEntered->{
+            nouveauTrailer=trailerFilm.getText();
+            System.out.println(nouveauTrailer);
+        });
+        urlImageFilm.setOnAction(dataEntered->{
+            nouveauUrlImage=urlImageFilm.getText();
+            System.out.println(nouveauUrlImage);
+        });
+        releaseDateFilm.setOnAction(dataEntered->{
+            nouveauRelaseDate=releaseDateFilm.getText();
+            System.out.println(nouveauRelaseDate);
+        });
+        prixDuTicketFilm.setOnAction(dataEntered->{
+            nouveauPrix=prixDuTicketFilm.getText();
+            System.out.println(nouveauPrix);
+        });
+        durationFilm.setOnAction(dataEntered->{
+            nouveauDuration=durationFilm.getText();
+            System.out.println(nouveauDuration);
+            moviesModif = new EmpModification();
+            Date nouvDate = Date.valueOf(nouveauRelaseDate);
+            double nouvPrix=Double.parseDouble(nouveauPrix);
+            Time nouvHeure= Time.valueOf(nouveauDuration);
+            moviesModif.addMovieDataManual(-1,true,nouveauTitre,nouveauGenre,nouveauRecap,nouveauTrailer,nouveauUrlImage,nouvDate,nouvPrix,nouvHeure);
+        });
 
+        //Add a new movie manually
+        /*moviesModif = new EmpModification();
+        Date nouvDate = Date.valueOf(nouveauRelaseDate);
+        double nouvPrix=Double.parseDouble(nouveauPrix);
+        Time nouvHeure= Time.valueOf(nouveauDuration);
+        moviesModif.addMovieDataManual(-1,true,nouveauTitre,nouveauGenre,nouveauRecap,nouveauTrailer,nouveauUrlImage,nouvDate,nouvPrix,nouvHeure);
+        */
         //The display of the Items
         fileMenu.getItems().add(prevueFilms);
         fileMenu.getItems().add(new SeparatorMenuItem());
@@ -223,7 +270,7 @@ public class Employe extends Application
         //Scene 7 Add a movie Manually
         AnchorPane layout7 = new AnchorPane();
         layout7.setBackground(new Background(new BackgroundFill(Color.DARKCYAN,CornerRadii.EMPTY,Insets.EMPTY)));
-        layout7.getChildren().addAll(titreduFilm,genreduFilm,recapduFilm,trailerFilm,urlImageFilm,releaseDateFilm);
+        layout7.getChildren().addAll(titreduFilm,genreduFilm,recapduFilm,trailerFilm,urlImageFilm,releaseDateFilm,prixDuTicketFilm,durationFilm);
         scene7 = new Scene(layout7,800,600);
 
         //Create a layout

@@ -24,6 +24,19 @@ public class Movie {
 
     }
 
+    public Movie(int movieId, boolean isAvailable, String title, String genre, String recap, String trailer, String urlImage, Date releaseDate, double ticketPrice, Time duration){
+        this.movieId=movieId;
+        this.isAvailable=isAvailable;
+        this.title=title;
+        this.genre=genre;
+        this.recap=recap;
+        this.trailer=trailer;
+        this.urlImage=urlImage;
+        this.releaseDate=releaseDate;
+        this.ticketPrice=ticketPrice;
+        this.duration=duration;
+    }
+
     // Following
     // Getter et setter des attributs de notre classe
     public Movie(String movietitle){
@@ -108,3 +121,5 @@ public class Movie {
         return movieId;
     }
 }
+
+
