@@ -4,7 +4,10 @@ import controller.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -29,22 +32,27 @@ public class LoginController {
     @FXML
     private Label PasswordLabel;
 
+
     public void ConnOnAction() {
         LoginAccountCreate login = new LoginAccountCreate();
         login.login(MyMail.getText(),MyPassword.getText());
+        try {
+            Connected();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void Connected() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Movies.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 600);
-        Stage stage = new Stage();
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
-    }
-    public void Lab(){
+
+            Parent fxmlLoader = FXMLLoader.load(getClass().getResource("Movies.fxml"));
+            Scene scene = new Scene(fxmlLoader,800,600);
+            Stage stage = new Stage();
+            //stage.setTitle("Hello!");
+            stage.setScene(scene);
+            stage.show();
+
+        }
 
     }
 
-
-}

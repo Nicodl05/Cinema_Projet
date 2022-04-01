@@ -24,6 +24,16 @@ public class DbRepository {
             while (sqlTools.getRs().next()) {
                 try {
                     Movie tosave = new Movie();
+                    tosave.setMovieId(sqlTools.getRs().getInt("movie_id"));
+                    tosave.setTitle(sqlTools.getRs().getString("title"));
+                    tosave.setGenre(sqlTools.getRs().getString("genre"));
+                    tosave.setReleaseDate( sqlTools.getRs().getDate("release_date"));
+                    tosave.setDuration(sqlTools.getRs().getTime("r_time"));
+                    tosave.setTicketPrice(8);
+                    tosave.setRecap(sqlTools.getRs().getString("recap"));
+                    if (sqlTools.getRs().getInt("available") == 1)
+                        tosave.isAvailable();
+
                     // System.out.println(sqlTools.getRs().getString("title"));
                     tosave.setMovieId(sqlTools.getRs().getInt("movie_id"));
                     tosave.setTitle(sqlTools.getRs().getString("title"));
@@ -34,6 +44,7 @@ public class DbRepository {
                     tosave.setRecap(sqlTools.getRs().getString("recap"));
                     if (sqlTools.getRs().getInt("available") == 1)
                         tosave.setAvailable(true);
+
                     else
                         tosave.setAvailable(false);
                     tosave.setTrailer(sqlTools.getRs().getString("trailer"));

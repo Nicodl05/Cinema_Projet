@@ -26,6 +26,7 @@ public class LoginAccountCreate {
      * @param password
      */
     public void login(String email, String password) {
+
         LoginController verif = new LoginController();
         user = new User();
         try {
@@ -44,18 +45,19 @@ public class LoginAccountCreate {
                     else
                         user.setEmployee( false);
                     verif.Connected();
+
                 }
                 if (email != sqlTools.getRs().getString("email") && password == sqlTools.getRs().getString("pwd"))
                     System.out.println("Mauvais Mail");
                 if (email == sqlTools.getRs().getString("email") && password != sqlTools.getRs().getString("pwd"))
                     System.out.println("Mauvais Mot de passe");
+
                 if (email != sqlTools.getRs().getString("email") && password != sqlTools.getRs().getString("pwd"))
-                    System.out.println("Mauvais Mot de passe et mail");
+                    System.out.println("Mauvais Mail et Mot de passe");
+
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new Error("Problem", e);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
