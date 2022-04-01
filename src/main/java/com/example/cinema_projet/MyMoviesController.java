@@ -1,6 +1,7 @@
 package com.example.cinema_projet;
 
 import controller.DisplayMovie;
+import controller.Profile;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -17,11 +18,14 @@ public class MyMoviesController implements Initializable {
     AnchorPane pane;
 
     ArrayList<String> likedMovies = new ArrayList<String>();
+    ArrayList<String> loadHistoric = new ArrayList<String>();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         DisplayMovie Dmovie = new DisplayMovie();
+        Profile profile = new Profile(LoginController.personne);
         likedMovies=Dmovie.load_movies_liked(LoginController.personne);
+        loadHistoric=Dmovie.loadHistoric(LoginController.personne);
 
         MenuBar menuBar=new MenuBar();
         Menu fileMenu=new Menu("Mes Films");
@@ -39,6 +43,19 @@ public class MyMoviesController implements Initializable {
             int a=10;
             int o=50;
 
+            for(int i = 0; i< loadHistoric.size();i++){
+
+                o+=30;
+                Label label1 = new Label(loadHistoric.get(i));
+                label1.setLayoutX(a);
+                label1.setLayoutY(o);
+                pane.getChildren().addAll(label1);
+            }
+        });
+        Myliked.setOnAction(ActionEvent -> {
+            int a=10;
+            int o=50;
+
             for(int i = 0; i< likedMovies.size();i++){
                 ImageView coeur = new ImageView("Coeur.PNG");
                 Button button = new Button("",coeur);
@@ -46,10 +63,13 @@ public class MyMoviesController implements Initializable {
                 Label label1 = new Label(likedMovies.get(i));
                 label1.setLayoutX(a);
                 label1.setLayoutY(o);
+                button.setOnAction(ActionEvent2 -> {
+
+                    profile.addToMovieLiked(MoviesController.afficherMovie,LoginController.personne);
+
+                });
                 pane.getChildren().addAll(button);
             }
-        });
-        Myliked.setOnAction(ActionEvent -> {
 
         });
 
