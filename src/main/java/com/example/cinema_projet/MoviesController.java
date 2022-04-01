@@ -42,6 +42,9 @@ public class MoviesController implements Initializable {
     @FXML
     private ScrollPane scrollPane;
 
+    @FXML
+    private Button Employee;
+
     Stage stage;
     Button button1;
     public static Movie afficherMovie = new Movie();
@@ -294,6 +297,12 @@ public class MoviesController implements Initializable {
             stage.show();
 
         }
+    @FXML
+    void GoToEmployee(ActionEvent event) {
+        
+        // tu fais ton truc ici John
+
+    }
 
 
         }
