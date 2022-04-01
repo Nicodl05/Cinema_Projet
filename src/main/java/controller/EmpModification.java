@@ -48,9 +48,9 @@ public class EmpModification {
      * Maj prix d'un film
      * @param whichMovie titre du film auquel on doit modifier le prix
      */
-    public void updateMoviePrice(String whichMovie) {
-        int newprice = sqlTools.input1OrX(20);
-        String query = "Update Movies Set ticket_price=" + newprice + " where title=" + whichMovie + ";";
+    public void updateMoviePrice(String whichMovie, int newPrice) {
+
+        String query = "Update Movies Set ticket_price=" + newPrice + " where title=" + whichMovie + ";";
         sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
         try {
             sqlTools.getStmt().executeUpdate();
