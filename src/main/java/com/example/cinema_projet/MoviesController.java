@@ -45,6 +45,9 @@ public class MoviesController implements Initializable {
     @FXML
     private Button Employee;
 
+    @FXML
+    private Button MyMovies;
+
     Stage stage;
     Button button1;
     public static Movie afficherMovie = new Movie();
@@ -299,8 +302,19 @@ public class MoviesController implements Initializable {
         }
     @FXML
     void GoToEmployee(ActionEvent event) {
-        
+
         // tu fais ton truc ici John
+
+    }
+    @FXML
+    void ShowMyMovies(ActionEvent event) throws IOException {
+
+        Parent fxmlLoader = FXMLLoader.load(getClass().getResource("MyMovies.fxml"));
+        Scene scene = new Scene(fxmlLoader,800,600);
+        Stage stage = new Stage();
+        //stage.setTitle("Hello!");
+        stage.setScene(scene);
+        stage.show();
 
     }
 

@@ -32,6 +32,7 @@ public class LoginController {
     @FXML
     private Label PasswordLabel;
 
+    public static User personne= new User();
 
     public void ConnOnAction() {
         LoginAccountCreate login = new LoginAccountCreate();
@@ -44,6 +45,7 @@ public class LoginController {
     }
 
     public void Connected() throws IOException {
+
 
             Parent fxmlLoader = FXMLLoader.load(getClass().getResource("Movies.fxml"));
             Scene scene = new Scene(fxmlLoader,800,600);

@@ -16,7 +16,7 @@ import static java.time.LocalDate.now;
 
 public class DisplayMovie {
     private final SQLTools sqlTools = new SQLTools();
-    DisplayMovie() {
+    public DisplayMovie() {
 
     }
 
