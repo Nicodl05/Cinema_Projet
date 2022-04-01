@@ -298,10 +298,16 @@ public class MoviesController implements Initializable {
 
         }
     @FXML
-    void GoToEmployee(ActionEvent event) {
-        
-        // tu fais ton truc ici John
-
+    void GoToEmployee(ActionEvent event)
+    {
+        Employe pageEmp = new Employe();
+        Employee.setOnAction(onClick-> {
+            try {
+                pageEmp.start(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 
