@@ -29,6 +29,7 @@ public final class SQLTools {
         return instance;
     }
 
+
     /**Executes a prepared statement (insert)
      *
      * @param query requete sql

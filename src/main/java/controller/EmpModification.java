@@ -7,11 +7,9 @@ import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.Multi;
 import info.movito.themoviedbapi.model.Video;
 import model.Movie;
+import model.User;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Time;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -24,9 +22,9 @@ import static java.time.LocalDate.parse;
 public class EmpModification {
 
     SQLTools sqlTools = new SQLTools();
-    //public ResultSet rs;
+    public ResultSet rs;
     public PreparedStatement stmt;
-
+    ArrayList<User> dataUser ;
    public  EmpModification() {
 
     }
@@ -194,5 +192,37 @@ public class EmpModification {
         } catch (SQLException e) {
             System.out.println(e);
         }
+    }
+    public void loadUsersData(){
+        String query = "Select * from Person";
+        try{
+            rs = sqlTools.executeQueryWithRs(query);
+            while (rs.next()){
+                User toSave = new User();
+                toSave.id= rs.getInt("person_id");
+                toSave.firstName=rs.getString("f_name");
+                toSave.lastName=rs.getString("l_name");
+                toSave.email=rs.getString("email");
+                toSave.passwd=rs.getString("pwd");
+                if(rs.getInt("emp")==1)
+                    toSave.isEmployee=true;
+                else
+                    toSave.isEmployee=false;
+
+                toSave.bday=rs.getDate("bday");
+                dataUser.add(toSave);
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e);
+        }
+    }
+    public User getUserBasedOnLName(String lName){
+        User toget =new  User();
+        for(var element: dataUser){
+            if (element.lastName.equals(lName))
+                toget=element;
+        }
+        return toget;
     }
 }

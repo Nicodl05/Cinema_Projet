@@ -40,7 +40,7 @@ public class DbRepository {
                     tosave.movieId = rs.getInt("movie_id");
                     tosave.title = rs.getString("title");
                     tosave.genre = rs.getString("genre");
-                    tosave.releaseDate = rs.getDate("release_time");
+                    tosave.releaseDate = rs.getDate("release_date");
                     tosave.duration = rs.getTime("r_time");
                     tosave.ticketPrice = 8;
                     tosave.recap = rs.getString("recap");
