@@ -25,7 +25,7 @@ public class Employe extends Application
     DbRepository recupFilms;//Create an object of the Repository class
     Stage window;//Create a stage and call it window
     BorderPane layout;//Create the window layout
-    Button butPageDacc,butPageDacc2,butPageDacc3,butPageDacc4,butPageDacc5,buttAjouterUnFilm,buttManuel,buttAuto;//Create buttons
+    Button butPageDaccAjoutFilm,buttPageAccManu,butPageDacc2,butPageDacc3,butPageDacc4,butPageDacc5,buttAjouterUnFilm,buttManuel,buttAuto;//Create buttons
     ListView nomsFilms;//Create a list view that will contain the array list of the movies in the Repository class
     ImageView ImageUser;//Image to display the Movie's Image
     Image userImage;
@@ -110,14 +110,15 @@ public class Employe extends Application
         modifPrix.setLayoutY(220);
 
         //Buttons
-        butPageDacc=new Button("Retour à la page Employés");//Return to the main page
-        butPageDacc2=new Button("Retour à la page Employés");
-        butPageDacc3=new Button("Retour à la page Employés");
-        butPageDacc4=new Button("Retour à la page Employés");
-        butPageDacc5=new Button("Retour à la page Employés");
-        buttAjouterUnFilm=new Button("Ajouter un Film");
-        buttAuto=new Button("Automatiquement");//Add automatically a movie
-        buttManuel=new Button("Manuellement");//Add manually a movie
+        butPageDaccAjoutFilm = new Button("Retour à la page Employés");//Return to the main page
+        buttPageAccManu = new Button("Retour à la page Employés");
+        butPageDacc2 = new Button("Retour à la page Employés");
+        butPageDacc3 = new Button("Retour à la page Employés");
+        butPageDacc4 = new Button("Retour à la page Employés");
+        butPageDacc5 = new Button("Retour à la page Employés");
+        buttAjouterUnFilm = new Button("Ajouter un Film");
+        buttAuto = new Button("Automatiquement");//Add automatically a movie
+        buttManuel = new Button("Manuellement");//Add manually a movie
         buttManuel.setLayoutX(300);
         buttAuto.setLayoutX(400);
         buttManuel.setLayoutY(400);
@@ -126,12 +127,16 @@ public class Employe extends Application
         nomsFilms.setLayoutY(300);
         nomsFilms.setPrefHeight(600);
         nomsFilms.setPrefWidth(800);
-        buttAjouterUnFilm.setLayoutX(320);
-        buttAjouterUnFilm.setLayoutY(10);
+        buttAjouterUnFilm.setLayoutX(345);
+        buttAjouterUnFilm.setLayoutY(30);
         butPageDacc3.setLayoutX(325);
         butPageDacc3.setLayoutY(550);
-        butPageDacc5.setLayoutX(290);
-        butPageDacc5.setLayoutY(45);
+        butPageDacc5.setLayoutX(315);
+        butPageDacc5.setLayoutY(65);
+        butPageDaccAjoutFilm.setLayoutX(325);
+        butPageDaccAjoutFilm.setLayoutY(550);
+        buttPageAccManu.setLayoutX(325);
+        buttPageAccManu.setLayoutY(550);
 
         //File Menu
         Menu fileMenu=new Menu("Options");
@@ -243,20 +248,20 @@ public class Employe extends Application
 
 
 
-        //Scene 6 where the Employee chooses to enter a new movie
+        //Scene 6 Auto or Manu?
         textScene6= new Text("Ajouter un film manuellement ou automatiquement?");
         textScene6.setX(150);
         textScene6.setY(70);
         textScene6.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         AnchorPane layout6 = new AnchorPane(textScene6);
         layout6.setBackground(new Background(new BackgroundFill(Color.DARKCYAN,CornerRadii.EMPTY,Insets.EMPTY)));
-        layout6.getChildren().addAll(buttAuto,buttManuel);
+        layout6.getChildren().addAll(buttAuto,buttManuel,butPageDaccAjoutFilm);
         scene6=new Scene(layout6,800,600);
 
         //Scene 7 Add a movie Manually
         AnchorPane layout7 = new AnchorPane();
         layout7.setBackground(new Background(new BackgroundFill(Color.DARKCYAN,CornerRadii.EMPTY,Insets.EMPTY)));
-        layout7.getChildren().addAll(titreduFilm,genreduFilm,recapduFilm,releaseDateFilm,prixDuTicketFilm,durationFilm);
+        layout7.getChildren().addAll(titreduFilm,genreduFilm,recapduFilm,releaseDateFilm,prixDuTicketFilm,durationFilm,buttPageAccManu);
         scene7 = new Scene(layout7,800,600);
 
         //Create a layout
@@ -267,7 +272,8 @@ public class Employe extends Application
         window.setScene(scene);
 
         //Return to main Page button
-        butPageDacc.setOnAction(onClick->window.setScene(scene));
+        butPageDaccAjoutFilm.setOnAction(onClick->window.setScene(scene));
+        buttPageAccManu.setOnAction(onClick->window.setScene(scene));
         butPageDacc2.setOnAction(onClick->window.setScene(scene));
         butPageDacc3.setOnAction(onClick->window.setScene(scene));
         butPageDacc4.setOnAction(onClick->window.setScene(scene));
