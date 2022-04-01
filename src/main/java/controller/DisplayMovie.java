@@ -107,6 +107,21 @@ public class DisplayMovie {
         }
         return likedMovieIds;
     }
+    public ArrayList<String> loadHistoric(User user){
+        ArrayList<String > historic =new ArrayList<>();
+        try{
+            String query ="Select * from Historic where id_user="+user.getId();
+            sqlTools.setRs(sqlTools.executeQueryWithRs(query));
+            while (sqlTools.getRs().next()){
+                historic.add(sqlTools.getRs().getString("title"));
+
+            }
+        }
+        catch (SQLException E){
+            System.out.println(E);
+        }
+        return historic;
+    }
 
 
 }
