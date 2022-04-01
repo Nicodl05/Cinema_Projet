@@ -25,7 +25,7 @@ public class LoginAccountCreate {
      * @param email
      * @param password
      */
-    public void login(String email, String password) {
+    public User login(String email, String password) {
 
         LoginController verif = new LoginController();
         user = new User();
@@ -59,6 +59,7 @@ public class LoginAccountCreate {
         } catch (SQLException | IOException e) {
             throw new Error("Problem", e);
         }
+        return user;
     }
 
     /**
