@@ -173,7 +173,6 @@ public class Employe extends Application
         durationFilm.setOnAction(dataEntered->{
             nouveauDuration=durationFilm.getText();
             System.out.println(nouveauDuration);
-            moviesModif = new EmpModification();
             Date nouvDate = Date.valueOf(nouveauRelaseDate);
             double nouvPrix=Double.parseDouble(nouveauPrix);
             Time nouvHeure= Time.valueOf(nouveauDuration);
@@ -184,9 +183,9 @@ public class Employe extends Application
             System.out.println(titreFilmaModif);
         });
         modifPrix.setOnAction(dataEntered->{
-            int nouvPrix=Integer.valueOf(modifPrix.getText());
-            System.out.println(nouvPrix);
-            moviesModif.updateMoviePrice(titreFilmaModif,nouvPrix);
+            int newPrice= Integer.valueOf(modifPrix.getText());
+            System.out.println(newPrice);
+            moviesModif.updateMoviePrice(titreFilmaModif,newPrice);
         });
 
         //Add a new movie manually
