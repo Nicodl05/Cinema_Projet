@@ -29,11 +29,11 @@ public class Employe extends Application
     ListView nomsFilms;//Create a list view that will contain the array list of the movies in the Repository class
     ImageView ImageUser;//Image to display the Movie's Image
     Image userImage;
-    Scene scene1,scene2,scene3,scene4,scene5,scene6,scene7;//Create different scene
-    Label label1,label2,label3,label4;//Create label in case needed
-    Text textScene6;
-    TextField titreduFilm,genreduFilm,recapduFilm,trailerFilm,urlImageFilm,releaseDateFilm,durationFilm,prixDuTicketFilm;
-    String nouveauTitre,nouveauGenre,nouveauRecap,nouveauTrailer,nouveauUrlImage,nouveauRelaseDate,nouveauPrix,nouveauDuration;
+    Scene scene2,scene3,scene4,scene5,scene6,scene7;//Create different scene
+    Label label2,label4;//Create label in case needed
+    Text textScene6,textScene3;
+    TextField titreduFilm,genreduFilm,recapduFilm,releaseDateFilm,durationFilm,prixDuTicketFilm,modifPrix,titreFilmModif;
+    String nouveauTitre,nouveauGenre,nouveauRecap,nouveauRelaseDate,nouveauPrix,nouveauDuration;
 
     public static void main(String args[])
     {
@@ -49,8 +49,8 @@ public class Employe extends Application
 
         //Image of the main menu
 
-      //  userImage=new Image("C:\\Users\\johns\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
-        userImage =new Image("C:\\Users\\Nicolas\\OneDrive - Groupe INSEEC (POCE)\\ING3\\S6\\Java\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png"); // C'est mon chemin
+        userImage=new Image("C:\\Users\\johns\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
+        //userImage =new Image("C:\\Users\\Nicolas\\OneDrive - Groupe INSEEC (POCE)\\ING3\\S6\\Java\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png"); // C'est mon chemin
         ImageUser=new ImageView();
         ImageUser.setImage(userImage);
 
@@ -66,8 +66,6 @@ public class Employe extends Application
         titreduFilm = new TextField();
         genreduFilm = new TextField();
         recapduFilm = new TextField();
-        trailerFilm = new TextField();
-        urlImageFilm = new TextField();
         releaseDateFilm = new TextField();
         prixDuTicketFilm = new TextField();
         durationFilm = new TextField();
@@ -78,10 +76,6 @@ public class Employe extends Application
         genreduFilm.setFocusTraversable(false);
         recapduFilm.setPromptText("Recap du Film");
         recapduFilm.setFocusTraversable(false);
-        trailerFilm.setPromptText("Trailer du Film");
-        trailerFilm.setFocusTraversable(false);
-        urlImageFilm.setPromptText("URL Image du film");
-        urlImageFilm.setFocusTraversable(false);
         releaseDateFilm.setPromptText("Date de Sortie");
         releaseDateFilm.setFocusTraversable(false);
         prixDuTicketFilm.setPromptText("Prix du billet");
@@ -95,28 +89,24 @@ public class Employe extends Application
         genreduFilm.setLayoutY(50);
         recapduFilm.setLayoutX(30);
         recapduFilm.setLayoutY(80);
-        trailerFilm.setLayoutX(30);
-        trailerFilm.setLayoutY(110);
-        urlImageFilm.setLayoutX(30);
-        urlImageFilm.setLayoutY(140);
         releaseDateFilm.setLayoutX(30);
-        releaseDateFilm.setLayoutY(170);
+        releaseDateFilm.setLayoutY(110);
         prixDuTicketFilm.setLayoutX(30);
-        prixDuTicketFilm.setLayoutY(200);
+        prixDuTicketFilm.setLayoutY(140);
         durationFilm.setLayoutX(30);
-        durationFilm.setLayoutY(230);
+        durationFilm.setLayoutY(170);
 
-        //Get the movies image
-        /*imageDisp = new ImageView();
-        String movie1;
-        movie1=recupFilms.movieArrayList.get(0).getUrlImage();
-        movieImage=new Image(movie1);
-        imageDisp.setImage(movieImage);
-        imageDisp.setX(800);
-        imageDisp.setY(100);
-        imageDisp.setFitHeight(200);
-        imageDisp.setFitWidth(300);
-        imageDisp.setPreserveRatio(true);*/
+        //Price modification
+        modifPrix = new TextField();
+        titreFilmModif = new TextField();
+        titreFilmModif.setPromptText("Titre du Film...");
+        modifPrix.setPromptText("Nouveau Prix");
+        modifPrix.setFocusTraversable(false);
+        titreFilmModif.setFocusTraversable(false);
+        titreFilmModif.setLayoutX(325);
+        titreFilmModif.setLayoutY(170);
+        modifPrix.setLayoutX(325);
+        modifPrix.setLayoutY(220);
 
         //Buttons
         butPageDacc=new Button("Retour à la page Employés");//Return to the main page
@@ -137,6 +127,8 @@ public class Employe extends Application
         nomsFilms.setPrefWidth(800);
         buttAjouterUnFilm.setLayoutX(320);
         buttAjouterUnFilm.setLayoutY(10);
+        butPageDacc3.setLayoutX(325);
+        butPageDacc3.setLayoutY(550);
         butPageDacc5.setLayoutX(290);
         butPageDacc5.setLayoutY(45);
 
@@ -144,14 +136,12 @@ public class Employe extends Application
         Menu fileMenu=new Menu("Options");
 
         //Menu Items
-        MenuItem prevueFilms=new MenuItem("Prévue des films populaires");
         MenuItem miseAjourFilm=new MenuItem("Mise à jours des Films");
         MenuItem miseAjourPrix=new MenuItem("Mise à jours des Prix");
         MenuItem accesDossiers=new MenuItem("Accès Dossiers Clients");
         MenuItem ajouterunFilm=new MenuItem("Ajouter un Film");
 
         //What happens the button is pressed
-        prevueFilms.setOnAction(onClick-> window.setScene(scene1));
         miseAjourFilm.setOnAction(onClick->window.setScene(scene2));
         miseAjourPrix.setOnAction(onClick->window.setScene(scene3));
         accesDossiers.setOnAction(onClick->window.setScene(scene4));
@@ -171,14 +161,6 @@ public class Employe extends Application
             nouveauRecap=recapduFilm.getText();
             System.out.println(nouveauRecap);
         });
-        trailerFilm.setOnAction(dataEntered->{
-            nouveauTrailer=trailerFilm.getText();
-            System.out.println(nouveauTrailer);
-        });
-        urlImageFilm.setOnAction(dataEntered->{
-            nouveauUrlImage=urlImageFilm.getText();
-            System.out.println(nouveauUrlImage);
-        });
         releaseDateFilm.setOnAction(dataEntered->{
             nouveauRelaseDate=releaseDateFilm.getText();
             System.out.println(nouveauRelaseDate);
@@ -194,8 +176,10 @@ public class Employe extends Application
             Date nouvDate = Date.valueOf(nouveauRelaseDate);
             double nouvPrix=Double.parseDouble(nouveauPrix);
             Time nouvHeure= Time.valueOf(nouveauDuration);
-            moviesModif.addMovieDataManual(-1,true,nouveauTitre,nouveauGenre,nouveauRecap,nouveauTrailer,nouveauUrlImage,nouvDate,nouvPrix,nouvHeure);
+            moviesModif.addMovieDataManual(-1,true,nouveauTitre,nouveauGenre,nouveauRecap,nouvDate,nouvPrix,nouvHeure);
         });
+        titreFilmModif.setOnAction(dataEntered-> System.out.println(titreFilmModif.getText()));
+        modifPrix.setOnAction(dataEntered-> System.out.println(modifPrix.getText()));
 
         //Add a new movie manually
         /*moviesModif = new EmpModification();
@@ -205,8 +189,6 @@ public class Employe extends Application
         moviesModif.addMovieDataManual(-1,true,nouveauTitre,nouveauGenre,nouveauRecap,nouveauTrailer,nouveauUrlImage,nouvDate,nouvPrix,nouvHeure);
         */
         //The display of the Items
-        fileMenu.getItems().add(prevueFilms);
-        fileMenu.getItems().add(new SeparatorMenuItem());
         fileMenu.getItems().add(miseAjourFilm);
         fileMenu.getItems().add(miseAjourPrix);
         fileMenu.getItems().add(new SeparatorMenuItem());
@@ -219,13 +201,6 @@ public class Employe extends Application
         MenuBar menuBar=new MenuBar();
         menuBar.getMenus().addAll(fileMenu);
 
-        //Scene 1 Films Populaires
-        VBox layout1 = new VBox(10);
-        label1 = new Label("Films Populaires");
-        layout1.setAlignment(Pos.BOTTOM_CENTER);
-        layout1.setBackground(new Background(new BackgroundFill(Color.DARKCYAN,CornerRadii.EMPTY,Insets.EMPTY)));//To set Colors
-        layout1.getChildren().addAll(butPageDacc,label1);
-        scene1 = new Scene(layout1,800,600);
 
         //Scene 2 Mise a jour des films
         VBox layout2=new VBox(10);
@@ -236,11 +211,13 @@ public class Employe extends Application
         scene2 = new Scene(layout2,800,600);
 
         //Scene 3 Mise a jour des prix
-        VBox layout3 = new VBox(10);
-        label3 = new Label("Mise à jour des prix");
-        layout3.setAlignment(Pos.BOTTOM_CENTER);
+        textScene3= new Text("Veuillez Saisir les Informations demandées...");
+        textScene3.setX(150);
+        textScene3.setY(70);
+        textScene3.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        AnchorPane layout3 = new AnchorPane();
         layout3.setBackground(new Background(new BackgroundFill(Color.DARKCYAN,CornerRadii.EMPTY,Insets.EMPTY)));
-        layout3.getChildren().addAll(butPageDacc3,label3);
+        layout3.getChildren().addAll(textScene3,titreFilmModif,modifPrix,butPageDacc3);
         scene3 = new Scene(layout3,800,600);
 
         //Scene 4 Dossier Clients
@@ -272,7 +249,7 @@ public class Employe extends Application
         //Scene 7 Add a movie Manually
         AnchorPane layout7 = new AnchorPane();
         layout7.setBackground(new Background(new BackgroundFill(Color.DARKCYAN,CornerRadii.EMPTY,Insets.EMPTY)));
-        layout7.getChildren().addAll(titreduFilm,genreduFilm,recapduFilm,trailerFilm,urlImageFilm,releaseDateFilm,prixDuTicketFilm,durationFilm);
+        layout7.getChildren().addAll(titreduFilm,genreduFilm,recapduFilm,releaseDateFilm,prixDuTicketFilm,durationFilm);
         scene7 = new Scene(layout7,800,600);
 
         //Create a layout

@@ -122,8 +122,8 @@ public class EmpModification {
      *
      * @return le film chargé par l'utilisateur
      */
-    public Movie addMovieDataManual(int movieId, boolean isAvailable, String title, String genre, String recap, String trailer, String urlImage,Date releaseDate, double ticketPrice, Time duration) {
-        Movie movie = new Movie(movieId,isAvailable,title,genre,recap,trailer,urlImage,releaseDate,ticketPrice,duration);
+    public Movie addMovieDataManual(int movieId, boolean isAvailable, String title, String genre, String recap,Date releaseDate, double ticketPrice, Time duration) {
+        Movie movie = new Movie(movieId,isAvailable,title,genre,recap,releaseDate,ticketPrice,duration);
         return movie;
     }
 
