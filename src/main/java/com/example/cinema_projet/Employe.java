@@ -33,7 +33,7 @@ public class Employe extends Application
     Label label2,label4;//Create label in case needed
     Text textScene6,textScene3;
     TextField titreduFilm,genreduFilm,recapduFilm,releaseDateFilm,durationFilm,prixDuTicketFilm,modifPrix,titreFilmModif;
-    String nouveauTitre,nouveauGenre,nouveauRecap,nouveauRelaseDate,nouveauPrix,nouveauDuration;
+    String nouveauTitre,nouveauGenre,nouveauRecap,nouveauRelaseDate,nouveauPrix,nouveauDuration,titreFilmaModif;
 
     public static void main(String args[])
     {
@@ -63,6 +63,7 @@ public class Employe extends Application
         }
 
         //Add a movie
+        moviesModif = new EmpModification();
         titreduFilm = new TextField();
         genreduFilm = new TextField();
         recapduFilm = new TextField();
@@ -178,8 +179,15 @@ public class Employe extends Application
             Time nouvHeure= Time.valueOf(nouveauDuration);
             moviesModif.addMovieDataManual(-1,true,nouveauTitre,nouveauGenre,nouveauRecap,nouvDate,nouvPrix,nouvHeure);
         });
-        titreFilmModif.setOnAction(dataEntered-> System.out.println(titreFilmModif.getText()));
-        modifPrix.setOnAction(dataEntered-> System.out.println(modifPrix.getText()));
+        titreFilmModif.setOnAction(dataEntered->{
+            titreFilmaModif=titreFilmModif.getText();
+            System.out.println(titreFilmaModif);
+        });
+        modifPrix.setOnAction(dataEntered->{
+            int nouvPrix=Integer.valueOf(modifPrix.getText());
+            System.out.println(nouvPrix);
+            moviesModif.updateMoviePrice(titreFilmaModif,nouvPrix);
+        });
 
         //Add a new movie manually
         /*moviesModif = new EmpModification();
