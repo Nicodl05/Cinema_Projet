@@ -11,76 +11,87 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class SelectSession {
-    public SQLTools sqlTools = new SQLTools();
-    public ResultSet rs;
-
-    public PreparedStatement preparedStatement;
+    private final SQLTools sqlTools = new SQLTools();
     User user;
 
+    /**
+     * Constructeur
+     * @param user1
+     */
     public SelectSession(User user1) {
 
         user = user1;
     }
 
-
+    /**
+     * Permet de créer une session et de l'insérer dans la db
+     */
     public void createSession() {
         int nbSession = (sqlTools.GetNbRow("Session") + 1);
         //On suppose qu'on reçoit le array issu de movies déjà chargé de dbRepository
         ArrayList<Movie> movieArrayList = new ArrayList<Movie>();
-        int chosenMovie = movieArrayList.get(0).movieId;  // on récup un film( le 1 ici)
+        int chosenMovie = movieArrayList.get(0).getMovieId();  // on récup un film( le 1 ici)
         int t = 780;  // Le temps selectionné au clic
         try {
             String query = "INSERT INTO Session (session_id, movie_id,reserv_id,session_time) VALUES (?,?,?,?);";
-            PreparedStatement stmt = sqlTools.executeQueryWithPS(query);
-            stmt.setInt(1, nbSession);
-            stmt.setInt(2, chosenMovie);
+            sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
+            sqlTools.getStmt().setInt(1, nbSession);
+            sqlTools.getStmt().setInt(2, chosenMovie);
             Reservation r = new Reservation();
-            stmt.setInt(3, r.getReservId());
-            stmt.setTime(4, sqlTools.translateTime(t));
+            sqlTools.getStmt().setInt(3, r.getReservId());
+            sqlTools.getStmt().setTime(4, sqlTools.translateTime(t));
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-
+    /**
+     * Permet de rajouter dans la table historique, le film visionné par un user
+     * @param movie
+     */
     public void addToHistoric(Movie movie) {
         Date date = new Date();
         String query = "Insert into Historic (id_user,id_movie,last_viewed) Values (?,?,?);";
         try {
-            PreparedStatement statement = sqlTools.executeQueryWithPS(query);
-            statement.setInt(1, user.id);
-            statement.setInt(2, movie.movieId);
-            statement.setDate(3, (java.sql.Date) date);
+             sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
+            sqlTools.getStmt().setInt(1, user.getId());
+            sqlTools.getStmt().setInt(2, movie.getMovieId());
+            sqlTools.getStmt().setDate(3, (java.sql.Date) date);
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
 
+    /**
+     * Permet de faire une modification dans la session quand une réservation a été faite
+     * @param session correspond à la session pour la table reservation
+     * @param movieSession correspond à la session du film
+     */
     public void userSelectedSession(Session session, MovieSession movieSession) {
-        if (movieSession.sessionId == session.sessionId) {
+        if (movieSession.getSessionId() == session.getSessionId()) {
             int reservId = sqlTools.GetNbRow("Reservation");
             String query = "Insert into Reservation (reserv_id, user_id, movie_id, session_id) Values (?,?,?,?);";
             try {
-                preparedStatement = sqlTools.executeQueryWithPS(query);
-                preparedStatement.setInt(1, reservId);
-                preparedStatement.setInt(2, user.id);
-                preparedStatement.setInt(3, movieSession.movieId);
-                preparedStatement.setInt(4, session.sessionId);
+                sqlTools.setStmt( sqlTools.executeQueryWithPS(query));
+                sqlTools.getStmt().setInt(1, reservId);
+                sqlTools.getStmt().setInt(2, user.getId());
+                sqlTools.getStmt().setInt(3, movieSession.getMovieId());
+                sqlTools.getStmt().setInt(4, session.getSessionId());
             } catch (SQLException e) {
                 System.out.println(e);
             }
             int originalSeats = -1;
-            query = "Select seats from Room where session_id=" + session.sessionId;
+            query = "Select seats from Room where session_id=" + session.getSessionId();
             try {
-                rs = sqlTools.executeQueryWithRs(query);
-                while (rs.next()) {
-                    originalSeats = rs.getInt("seats");
+                sqlTools.setRs(sqlTools.executeQueryWithRs(query));
+                while (sqlTools.getRs().next()) {
+                    originalSeats = sqlTools.getRs().getInt("seats");
                 }
             } catch (SQLException e) {
                 System.out.println(e);
             }
-            query = "Update Room Set seats=" + (originalSeats - 1) + " where session_id=" + session.sessionId;
-            rs = sqlTools.executeQueryWithRs(query);
+            query = "Update Room Set seats=" + (originalSeats - 1) + " where session_id=" + session.getSessionId();
+            sqlTools.setRs(sqlTools.executeQueryWithRs(query));
         } else
             System.out.println("Erreur de session");
     }

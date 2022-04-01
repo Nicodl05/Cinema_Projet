@@ -21,14 +21,12 @@ import static java.time.LocalDate.parse;
 
 public class EmpModification {
 
-    SQLTools sqlTools = new SQLTools();
-    public ResultSet rs;
-    public PreparedStatement stmt;
-    ArrayList<User> dataUser ;
-   public  EmpModification() {
+    private final SQLTools sqlTools = new SQLTools();
+    public ArrayList<User> dataUser;
+
+    public EmpModification() {
 
     }
-
     /**
      * MAJ Disponibilité  d'un film
      *
@@ -37,9 +35,9 @@ public class EmpModification {
      */
     public void update_movie_status(int update, int movie_id) {
         String query = "Update Movies Set available=" + update + " where movie_id=" + movie_id + ";";
-       stmt= sqlTools.executeQueryWithPS(query);
+        sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
         try {
-            stmt.executeUpdate();
+            sqlTools.getStmt().executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -48,14 +46,14 @@ public class EmpModification {
 
     /**
      * Maj prix d'un film
+     * @param whichMovie titre du film auquel on doit modifier le prix
      */
-    public void updateMoviePrice(){
-        String whichMovie="";
-        int newprice=sqlTools.input1OrX(20);
-        String query ="Update Movies Set ticket_price=" + newprice + " where title=" + whichMovie + ";";
-        stmt= sqlTools.executeQueryWithPS(query);
+    public void updateMoviePrice(String whichMovie, int newPrice) {
+
+        String query = "Update Movies Set ticket_price=" + newPrice + " where title=" + whichMovie + ";";
+        sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
         try {
-            stmt.executeUpdate();
+            sqlTools.getStmt().executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -63,7 +61,7 @@ public class EmpModification {
     }
 
     /**
-     * Récupère le lien du trailer
+     * Récupère le lien du trailer via l'api
      *
      * @param id id du film
      * @return
@@ -76,15 +74,15 @@ public class EmpModification {
     }
 
     /**
-     * Load Movie info with the public database
+     * Utilise l'api The Movie DataBase, permet de charger un film via la database tmdb et l'enregistrer dans la notre par la suite
      *
-     * @return
+     * @return un film enregistré
      */
     public Movie addMovieDataAutomatic() {
         Movie movie_selected = new Movie();
         MovieDb moviedb = new MovieDb();
         System.out.println("title of the movie");
-        String query = "Narnia";
+        String query = "Les Cinq Légendes";
         TmdbApi api = new TmdbApi("810c86d39163e1219bbe9a906af41da0");  // apic créee
         TmdbSearch search = new TmdbSearch(api); // objet recherche
         TmdbSearch.MultiListResultsPage resultsPage = search.searchMulti(query, "fr", 1);
@@ -103,16 +101,16 @@ public class EmpModification {
             if (element.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb")) {
                 MovieDb mdv = api.getMovies().getMovie(element.getId(), "fr");
                 if (element.getTitle().equals(chosenMovie)) {
-                    movie_selected.movieId = sqlTools.GetNbRow("Movies") + 1;
-                    movie_selected.title = mdv.getTitle();
-                    movie_selected.recap = mdv.getOverview();
-                    movie_selected.genre = mdv.getGenres().get(0).getName();
-                    movie_selected.duration = sqlTools.translateTime(mdv.getRuntime());
-                    movie_selected.urlImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2/" + mdv.getPosterPath();
+                    movie_selected.setMovieId(sqlTools.GetNbRow("Movies") + 1);
+                    movie_selected.setTitle(mdv.getTitle());
+                    movie_selected.setRecap(mdv.getOverview());
+                    movie_selected.setGenre(mdv.getGenres().get(0).getName());
+                    movie_selected.setDuration(sqlTools.translateTime(mdv.getRuntime()));
+                    movie_selected.setUrlImage("https://image.tmdb.org/t/p/w600_and_h900_bestv2/" + mdv.getPosterPath());
                     //movie_selected.actorIds = loadactorIds(movie_selected);
-                    movie_selected.releaseDate = java.sql.Date.valueOf(parse(mdv.getReleaseDate(), DateTimeFormatter.ISO_DATE));
-                    movie_selected.ticketPrice = 8;
-                    movie_selected.trailer = getTrailer(mdv.getId());
+                    movie_selected.setReleaseDate(java.sql.Date.valueOf(parse(mdv.getReleaseDate(), DateTimeFormatter.ISO_DATE)));
+                    movie_selected.setTicketPrice(8);
+                    movie_selected.setTrailer(getTrailer(mdv.getId()));
                 }
             }
         }
@@ -120,44 +118,17 @@ public class EmpModification {
     }
 
     /**
-     * Load Movie info with the public database
+     * Permet à l'utilisateur de rentrer toutes les infos d'un film à ajouter dans notre bdd
      *
-     * @return le film chargé
+     * @return le film chargé par l'utilisateur
      */
-    public Movie addMovieDataManual() {
-        Movie movie = new Movie();
-        Scanner sc = new Scanner(System.in);
-        movie.movieId = sqlTools.GetNbRow("Movies") + 1;
-        System.out.println("title");
-        movie.title = sc.next();
-        System.out.println("genre");
-        movie.genre = sc.next();
-        System.out.println("recap");
-        movie.recap = sc.next();
-        System.out.println("trailer");
-        movie.trailer = sc.next();
-        System.out.println("urlimage");
-        movie.urlImage = sc.next();
-        System.out.println("r date");
-        String date = sc.next();
-        try {
-            movie.releaseDate = new SimpleDateFormat("yyyy-mm-dd").parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println("prix");
-        movie.ticketPrice = sc.nextInt();
-        System.out.println("durée");
-        String duration = sc.next();
-        movie.duration = Time.valueOf(duration);
-        //movie.actorIds = loadactorIds(movie);
+    public Movie addMovieDataManual(int movieId, boolean isAvailable, String title, String genre, String recap, String trailer, String urlImage,Date releaseDate, double ticketPrice, Time duration) {
+        Movie movie = new Movie(movieId,isAvailable,title,genre,recap,trailer,urlImage,releaseDate,ticketPrice,duration);
         return movie;
     }
 
     /**
-     * Ajoute un film dans la db
-     *
-     * @param
+     * Ajoute un film dans la db qui a été chargé manuellement ou automatiquement
      */
     public void addMovie() {
         System.out.println("1.Manual\2.Automatic");
@@ -166,7 +137,7 @@ public class EmpModification {
         Movie movie = new Movie();
         switch (choice) {
             case 1:
-                movie = addMovieDataManual();
+                //movie = addMovieDataManual();
                 break;
             case 2:
                 movie = addMovieDataAutomatic();
@@ -174,54 +145,63 @@ public class EmpModification {
         }
         try {
             String query = "INSERT INTO Movies (movie_id, title, genre, release_time, r_time, ticket_price, recap, available, trailer,cover) VALUES (?,?,?,?,?,?,?,?,?,?);";
-            PreparedStatement stmt = sqlTools.executeQueryWithPS(query);
-            stmt.setInt(1, movie.movieId);
-            stmt.setString(2, movie.title);
-            stmt.setString(3, movie.genre);
-            stmt.setDate(4, (Date) movie.releaseDate);
-            stmt.setTime(5, movie.duration);
-            stmt.setDouble(6, movie.ticketPrice);
-            stmt.setString(7, movie.recap);
-            if (movie.isAvailable)
-                stmt.setInt(8, 1);
+            sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
+            sqlTools.getStmt().setInt(1, movie.getMovieId());
+            sqlTools.getStmt().setString(2, movie.getTitle());
+            sqlTools.getStmt().setString(3, movie.getGenre());
+            sqlTools.getStmt().setDate(4, (Date) movie.getReleaseDate());
+            sqlTools.getStmt().setTime(5, movie.getDuration());
+            sqlTools.getStmt().setDouble(6, movie.getTicketPrice());
+            sqlTools.getStmt().setString(7, movie.getRecap());
+            if (movie.isAvailable())
+                sqlTools.getStmt().setInt(8, 1);
             else
-                stmt.setInt(8, 0);
-            stmt.setString(9, movie.trailer);   // A dev le trailer avec Api
-            stmt.setString(10, movie.urlImage);
-            stmt.execute();
+                sqlTools.getStmt().setInt(8, 0);
+            sqlTools.getStmt().setString(9, movie.getTrailer());   // A dev le trailer avec Api
+            sqlTools.getStmt().setString(10, movie.getUrlImage());
+            sqlTools.getStmt().execute();
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
-    public void loadUsersData(){
-        String query = "Select * from Person";
-        try{
-            rs = sqlTools.executeQueryWithRs(query);
-            while (rs.next()){
-                User toSave = new User();
-                toSave.id= rs.getInt("person_id");
-                toSave.firstName=rs.getString("f_name");
-                toSave.lastName=rs.getString("l_name");
-                toSave.email=rs.getString("email");
-                toSave.passwd=rs.getString("pwd");
-                if(rs.getInt("emp")==1)
-                    toSave.isEmployee=true;
-                else
-                    toSave.isEmployee=false;
 
-                toSave.bday=rs.getDate("bday");
+    /**
+     * Permet de charger dans un array toutes les informations de toutes les personnes enregistrées dans notre db
+     */
+    public void loadUsersData() {
+        String query = "Select * from Person";
+        try {
+            sqlTools.setRs(sqlTools.executeQueryWithRs(query));
+            while (sqlTools.getRs().next()) {
+                User toSave = new User();
+                toSave.setId(sqlTools.getRs().getInt("person_id"));
+                toSave.setFirstName(sqlTools.getRs().getString("f_name"));
+                toSave.setLastName(sqlTools.getRs().getString("l_name"));
+                toSave.setEmail(sqlTools.getRs().getString("email"));
+                toSave.setPasswd(sqlTools.getRs().getString("pwd"));
+                if (sqlTools.getRs().getInt("emp") == 1)
+                    toSave.setEmployee(true);
+                else
+                    toSave.setEmployee(false);
+
+                toSave.setBday(sqlTools.getRs().getDate("bday"));
                 dataUser.add(toSave);
             }
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e);
         }
     }
-    public User getUserBasedOnLName(String lName){
-        User toget =new  User();
-        for(var element: dataUser){
-            if (element.lastName.equals(lName))
-                toget=element;
+
+    /**
+     * Permet de retourner un user à partir de son nom de famille
+     * @param lName nom de famille
+     * @return un user
+     */
+    public User getUserBasedOnLName(String lName) {
+        User toget = new User();
+        for (var element : dataUser) {
+            if (element.getLastName().equals(lName))
+                toget = element;
         }
         return toget;
     }

@@ -7,16 +7,16 @@ public final class SQLTools {
     private static int i=0;
     private static SQLTools instance=null;
     public static String url = "jdbc:mysql://fournierfamily.ovh:3306/Nico_database", user_id = "jps", pwd = "poojava";
-    public Connection conn;
-    public Statement st;
-    public ResultSet rs;
-    PreparedStatement stmt;
+    private Connection conn;
+    private Statement st;
+    private ResultSet rs;
+   private PreparedStatement stmt;
     public SQLTools(){
 
     }
 
     /**
-     * Inspired to Singleton
+     * Inspired to Singleton, not called
      * @return
      */
     public static SQLTools getInstance(){
@@ -45,6 +45,38 @@ public final class SQLTools {
         }
         System.out.println("Done");
     return stmt;
+    }
+
+    public PreparedStatement getStmt() {
+        return stmt;
+    }
+
+    public void setStmt(PreparedStatement stmt) {
+        this.stmt = stmt;
+    }
+
+    public ResultSet getRs() {
+        return rs;
+    }
+
+    public void setRs(ResultSet rs) {
+        this.rs = rs;
+    }
+
+    public Statement getSt() {
+        return st;
+    }
+
+    public void setSt(Statement st) {
+        this.st = st;
+    }
+
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
     }
 
     /**
@@ -98,7 +130,6 @@ public final class SQLTools {
 
             String query = "Select * from " + table + ";";
             rs = executeQueryWithRs(query);
-
             ResultSetMetaData rsmd = rs.getMetaData();
             cpt_col = rsmd.getColumnCount();
         } catch (SQLException e) {
@@ -113,8 +144,7 @@ public final class SQLTools {
      */
     public String inputString() {
         Scanner sc = new Scanner(System.in);
-        String input = sc.next();
-        return input;
+        return sc.next();
     }
 
 

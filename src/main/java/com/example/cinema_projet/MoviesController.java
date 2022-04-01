@@ -67,7 +67,7 @@ public class MoviesController implements Initializable {
             z=0;
             for(int n=0;n<genre.size();n++) {
 
-                if (Objects.equals(info.movieArrayList.get(i).genre, genre.get(n))) {
+                if (Objects.equals(info.movieArrayList.get(i).getGenre(), genre.get(n))) {
                     //System.out.println("dedans");
                     z++;
                     break;
@@ -75,8 +75,8 @@ public class MoviesController implements Initializable {
                 }
             }
             if(z==0){
-                genre.add(info.movieArrayList.get(i).genre);
-                MenuItem prevueFilms = new MenuItem(info.movieArrayList.get(i).genre);
+                genre.add(info.movieArrayList.get(i).getGenre());
+                MenuItem prevueFilms = new MenuItem(info.movieArrayList.get(i).getGenre());
                 fileMenu.getItems().add(prevueFilms);
                 fileMenu.getItems().add(new SeparatorMenuItem());
 
@@ -86,26 +86,26 @@ public class MoviesController implements Initializable {
                     int a = 10;
                     int b = 50;
                     for (int p = 0; p < info.movieArrayList.size(); p++) {
-                        System.out.println(info.movieArrayList.get(p).genre);
+                        System.out.println(info.movieArrayList.get(p).getGenre());
 
-                        if (Objects.equals(info.movieArrayList.get(p).genre, prevueFilms.getText())) {
+                        if (Objects.equals(info.movieArrayList.get(p).getGenre(), prevueFilms.getText())) {
 
-                            String urlImage = info.movieArrayList.get(p).urlImage;
+                            String urlImage = info.movieArrayList.get(p).getUrlImage();
                             ImageView view = new ImageView(urlImage);
                             view.setFitHeight(220);
                             view.setFitWidth(220);
 
-                            Button button1 = new Button(info.movieArrayList.get(p).title, view);
+                            Button button1 = new Button(info.movieArrayList.get(p).getTitle(), view);
                             button1.setStyle("-fx-background-color: black");
 
                             button1.setOnAction(ActionEvent2 -> {
 
                                 for(int o=0; o < info.movieArrayList.size();o++)
                                 {
-                                    if(Objects.equals(info.movieArrayList.get(o).title, button1.getText()))
+                                    if(Objects.equals(info.movieArrayList.get(o).getTitle(), button1.getText()))
                                     {
                                         afficherMovie = info.movieArrayList.get(o);
-                                        System.out.println(afficherMovie.title);
+                                        System.out.println(afficherMovie.getTitle());
                                     }
                                 }
 
@@ -136,26 +136,24 @@ public class MoviesController implements Initializable {
 
                 });
 
-                //System.out.println("ajoute");
-
             }
             }
 
         menuBar.getMenus().addAll(fileMenu);
         pane.getChildren().add(menuBar);
 
-        //Main Menu Bar
+        String urlImage = info.movieArrayList.get(0).getUrlImage();
+        ImageView view = new ImageView(urlImage);
+        Button button1 = new Button("", view);
 
-        /*
-        ça peut etre utile, cliquer sur une image
 
-        ImageView img = new ImageView(info.movieArrayList.get(0).urlImage);
+        ImageView img = new ImageView(info.movieArrayList.get(0).getUrlImage());
 
         img.setPickOnBounds(true); // allows click on transparent areas
         img.setOnMouseClicked((MouseEvent e) -> {
 
         });
-        */
+
         InitialSetup();
     }
     @FXML
@@ -176,22 +174,22 @@ public class MoviesController implements Initializable {
             for(int i=0;i<info.movieArrayList.size();i++) {
 
 
-                if(Objects.equals(info.movieArrayList.get(i).title, choix.getText())){
+                if(Objects.equals(info.movieArrayList.get(i).getTitle(), choix.getText())){
 
-                    String urlImage = info.movieArrayList.get(i).urlImage;
+                    String urlImage = info.movieArrayList.get(i).getUrlImage();
                     ImageView view = new ImageView(urlImage);
                     view.setFitHeight(260);
                     view.setFitWidth(260);
 
-                    Button button1 = new Button(info.movieArrayList.get(i).title, view);
+                    Button button1 = new Button(info.movieArrayList.get(i).getTitle(), view);
                     button1.setStyle("-fx-background-color: black");
                     button1.setOnAction(ActionEvent-> {
                         for(int o=0; o < info.movieArrayList.size();o++)
                         {
-                            if(Objects.equals(info.movieArrayList.get(o).title, button1.getText()))
+                            if(Objects.equals(info.movieArrayList.get(o).getTitle(), button1.getText()))
                             {
                                 afficherMovie = info.movieArrayList.get(o);
-                                System.out.println(afficherMovie.title);
+                                System.out.println(afficherMovie.getTitle());
                             }
                         }
 
@@ -243,12 +241,12 @@ public class MoviesController implements Initializable {
         int b = 50;
         for(int i=0;i<info.movieArrayList.size();i++) {
 
-            String urlImage = info.movieArrayList.get(i).urlImage;
+            String urlImage = info.movieArrayList.get(i).getUrlImage();
             ImageView view = new ImageView(urlImage);
             view.setFitHeight(260);
             view.setFitWidth(260);
 
-            Button button1 = new Button(info.movieArrayList.get(i).title, view);
+            Button button1 = new Button(info.movieArrayList.get(i).getTitle(), view);
 
             button1.setStyle("-fx-background-color:  black");
 
@@ -256,10 +254,10 @@ public class MoviesController implements Initializable {
             button1.setOnAction(ActionEvent-> {
                 for(int o=0; o < info.movieArrayList.size();o++)
                 {
-                    if(Objects.equals(info.movieArrayList.get(o).title, button1.getText()))
+                    if(Objects.equals(info.movieArrayList.get(o).getTitle(), button1.getText()))
                     {
                         afficherMovie = info.movieArrayList.get(o);
-                        System.out.println(afficherMovie.title);
+                        System.out.println(afficherMovie.getTitle());
                     }
                 }
 
@@ -299,15 +297,3 @@ public class MoviesController implements Initializable {
 
 
         }
-
-
-
-
-
-
-
-
-
-
-
-

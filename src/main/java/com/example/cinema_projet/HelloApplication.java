@@ -6,12 +6,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Movie;
 import model.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-
+/**
+ * @author Nicolas Dreyfus--Laquièze
+ * @author Adrien Leboeuf
+ * @author John Samaha
+ * @author Groupe 10 TD 9
+ */
 public class HelloApplication extends Application {
 
     @Override
@@ -21,19 +27,19 @@ public class HelloApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
-        /*
-        Parent fxmlLoader = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        Scene scene = new Scene(fxmlLoader);
-        //
-        // stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
-
-         */
     }
 
 
     public static void main(String[] args)  {
-        launch(args);
+        /*
+        DbRepository dbRepository= new DbRepository();
+
+        Movie d = dbRepository.getInfoMovieBasedTitle("Le Monde de Narnia : Le Prince caspian");
+        System.out.println(d.getRecap());
+
+         */
+       launch(args);
+      //  EmpModification empModification = new EmpModification();
+        //empModification.addMovie();
     }
 }

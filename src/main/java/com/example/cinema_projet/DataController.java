@@ -64,11 +64,11 @@ public class DataController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        TitleTextField.setText(MoviesController.afficherMovie.title);
-        ResumeTextArea.setText(MoviesController.afficherMovie.recap);
-        PrixTextField.setText(String.valueOf(MoviesController.afficherMovie.ticketPrice));
-        DateTextField.setText(String.valueOf(MoviesController.afficherMovie.releaseDate));
-        String urlImage = MoviesController.afficherMovie.urlImage;
+        TitleTextField.setText(MoviesController.afficherMovie.getTitle());
+        ResumeTextArea.setText(MoviesController.afficherMovie.getRecap());
+        PrixTextField.setText(String.valueOf(MoviesController.afficherMovie.getTicketPrice()));
+        DateTextField.setText(String.valueOf(MoviesController.afficherMovie.getReleaseDate()));
+        String urlImage = MoviesController.afficherMovie.getUrlImage();
         ImageView view = new ImageView(urlImage);
         view.setFitHeight(260);
         view.setFitWidth(260);
@@ -78,7 +78,7 @@ public class DataController implements Initializable{
         //FilmImageView = new ImageView(MoviesController.afficherMovie.urlImage);
 
         //FilmImageView.setImage(Image.fromPlatformImage(MoviesController.afficherMovie.urlImage));
-        GenreTextField.setText(MoviesController.afficherMovie.genre);
+        GenreTextField.setText(MoviesController.afficherMovie.getGenre());
 
 
     }
