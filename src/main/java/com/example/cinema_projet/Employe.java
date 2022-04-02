@@ -17,6 +17,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Movie;
 import model.User;
 
 import java.sql.Date;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 
     public class Employe extends Application
     {
-        EmpModification moviesModif;
+        EmpModification moviesModif, movieAdded;
         DbRepository recupFilms;//Create an object of the Repository class
         private Stage window;//Create a stage and call it window
         private ComboBox<String>sessionChoisie;
@@ -56,9 +57,9 @@ import java.util.ArrayList;
         window.setTitle("Employés");//Set the Window title
 
         //Image of the main menu
-       userImage = new Image("C:\\Users\\johns\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
+      //userImage = new Image("C:\\Users\\johns\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
         //userImage=new Image("C:\\Users\\adrie\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
-       // userImage =new Image("C:\\Users\\Nicolas\\OneDrive - Groupe INSEEC (POCE)\\ING3\\S6\\Java\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png"); // C'est mon chemin
+        userImage =new Image("C:\\Users\\Nicolas\\OneDrive - Groupe INSEEC (POCE)\\ING3\\S6\\Java\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png"); // C'est mon chemin
         //userImage =new Image("https://github.com/Nicodl05/Cinema_Projet/blob/3719b1875f1f8e0bd93f7fb4d33dc76d9288aa43/src/main/java/com/example/cinema_projet/user.png");
         ImageUser=new ImageView();
         ImageUser.setImage(userImage);
@@ -268,7 +269,8 @@ import java.util.ArrayList;
             nouvDate = Date.valueOf(nouveauRelaseDate);
             nouvPrix=Double.parseDouble(nouveauPrix);
             nouvHeure= Time.valueOf(nouveauDuration);
-            moviesModif.addMovieDataManual(-1,true,nouveauTitre,nouveauGenre,nouveauRecap,(Date) nouvDate,(double) nouvPrix,(Time) nouvHeure);
+            movieAdded=new EmpModification();
+            movieAdded.addMovie(moviesModif.addMovieDataManual(-1,true,nouveauTitre,nouveauGenre,nouveauRecap,(Date) nouvDate,(double) nouvPrix,(Time) nouvHeure));
         });
         submitButtonScene3.setOnAction(conCick->{
             titreFilmaModif=titreFilmModif.getText();
@@ -283,7 +285,8 @@ import java.util.ArrayList;
             moviesModif.update_movie_status(availability,idMovie);
         });
         submitButtonScene8.setOnAction(onClick->{
-            moviesModif.addMovieDataAutomatic(ajouterNouveauTitre.getText());
+            movieAdded=new EmpModification();
+            movieAdded.addMovie(moviesModif.addMovieDataAutomatic(ajouterNouveauTitre.getText()));
         });
         submitButtonScene9.setOnAction(onClick->{
             movieIdSession = Integer.valueOf(movieIDSession.getText());

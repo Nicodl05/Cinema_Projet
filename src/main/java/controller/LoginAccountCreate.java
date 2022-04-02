@@ -62,7 +62,6 @@ public class LoginAccountCreate {
         } catch (SQLException | IOException e) {
             throw new Error("Problem", e);
         }
-        System.out.println(email +" "+password);
         if(!test){
             for(var elem: emails){
                 System.out.println(elem);
@@ -76,18 +75,14 @@ public class LoginAccountCreate {
             }
         }
         if(user.getEmail()==null){
-            System.out.println("test1");
             user.setLastName("wrong email");
         }
         if(user.getPasswd()==null ){
-            System.out.println("test2");
             user.setLastName("wrong password");
         }
         if (user.getPasswd()=="" && user.getEmail()==""){
-            System.out.println("test3");
             user.setLastName("wrong password and email");
         }
-        System.out.println("\n"+ user.getEmail()+ " "+ user.getPasswd());
         return user;
     }
 

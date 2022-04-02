@@ -102,9 +102,6 @@ public class EmpModification {
             if (elem.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb"))
                 list_movies.add((MovieDb) elem); // On récupère tous les films et le user choisit lequel rajouter
         }
-        for (var title : list_movies) {
-            System.out.println(title.getTitle());
-        }
         // Ajout du Click sur le film pour récupérer le nom du film;
         String chosenMovie = list_movies.get(0).getTitle();
         for (var element : list_movies) {
@@ -140,22 +137,10 @@ public class EmpModification {
     /**
      * Ajoute un film dans la db qui a été chargé manuellement ou automatiquement
      */
-    public void addMovie() {
-        System.out.println("1.Manual\2.Automatic");
-        // int choice = sqlTools.input1Or2();
-        int choice = sqlTools.input1Or2();
-        Movie movie = new Movie();
-        String nouvTitre = "";
-        switch (choice) {
-            case 1:
-                //movie = addMovieDataManual();
-                break;
-            case 2:
-                movie = addMovieDataAutomatic(nouvTitre);
-                break;
-        }
+    public void addMovie(Movie movie) {
+
         try {
-            String query = "INSERT INTO Movies (movie_id, title, genre, release_time, r_time, ticket_price, recap, available, trailer,cover) VALUES (?,?,?,?,?,?,?,?,?,?);";
+            String query = "INSERT INTO Movies (movie_id, title, genre, release_date, r_time, ticket_price, recap, available, trailer,cover) VALUES (?,?,?,?,?,?,?,?,?,?);";
             sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
             sqlTools.getStmt().setInt(1, movie.getMovieId());
             sqlTools.getStmt().setString(2, movie.getTitle());

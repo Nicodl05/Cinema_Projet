@@ -32,18 +32,11 @@ public class HelloApplication extends Application {
 
 
     public static void main(String[] args)  {
-        /*
-        DbRepository dbRepository= new DbRepository();
 
-        Movie d = dbRepository.getInfoMovieBasedTitle("Le Monde de Narnia : Le Prince caspian");
-        System.out.println(d.getRecap());
 
-         */
-
-      // launch(args);
+      launch(args);
       //  EmpModification empModification = new EmpModification();
         //empModification.addMovie();
-        SendMail s = new SendMail();
-        s.Emailsent();
+
     }
 }

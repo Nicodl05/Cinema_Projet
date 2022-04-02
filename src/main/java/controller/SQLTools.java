@@ -43,7 +43,7 @@ public final class SQLTools {
     catch (SQLException e){
         System.out.println(e);
         }
-        System.out.println("Done");
+
     return stmt;
     }
 
