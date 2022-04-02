@@ -9,6 +9,7 @@ public class Session {
     public Session(){
 
     }
+
     // Following
     // Getter et setter des attributs de notre classe
     public Time getSessionTime() {
