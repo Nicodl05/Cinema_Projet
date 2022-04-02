@@ -21,6 +21,7 @@ import model.User;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 
 public class Employe extends Application
 {
@@ -52,9 +53,9 @@ public class Employe extends Application
         window.setTitle("Employés");//Set the Window title
 
         //Image of the main menu
-        userImage = new Image("C:\\Users\\johns\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
+       // userImage = new Image("C:\\Users\\johns\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
         //userImage=new Image("C:\\Users\\adrie\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
-        //userImage =new Image("C:\\Users\\Nicolas\\OneDrive - Groupe INSEEC (POCE)\\ING3\\S6\\Java\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png"); // C'est mon chemin
+        userImage =new Image("C:\\Users\\Nicolas\\OneDrive - Groupe INSEEC (POCE)\\ING3\\S6\\Java\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png"); // C'est mon chemin
         //userImage =new Image("https://github.com/Nicodl05/Cinema_Projet/blob/3719b1875f1f8e0bd93f7fb4d33dc76d9288aa43/src/main/java/com/example/cinema_projet/user.png");
         ImageUser=new ImageView();
         ImageUser.setImage(userImage);
@@ -277,7 +278,8 @@ public class Employe extends Application
             movieIdSession = Integer.valueOf(movieIDSession.getText());
         });
         sessionChoisie.setOnAction(chosenData->{
-            User user = new User();
+            ArrayList<Integer>lie= new ArrayList<>();
+            User user = new User(10,"","","","", null,false,lie);
             SelectSession session = new SelectSession(user);
             int sessionTime=Integer.valueOf(sessionChoisie.getValue());
             sessionTime*=60;
