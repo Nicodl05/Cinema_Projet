@@ -255,6 +255,12 @@ public class MoviesController implements Initializable {
             Button button1 = new Button(info.movieArrayList.get(i).getTitle(), view);
 
             button1.setStyle("-fx-background-color:  black");
+            /*
+
+            button1.setOnMouseDragEntered(ActionEvent -> button1.setStyle("-fx-border-color : white"));
+            button1.setOnMouseDragOver(ActionEvent -> button1.setStyle("-fx-border-color : red"));
+
+             */
 
 
             button1.setOnAction(ActionEvent-> {
@@ -301,9 +307,10 @@ public class MoviesController implements Initializable {
 
         }
     @FXML
-    void GoToEmployee(ActionEvent event) {
+    void GoToEmployee(ActionEvent event) throws Exception {
 
-        // tu fais ton truc ici John
+        Employe object = new Employe();
+        object.start(stage);
 
     }
     @FXML

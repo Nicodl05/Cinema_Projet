@@ -73,7 +73,7 @@ public class Profile {
                m.setMovieId(sql.getRs().getInt("movie_id"));
                m.setTitle(sql.getRs().getString("title"));
                m.setGenre(sql.getRs().getString("genre"));
-               m.setReleaseDate(sql.getRs().getDate("release_time"));
+               m.setReleaseDate(sql.getRs().getDate("release_date"));
                m.setDuration(sql.getRs().getTime("r_time"));
                m.setTicketPrice(sql.getRs().getInt("ticket_price"));
                m.setRecap(sql.getRs().getString("recap"));
