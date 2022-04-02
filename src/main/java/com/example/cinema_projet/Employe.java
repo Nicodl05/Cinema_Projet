@@ -2,6 +2,7 @@ package com.example.cinema_projet;
 
 import controller.DbRepository;
 import controller.EmpModification;
+import controller.SelectSession;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,6 +17,8 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.User;
+
 import java.sql.Date;
 import java.sql.Time;
 
@@ -24,16 +27,17 @@ public class Employe extends Application
     EmpModification moviesModif;
     DbRepository recupFilms;//Create an object of the Repository class
     Stage window;//Create a stage and call it window
+    ComboBox<String>sessionChoisie;
     BorderPane layout;//Create the window layout
-    Button butPageDaccAjoutFilm,buttPageAccManu,butPageDacc2,butPageDacc3,butPageDacc4,butPageDacc5,buttAjouterUnFilm,buttManuel,buttAuto;//Create buttons
-    ListView nomsFilms;//Create a list view that will contain the array list of the movies in the Repository class
+    Button butPageDaccAjoutFilm,buttPageAccManu,buttPageAccAuto,butPageDacc2,butPageDacc3,butPageDacc4,butPageDacc5,butPageDacc9,buttAjouterUnFilm,buttManuel,buttAuto;//Create buttons
+    ListView nomsFilms,userNames,moviesInfo;//Create a list view that will contain the array list of the movies in the Repository class
     ImageView ImageUser;//Image to display the Movie's Image
     Image userImage;
-    Scene scene2,scene3,scene4,scene5,scene6,scene7;//Create different scene
-    Label label2,label4;//Create label in case needed
-    Text textScene6,textScene3;
-    TextField titreduFilm,genreduFilm,recapduFilm,releaseDateFilm,durationFilm,prixDuTicketFilm,modifPrix,titreFilmModif;
+    Scene scene2,scene3,scene4,scene5,scene6,scene7,scene8,scene9;//Create different scene
+    Text textScene6,textScene3,textScene8,textscene2,textscene9;
+    TextField titreduFilm,genreduFilm,recapduFilm,releaseDateFilm,durationFilm,prixDuTicketFilm,modifPrix,titreFilmModif,ajouterNouveauTitre,filmId,filmAvailability,movieIDSession,timeSession;
     String nouveauTitre,nouveauGenre,nouveauRecap,nouveauRelaseDate,nouveauPrix,nouveauDuration,titreFilmaModif;
+    int availability,idMovie,movieIdSession;
 
     public static void main(String args[])
     {
@@ -48,9 +52,10 @@ public class Employe extends Application
         window.setTitle("Employés");//Set the Window title
 
         //Image of the main menu
-
-        userImage=new Image("C:\\Users\\adrie\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
+        userImage = new Image("C:\\Users\\johns\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
+        //userImage=new Image("C:\\Users\\adrie\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
         //userImage =new Image("C:\\Users\\Nicolas\\OneDrive - Groupe INSEEC (POCE)\\ING3\\S6\\Java\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png"); // C'est mon chemin
+        //userImage =new Image("https://github.com/Nicodl05/Cinema_Projet/blob/3719b1875f1f8e0bd93f7fb4d33dc76d9288aa43/src/main/java/com/example/cinema_projet/user.png");
         ImageUser=new ImageView();
         ImageUser.setImage(userImage);
 
@@ -61,15 +66,56 @@ public class Employe extends Application
         {
             nomsFilms.getItems().add(i+1+"- "+recupFilms.movieArrayList.get(i).getTitle());//Fill the list view with the arraylist
         }
+        nomsFilms.setLayoutX(0);
+        nomsFilms.setLayoutY(300);
+        nomsFilms.setPrefHeight(600);
+        nomsFilms.setPrefWidth(800);
+
+        //Load Movies info
+        moviesInfo=new ListView<>();
+        for(int i=0;i<recupFilms.movieArrayList.size();i++)
+        {
+            moviesInfo.getItems().addAll(recupFilms.movieArrayList.get(i).getMovieId()+"- "+recupFilms.movieArrayList.get(i).getTitle()+" : "+recupFilms.movieArrayList.get(i).isAvailable());//Fill the list view with the arraylist
+        }
+        moviesInfo.setLayoutX(0);
+        moviesInfo.setLayoutY(300);
+        moviesInfo.setPrefHeight(600);
+        moviesInfo.setPrefWidth(800);
+
+        //Load users
+        userNames = new ListView<>();
+        moviesModif = new EmpModification();
+        moviesModif.loadUsersData();
+        userNames.getItems().addAll("Nom\t\tPrénom\t\tEmail\t\tAnnée de Naissance");
+        for(int i=0;i<moviesModif.getDataUser().size();i++)
+        {
+            userNames.getItems().addAll(moviesModif.getDataUser().get(i).getLastName()+"\t\t"+moviesModif.getDataUser().get(i).getFirstName()+"\t\t"+moviesModif.getDataUser().get(i).getEmail()+"\t\t"+moviesModif.getDataUser().get(i).getBday());//Fill the list view with the arraylist
+        }
+        userNames.setLayoutX(0);
+        userNames.setLayoutY(300);
+        userNames.setPrefHeight(600);
+        userNames.setPrefWidth(800);
+
+        //Create a ComboBox for the Session
+        sessionChoisie = new ComboBox<>();
+        sessionChoisie.getItems().addAll("9:00:00","12:00:00","15:00:00","18:00:00","21:00:00");
+        sessionChoisie.setPromptText("Choisir une session");
+        sessionChoisie.setFocusTraversable(false);
+        sessionChoisie.setLayoutX(400);
+        sessionChoisie.setLayoutY(200);
+        
 
         //Add a movie
-        moviesModif = new EmpModification();
         titreduFilm = new TextField();
         genreduFilm = new TextField();
         recapduFilm = new TextField();
         releaseDateFilm = new TextField();
         prixDuTicketFilm = new TextField();
         durationFilm = new TextField();
+        ajouterNouveauTitre = new TextField();//Add automatically movie
+        filmAvailability = new TextField();
+        filmId = new TextField();
+        movieIDSession = new TextField();
 
         titreduFilm.setPromptText("Titre du film");
         titreduFilm.setFocusTraversable(false);
@@ -77,12 +123,18 @@ public class Employe extends Application
         genreduFilm.setFocusTraversable(false);
         recapduFilm.setPromptText("Recap du Film");
         recapduFilm.setFocusTraversable(false);
-        releaseDateFilm.setPromptText("Date de Sortie");
+        releaseDateFilm.setPromptText("Date: yyyy-mm-dd");
         releaseDateFilm.setFocusTraversable(false);
-        prixDuTicketFilm.setPromptText("Prix du billet");
-        releaseDateFilm.setFocusTraversable(false);
-        durationFilm.setPromptText("Movie Duration");
-        releaseDateFilm.setFocusTraversable(false);
+        prixDuTicketFilm.setPromptText("Prix du billet: 0.00");
+        prixDuTicketFilm.setFocusTraversable(false);
+        durationFilm.setPromptText("Durée du Film: hh:mm:ss");
+        durationFilm.setFocusTraversable(false);
+        filmId.setPromptText("Chosir l'ID: ");
+        filmId.setFocusTraversable(false);
+        filmAvailability.setPromptText("Disponible: 1 /Non Disponible: 0");
+        filmAvailability.setFocusTraversable(false);
+        movieIDSession.setPromptText("ID du Film");
+        movieIDSession.setFocusTraversable(false);
 
         titreduFilm.setLayoutX(30);
         titreduFilm.setLayoutY(20);
@@ -96,6 +148,16 @@ public class Employe extends Application
         prixDuTicketFilm.setLayoutY(140);
         durationFilm.setLayoutX(30);
         durationFilm.setLayoutY(170);
+        ajouterNouveauTitre.setLayoutX(325);
+        ajouterNouveauTitre.setLayoutY(300);
+        filmId.setLayoutX(200);
+        filmId.setLayoutY(200);
+        filmAvailability.setLayoutX(400);
+        filmAvailability.setLayoutY(200);
+        filmAvailability.setMinWidth(200);
+        movieIDSession.setLayoutX(200);
+        movieIDSession.setLayoutY(200);
+        
 
         //Price modification
         modifPrix = new TextField();
@@ -112,10 +174,12 @@ public class Employe extends Application
         //Buttons
         butPageDaccAjoutFilm = new Button("Retour à la page Employés");//Return to the main page
         buttPageAccManu = new Button("Retour à la page Employés");
+        buttPageAccAuto = new Button("Retour à la page Employés");
         butPageDacc2 = new Button("Retour à la page Employés");
         butPageDacc3 = new Button("Retour à la page Employés");
         butPageDacc4 = new Button("Retour à la page Employés");
         butPageDacc5 = new Button("Retour à la page Employés");
+        butPageDacc9 = new Button("Retour à la page Employés");
         buttAjouterUnFilm = new Button("Ajouter un Film");
         buttAuto = new Button("Automatiquement");//Add automatically a movie
         buttManuel = new Button("Manuellement");//Add manually a movie
@@ -123,20 +187,24 @@ public class Employe extends Application
         buttAuto.setLayoutX(400);
         buttManuel.setLayoutY(400);
         buttAuto.setLayoutY(400);
-        nomsFilms.setLayoutX(0);
-        nomsFilms.setLayoutY(300);
-        nomsFilms.setPrefHeight(600);
-        nomsFilms.setPrefWidth(800);
         buttAjouterUnFilm.setLayoutX(345);
         buttAjouterUnFilm.setLayoutY(30);
         butPageDacc3.setLayoutX(325);
         butPageDacc3.setLayoutY(550);
         butPageDacc5.setLayoutX(315);
-        butPageDacc5.setLayoutY(65);
+        butPageDacc5.setLayoutY(150);
+        butPageDacc4.setLayoutX(315);
+        butPageDacc4.setLayoutY(150);
+        butPageDacc2.setLayoutX(315);
+        butPageDacc2.setLayoutY(250);
+        butPageDacc9.setLayoutX(315);
+        butPageDacc9.setLayoutY(250);
         butPageDaccAjoutFilm.setLayoutX(325);
         butPageDaccAjoutFilm.setLayoutY(550);
         buttPageAccManu.setLayoutX(325);
         buttPageAccManu.setLayoutY(550);
+        buttPageAccAuto.setLayoutX(325);
+        buttPageAccAuto.setLayoutY(550);
 
         //File Menu
         Menu fileMenu=new Menu("Options");
@@ -146,14 +214,16 @@ public class Employe extends Application
         MenuItem miseAjourPrix=new MenuItem("Mise à jours des Prix");
         MenuItem accesDossiers=new MenuItem("Accès Dossiers Clients");
         MenuItem ajouterunFilm=new MenuItem("Ajouter un Film");
+        MenuItem ajouterUneSession = new MenuItem("Ajouter une Session");
 
         //What happens the button is pressed
         miseAjourFilm.setOnAction(onClick->window.setScene(scene2));
         miseAjourPrix.setOnAction(onClick->window.setScene(scene3));
         accesDossiers.setOnAction(onClick->window.setScene(scene4));
         ajouterunFilm.setOnAction(onClick->window.setScene(scene5));
+        ajouterUneSession.setOnAction(onClick->window.setScene(scene9));
         buttAjouterUnFilm.setOnAction(onClick->window.setScene(scene6));
-        buttAuto.setOnAction(onClick->moviesModif.addMovieDataAutomatic());
+        buttAuto.setOnAction(onClick-> window.setScene(scene8));
         buttManuel.setOnAction(onClick->window.setScene(scene7));
         titreduFilm.setOnAction(dataEntered->{
             nouveauTitre=titreduFilm.getText();
@@ -181,25 +251,38 @@ public class Employe extends Application
             Date nouvDate = Date.valueOf(nouveauRelaseDate);
             double nouvPrix=Double.parseDouble(nouveauPrix);
             Time nouvHeure= Time.valueOf(nouveauDuration);
-            moviesModif.addMovieDataManual(-1,true,nouveauTitre,nouveauGenre,nouveauRecap,nouvDate,nouvPrix,nouvHeure);
+            moviesModif.addMovieDataManual(-1,true,nouveauTitre,nouveauGenre,nouveauRecap,(Date) nouvDate,(double) nouvPrix,(Time) nouvHeure);
         });
         titreFilmModif.setOnAction(dataEntered->{
             titreFilmaModif=titreFilmModif.getText();
             System.out.println(titreFilmaModif);
         });
         modifPrix.setOnAction(dataEntered->{
-            int newPrice= Integer.valueOf(modifPrix.getText());
+            double newPrice= Double.valueOf(modifPrix.getText());
             System.out.println(newPrice);
             moviesModif.updateMoviePrice(titreFilmaModif,newPrice);
         });
+        ajouterNouveauTitre.setOnAction(dataEntered->{
+            moviesModif.addMovieDataAutomatic(ajouterNouveauTitre.getText());
+        });
+        filmAvailability.setOnAction(dataEntered->{
+             availability = Integer.valueOf(filmAvailability.getText());
+            moviesModif.update_movie_status(availability,idMovie);
+        });
+        filmId.setOnAction(dataEntered->{
+            idMovie= Integer.valueOf(filmId.getText());
 
-        //Add a new movie manually
-        /*moviesModif = new EmpModification();
-        Date nouvDate = Date.valueOf(nouveauRelaseDate);
-        double nouvPrix=Double.parseDouble(nouveauPrix);
-        Time nouvHeure= Time.valueOf(nouveauDuration);
-        moviesModif.addMovieDataManual(-1,true,nouveauTitre,nouveauGenre,nouveauRecap,nouveauTrailer,nouveauUrlImage,nouvDate,nouvPrix,nouvHeure);
-        */
+        });
+        movieIDSession.setOnAction(dataEntered->{
+            movieIdSession = Integer.valueOf(movieIDSession.getText());
+        });
+        sessionChoisie.setOnAction(chosenData->{
+            User user = new User();
+            SelectSession session = new SelectSession(user);
+            int sessionTime=Integer.valueOf(sessionChoisie.getValue());
+            session.createSession(movieIdSession,sessionTime);
+        });
+
         //The display of the Items
         fileMenu.getItems().add(miseAjourFilm);
         fileMenu.getItems().add(miseAjourPrix);
@@ -207,6 +290,7 @@ public class Employe extends Application
         fileMenu.getItems().add(accesDossiers);
         fileMenu.getItems().add(new SeparatorMenuItem());
         fileMenu.getItems().add(ajouterunFilm);
+        fileMenu.getItems().add(ajouterUneSession);
 
 
         //Main Menu Bar
@@ -215,11 +299,13 @@ public class Employe extends Application
 
 
         //Scene 2 Mise a jour des films
-        VBox layout2=new VBox(10);
-        label2 = new Label("Mise à jour des films");
-        layout2.setAlignment(Pos.BOTTOM_CENTER);
+        AnchorPane layout2 = new AnchorPane();
+        textscene2= new Text("Veuillez mettre à jour les films...");
+        textscene2.setX(150);
+        textscene2.setY(70);
+        textscene2.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         layout2.setBackground(new Background(new BackgroundFill(Color.DARKCYAN,CornerRadii.EMPTY,Insets.EMPTY)));
-        layout2.getChildren().addAll(butPageDacc2,label2);
+        layout2.getChildren().addAll(butPageDacc2,moviesInfo,textscene2,filmId,filmAvailability);
         scene2 = new Scene(layout2,800,600);
 
         //Scene 3 Mise a jour des prix
@@ -233,11 +319,9 @@ public class Employe extends Application
         scene3 = new Scene(layout3,800,600);
 
         //Scene 4 Dossier Clients
-        VBox layout4 = new VBox(10);
-        label4 = new Label("Dossier Clients");
-        layout4.setAlignment(Pos.BOTTOM_CENTER);
+        AnchorPane layout4 = new AnchorPane();
         layout4.setBackground(new Background(new BackgroundFill(Color.DARKCYAN,CornerRadii.EMPTY,Insets.EMPTY)));
-        layout4.getChildren().addAll(butPageDacc4,label4);
+        layout4.getChildren().addAll(butPageDacc4,userNames);
         scene4 = new Scene(layout4,800,600);
 
         //Scene 5 Ajouter un film
@@ -264,6 +348,26 @@ public class Employe extends Application
         layout7.getChildren().addAll(titreduFilm,genreduFilm,recapduFilm,releaseDateFilm,prixDuTicketFilm,durationFilm,buttPageAccManu);
         scene7 = new Scene(layout7,800,600);
 
+        //Scene 8 Add a movie Automatically
+        textScene8= new Text("Veuillez saisir le titre du Film...");
+        textScene8.setX(150);
+        textScene8.setY(70);
+        textScene8.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        AnchorPane layout8 = new AnchorPane();
+        layout8.setBackground(new Background(new BackgroundFill(Color.DARKCYAN,CornerRadii.EMPTY,Insets.EMPTY)));
+        layout8.getChildren().addAll(ajouterNouveauTitre,buttPageAccAuto,textScene8);
+        scene8 = new Scene(layout8,800,600);
+
+        //Scene 9 Ajouter une session
+        AnchorPane layout9 = new AnchorPane();
+        textscene9= new Text("Veuillez choisir l'ID du Film...");
+        textscene9.setX(150);
+        textscene9.setY(70);
+        textscene9.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        layout9.setBackground(new Background(new BackgroundFill(Color.DARKCYAN,CornerRadii.EMPTY,Insets.EMPTY)));
+        layout9.getChildren().addAll(butPageDacc9,textscene9,moviesInfo,movieIDSession,sessionChoisie);
+        scene9 = new Scene(layout9,800,600);
+
         //Create a layout
         layout=new BorderPane(ImageUser);
         layout.setTop(menuBar);
@@ -274,10 +378,12 @@ public class Employe extends Application
         //Return to main Page button
         butPageDaccAjoutFilm.setOnAction(onClick->window.setScene(scene));
         buttPageAccManu.setOnAction(onClick->window.setScene(scene));
+        buttPageAccAuto.setOnAction(onClick->window.setScene(scene));
         butPageDacc2.setOnAction(onClick->window.setScene(scene));
         butPageDacc3.setOnAction(onClick->window.setScene(scene));
         butPageDacc4.setOnAction(onClick->window.setScene(scene));
         butPageDacc5.setOnAction(onClick->window.setScene(scene));
+        butPageDacc9.setOnAction(onClick->window.setScene(scene));
 
         window.show();
     }

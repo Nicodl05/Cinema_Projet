@@ -26,12 +26,10 @@ public class SelectSession {
     /**
      * Permet de créer une session et de l'insérer dans la db
      */
-    public void createSession() {
+    public void createSession(int chosenMovie,int t) {
         int nbSession = (sqlTools.GetNbRow("Session") + 1);
         //On suppose qu'on reçoit le array issu de movies déjà chargé de dbRepository
         ArrayList<Movie> movieArrayList = new ArrayList<Movie>();
-        int chosenMovie = movieArrayList.get(0).getMovieId();  // on récup un film( le 1 ici)
-        int t = 780;  // Le temps selectionné au clic
         try {
             String query = "INSERT INTO Session (session_id, movie_id,reserv_id,session_time) VALUES (?,?,?,?);";
             sqlTools.setStmt(sqlTools.executeQueryWithPS(query));

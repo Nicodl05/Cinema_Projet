@@ -22,7 +22,16 @@ import static java.time.LocalDate.parse;
 public class EmpModification {
 
     private final SQLTools sqlTools = new SQLTools();
-    public ArrayList<User> dataUser;
+
+    public ArrayList<User> getDataUser() {
+        return dataUser;
+    }
+
+    public void setDataUser(ArrayList<User> dataUser) {
+        this.dataUser = dataUser;
+    }
+
+    private ArrayList<User> dataUser;
 
     public EmpModification() {
 
@@ -48,12 +57,13 @@ public class EmpModification {
      * Maj prix d'un film
      * @param whichMovie titre du film auquel on doit modifier le prix
      */
-    public void updateMoviePrice(String whichMovie, int newPrice) {
+    public void updateMoviePrice(String whichMovie, double newPrice) {
 
-        String query = "Update Movies Set ticket_price=" + newPrice + " where title=" + whichMovie + ";";
+        String query = "Update Movies Set ticket_price=" + newPrice + " where title='" + whichMovie + "';";
         sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
         try {
             sqlTools.getStmt().executeUpdate();
+            System.out.println("Executed");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -78,11 +88,11 @@ public class EmpModification {
      *
      * @return un film enregistré
      */
-    public Movie addMovieDataAutomatic() {
+    public Movie addMovieDataAutomatic(String nouveauTitre) {
         Movie movie_selected = new Movie();
         MovieDb moviedb = new MovieDb();
         System.out.println("title of the movie");
-        String query = "Les Cinq Légendes";
+        String query = nouveauTitre;
         TmdbApi api = new TmdbApi("810c86d39163e1219bbe9a906af41da0");  // apic créee
         TmdbSearch search = new TmdbSearch(api); // objet recherche
         TmdbSearch.MultiListResultsPage resultsPage = search.searchMulti(query, "fr", 1);
@@ -135,12 +145,13 @@ public class EmpModification {
         // int choice = sqlTools.input1Or2();
         int choice = sqlTools.input1Or2();
         Movie movie = new Movie();
+        String nouvTitre = "";
         switch (choice) {
             case 1:
                 //movie = addMovieDataManual();
                 break;
             case 2:
-                movie = addMovieDataAutomatic();
+                movie = addMovieDataAutomatic(nouvTitre);
                 break;
         }
         try {
@@ -169,6 +180,7 @@ public class EmpModification {
      * Permet de charger dans un array toutes les informations de toutes les personnes enregistrées dans notre db
      */
     public void loadUsersData() {
+        dataUser = new ArrayList<>();
         String query = "Select * from Person";
         try {
             sqlTools.setRs(sqlTools.executeQueryWithRs(query));
