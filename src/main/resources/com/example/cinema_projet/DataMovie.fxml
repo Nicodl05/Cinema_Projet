@@ -10,7 +10,7 @@
 <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cinema_projet.DataController">
    <children>
       <Button fx:id="TrailerButton" layoutX="94.0" layoutY="463.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="102.0" text="Trailer" />
-      <Button fx:id="ReserveButton" layoutX="247.0" layoutY="463.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="102.0" text="Réserver" />
+      <Button fx:id="ReserveButton" layoutX="247.0" layoutY="463.0" mnemonicParsing="false" onAction="#ReserveButtonOnAction" prefHeight="43.0" prefWidth="102.0" text="Réserver" />
       <TextArea fx:id="ResumeTextArea" disable="true" layoutX="400.0" layoutY="209.0" prefHeight="154.0" prefWidth="350.0" wrapText="true" />
       <Label layoutX="399.0" layoutY="181.0" prefHeight="27.0" prefWidth="68.0" text="Résumé">
          <font>

@@ -95,6 +95,17 @@ public class DataController implements Initializable{
 
  */
     }
+    @FXML
+    public void ReserveButtonOnAction(ActionEvent event) throws IOException {
+
+        Parent fxmlLoader = FXMLLoader.load(getClass().getResource("SessionChoice.fxml"));
+        Scene scene = new Scene(fxmlLoader,800,600);
+        Stage stage = new Stage();
+        //stage.setTitle("Hello!");
+        stage.setScene(scene);
+        stage.show();
+
+    }
 
 
 }

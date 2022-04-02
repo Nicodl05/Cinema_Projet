@@ -1,0 +1,7 @@
+#buttonl{
+
+}
+#buttonl:hover{
+    -fx-border-color: white;
+    -fx-font-size : 20;
+}
