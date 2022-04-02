@@ -56,6 +56,9 @@ public class DataController implements Initializable{
     @FXML
     private AnchorPane pane;
 
+    @FXML
+    private Button Retour;
+
 
     Stage stage2;
     AnchorPane plan;
@@ -104,6 +107,24 @@ public class DataController implements Initializable{
         //stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+
+        stage = (Stage) ReserveButton.getScene().getWindow();
+        stage.close();
+
+    }
+
+    @FXML
+    void RetourOnAction(ActionEvent event) throws IOException {
+
+        Parent fxmlLoader = FXMLLoader.load(getClass().getResource("Movies.fxml"));
+        Scene scene = new Scene(fxmlLoader,800,600);
+        Stage stage = new Stage();
+        //stage.setTitle("Hello!");
+        stage.setScene(scene);
+        stage.show();
+
+        stage = (Stage) Retour.getScene().getWindow();
+        stage.close();
 
     }
 

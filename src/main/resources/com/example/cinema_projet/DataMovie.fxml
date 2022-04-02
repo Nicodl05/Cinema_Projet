@@ -11,7 +11,7 @@
    <children>
       <Button fx:id="TrailerButton" layoutX="94.0" layoutY="463.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="102.0" text="Trailer" />
       <Button fx:id="ReserveButton" layoutX="247.0" layoutY="463.0" mnemonicParsing="false" onAction="#ReserveButtonOnAction" prefHeight="43.0" prefWidth="102.0" text="Réserver" />
-      <TextArea fx:id="ResumeTextArea" disable="true" layoutX="400.0" layoutY="209.0" prefHeight="154.0" prefWidth="350.0" wrapText="true" />
+      <TextArea fx:id="ResumeTextArea" disable="true" layoutX="400.0" layoutY="209.0" prefHeight="190.0" prefWidth="378.0" wrapText="true" />
       <Label layoutX="399.0" layoutY="181.0" prefHeight="27.0" prefWidth="68.0" text="Résumé">
          <font>
             <Font size="18.0" />
@@ -23,8 +23,8 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="DateTextField" disable="true" layoutX="400.0" layoutY="401.0" />
-      <Label layoutX="400.0" layoutY="374.0" text="Date de sortie">
+      <TextField fx:id="DateTextField" disable="true" layoutX="400.0" layoutY="431.0" />
+      <Label layoutX="400.0" layoutY="403.0" text="Date de sortie">
          <font>
             <Font size="18.0" />
          </font>
@@ -35,11 +35,12 @@
          </font>
       </Label>
       <TextField fx:id="GenreTextField" disable="true" layoutX="400.0" layoutY="140.0" />
-      <Label layoutX="400.0" layoutY="439.0" prefHeight="27.0" prefWidth="120.0" text="Prix du ticket">
+      <Label layoutX="401.0" layoutY="463.0" prefHeight="27.0" prefWidth="126.0" text="Prix du ticket">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="PrixTextField" disable="true" layoutX="400.0" layoutY="472.0" />
+      <TextField fx:id="PrixTextField" disable="true" layoutX="400.0" layoutY="493.0" />
+      <Button fx:id="Retour" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#RetourOnAction" prefHeight="35.0" prefWidth="92.0" text="Retour" />
    </children>
 </AnchorPane>

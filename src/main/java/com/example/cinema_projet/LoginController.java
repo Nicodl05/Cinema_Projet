@@ -36,6 +36,9 @@ public class LoginController implements Initializable {
     @FXML
     public Label PasswordLabel;
 
+    @FXML
+    private Button Conn;
+
     public static User personne= new User();
 
     public LoginController(){
@@ -64,11 +67,16 @@ public class LoginController implements Initializable {
             MailLabel.setText("Mauvais mail");
             PasswordLabel.setText("Mauvais Password");
         }
+        if(Objects.equals(personne.getEmail(), MyMail.getText()) && Objects.equals(personne.getPasswd(), MyPassword.getText())) {
+
+            Stage stage = (Stage) Conn.getScene().getWindow();
+            stage.close();
+
+        }
 
     }
 
     public void Connected() throws IOException {
-
 
         Parent fxmlLoader = FXMLLoader.load(getClass().getResource("Movies.fxml"));
         Scene scene = new Scene(fxmlLoader, 800, 600);
@@ -76,6 +84,8 @@ public class LoginController implements Initializable {
         //stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+
+
 
     }
 

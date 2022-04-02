@@ -42,6 +42,9 @@ public class SessionChoiceController implements Initializable {
     @FXML
     private TextField PrixTextfield;
 
+    @FXML
+    private Button Retour;
+
     double price=0;
 
 
@@ -74,13 +77,28 @@ public class SessionChoiceController implements Initializable {
         select.add_to_Historic(LoginController.personne,MoviesController.afficherMovie);
 
         Parent fxmlLoader = FXMLLoader.load(getClass().getResource("BuyTickets.fxml"));
+        Scene scene = new Scene(fxmlLoader,600,400);
+        Stage stage = new Stage();
+        //stage.setTitle("Hello!");
+        stage.setScene(scene);
+        stage.show();
+
+        stage = (Stage) ReserverButton.getScene().getWindow();
+        stage.close();
+
+    }
+    @FXML
+    void RetourOnAction(ActionEvent event) throws IOException {
+
+        Parent fxmlLoader = FXMLLoader.load(getClass().getResource("DataMovie.fxml"));
         Scene scene = new Scene(fxmlLoader,800,600);
         Stage stage = new Stage();
         //stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
 
-
+        stage = (Stage) Retour.getScene().getWindow();
+        stage.close();
 
     }
 
