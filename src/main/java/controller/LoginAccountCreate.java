@@ -50,16 +50,13 @@ public class LoginAccountCreate {
                     else
                         user.setEmployee( false);
 
-
                 }
-
-
 
             }
         } catch (SQLException | IOException e) {
             throw new Error("Problem", e);
         }
-        
+
         if (email != user.getEmail() && password == user.getPasswd()) {
             user.setLastName("wrong email");
 
