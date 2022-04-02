@@ -16,6 +16,7 @@ public class SelectSession {
 
     /**
      * Constructeur
+     *
      * @param user1
      */
     public SelectSession(User user1) {
@@ -30,8 +31,8 @@ public class SelectSession {
         int nbSession = (sqlTools.GetNbRow("Session") + 1);
         //On suppose qu'on reçoit le array issu de movies déjà chargé de dbRepository
         ArrayList<Movie> movieArrayList = new ArrayList<Movie>();
-        boolean isSessionPossible=sessionPossible(t);
-        if (isSessionPossible){
+        boolean isSessionPossible = sessionPossible(t);
+        if (isSessionPossible) {
             try {
                 String query = "INSERT INTO Session (session_id, movie_id,reserv_id,session_time) VALUES (?,?,?,?);";
                 sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
@@ -40,15 +41,16 @@ public class SelectSession {
                 Reservation r = new Reservation();
                 sqlTools.getStmt().setInt(3, r.getReservId());
                 sqlTools.getStmt().setTime(4, sqlTools.translateTime(t));
+                sqlTools.getStmt().execute();
                 System.out.println("Test 1");
-                System.out.println(nbSession+" "+chosenMovie+" "+ r.getReservId()+" "+sqlTools.translateTime(t));
+                System.out.println(nbSession + " " + chosenMovie + " " + r.getReservId() + " " + sqlTools.translateTime(t));
+                System.out.println(chosenMovie);
             } catch (SQLException e) {
                 //e.printStackTrace();
                 System.out.println(e);
             }
-        }
-        else{
-            int nbRoom=(sqlTools.GetNbRow("Room")+1);
+        } else {
+            int nbRoom = (sqlTools.GetNbRow("Room") + 1);
             try {
                 String query = "INSERT INTO Room (room_id, seats,session_id) VALUES (?,?,?);";
                 sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
@@ -60,7 +62,7 @@ public class SelectSession {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            try{
+            try {
                 String query = "INSERT INTO Session (session_id, movie_id,reserv_id,session_time) VALUES (?,?,?,?);";
                 sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
                 sqlTools.getStmt().setInt(1, nbSession);
@@ -68,62 +70,56 @@ public class SelectSession {
                 Reservation r = new Reservation();
                 sqlTools.getStmt().setInt(3, r.getReservId());
                 sqlTools.getStmt().setTime(4, sqlTools.translateTime(t));
-            }
-            catch (SQLException E){
+            } catch (SQLException E) {
                 E.printStackTrace();
             }
         }
     }
 
-    public ArrayList<Room> getRoomDb(){
+    public ArrayList<Room> getRoomDb() {
         ArrayList<Room> listRoom = new ArrayList<>();
         String query = "Select * from Room";
-        try{
+        try {
             sqlTools.setRs(sqlTools.executeQueryWithRs(query));
-            while ((sqlTools.getRs()).next()){
+            while ((sqlTools.getRs()).next()) {
                 Room room = new Room(sqlTools.getRs().getInt("room_id"), sqlTools.getRs().getInt("seats"), sqlTools.getRs().getInt("session_id"));
                 listRoom.add(room);
             }
-        }
-        catch (SQLException E){
+        } catch (SQLException E) {
             E.printStackTrace();
         }
         return listRoom;
     }
-    public ArrayList<Session> getSessionDb(){
+
+    public ArrayList<Session> getSessionDb() {
         ArrayList<Session> listSession = new ArrayList<>();
         String query = "Select * from Session";
-        try{
+        try {
             sqlTools.setRs(sqlTools.executeQueryWithRs(query));
-            while ((sqlTools.getRs()).next()){
+            while ((sqlTools.getRs()).next()) {
                 Session session = new Session(sqlTools.getRs().getInt("session_id"), sqlTools.getRs().getInt("movie_id"), sqlTools.getRs().getInt("reserv_id"), sqlTools.getRs().getTime("session_time"));
                 listSession.add(session);
             }
-        }
-        catch (SQLException E){
+        } catch (SQLException E) {
             E.printStackTrace();
         }
         return listSession;
     }
 
-    public boolean sessionPossible(int t){
-        Time time =sqlTools.translateTime(t);
-        boolean sessionpossible=true;
+    public boolean sessionPossible(int t) {
+        Time time = sqlTools.translateTime(t);
+        boolean sessionpossible = true;
         ArrayList<Room> listRoom = getRoomDb();
-        ArrayList<Session> listSession =getSessionDb();
-        for(int i=0; i<listRoom.size();i++){
-            for(int j=0;j<listSession.size();j++){
-                if(listSession.get(j).getSessionId()==listRoom.get(j).getSessionId()){
-                    if(listSession.get(j).getSessionTime()==time){
-                        sessionpossible=false;
+        ArrayList<Session> listSession = getSessionDb();
+        for (int i = 0; i < listRoom.size(); i++) {
+            for (int j = 0; j < listSession.size(); j++) {
+                if (listSession.get(j).getSessionId() == listRoom.get(j).getSessionId()) {
+                    if (listSession.get(j).getSessionTime() == time) {
+                        sessionpossible = false;
                     }
                 }
             }
         }
-
-
-
-
 
 
         return sessionpossible;
@@ -131,6 +127,7 @@ public class SelectSession {
 
     /**
      * Permet de rajouter dans la table historique, le film visionné par un user
+     *
      * @param movie
      */
     public void addToHistoric(Movie movie) {
@@ -148,7 +145,8 @@ public class SelectSession {
 
     /**
      * Permet de faire une modification dans la session quand une réservation a été faite
-     * @param session correspond à la session pour la table reservation
+     *
+     * @param session      correspond à la session pour la table reservation
      * @param movieSession correspond à la session du film
      */
     public void userSelectedSession(Session session, MovieSession movieSession) {
@@ -156,7 +154,7 @@ public class SelectSession {
             int reservId = sqlTools.GetNbRow("Reservation");
             String query = "Insert into Reservation (reserv_id, user_id, movie_id, session_id) Values (?,?,?,?);";
             try {
-                sqlTools.setStmt( sqlTools.executeQueryWithPS(query));
+                sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
                 sqlTools.getStmt().setInt(1, reservId);
                 sqlTools.getStmt().setInt(2, user.getId());
                 sqlTools.getStmt().setInt(3, movieSession.getMovieId());
