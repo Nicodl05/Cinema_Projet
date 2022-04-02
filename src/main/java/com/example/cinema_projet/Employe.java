@@ -98,7 +98,7 @@ public class Employe extends Application
 
         //Create a ComboBox for the Session
         sessionChoisie = new ComboBox<>();
-        sessionChoisie.getItems().addAll("9:00:00","12:00:00","15:00:00","18:00:00","21:00:00");
+        sessionChoisie.getItems().addAll("9","12","15","18","21");
         sessionChoisie.setPromptText("Choisir une session");
         sessionChoisie.setFocusTraversable(false);
         sessionChoisie.setLayoutX(400);
@@ -280,6 +280,7 @@ public class Employe extends Application
             User user = new User();
             SelectSession session = new SelectSession(user);
             int sessionTime=Integer.valueOf(sessionChoisie.getValue());
+            sessionTime*=60;
             session.createSession(movieIdSession,sessionTime);
         });
 

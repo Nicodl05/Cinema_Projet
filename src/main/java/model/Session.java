@@ -9,6 +9,14 @@ public class Session {
     public Session(){
 
     }
+
+    public Session(int sessionId,int movieId,int reservId,Time sessionTime) {
+        this.sessionId = sessionId;
+        this.movieId = movieId;
+        this.reservId = reservId;
+        this.sessionTime = sessionTime;
+    }
+
     // Following
     // Getter et setter des attributs de notre classe
     public Time getSessionTime() {
