@@ -54,15 +54,16 @@ public class LoginController implements Initializable {
 
         if(Objects.equals(personne.getLastName(), "wrong email")) {
             MailLabel.setText("Mauvais mail");
+            PasswordLabel.setText("");
 
         }
         if(Objects.equals(personne.getLastName(), "wrong password")) {
             PasswordLabel.setText("Mauvais Password");
+            MailLabel.setText("");
         }
         if(Objects.equals(personne.getLastName(), "wrong password and email")) {
             MailLabel.setText("Mauvais mail");
             PasswordLabel.setText("Mauvais Password");
-
         }
 
 
