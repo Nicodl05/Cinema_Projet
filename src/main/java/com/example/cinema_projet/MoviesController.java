@@ -118,6 +118,8 @@ public class MoviesController implements Initializable {
 
                                 try {
                                     DataTheMovie();
+                                    stage = (Stage) button1.getScene().getWindow();
+                                    stage.close();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -148,18 +150,6 @@ public class MoviesController implements Initializable {
         menuBar.getMenus().addAll(fileMenu);
         pane.getChildren().add(menuBar);
 
-        String urlImage = info.movieArrayList.get(0).getUrlImage();
-        ImageView view = new ImageView(urlImage);
-        Button button1 = new Button("", view);
-
-
-        ImageView img = new ImageView(info.movieArrayList.get(0).getUrlImage());
-
-        img.setPickOnBounds(true); // allows click on transparent areas
-        img.setOnMouseClicked((MouseEvent e) -> {
-
-        });
-
         InitialSetup();
     }
     @FXML
@@ -184,8 +174,8 @@ public class MoviesController implements Initializable {
 
                     String urlImage = info.movieArrayList.get(i).getUrlImage();
                     ImageView view = new ImageView(urlImage);
-                    view.setFitHeight(260);
-                    view.setFitWidth(260);
+                    view.setFitHeight(220);
+                    view.setFitWidth(220);
 
                     Button button1 = new Button(info.movieArrayList.get(i).getTitle(), view);
                     button1.setStyle("-fx-background-color: black");
@@ -202,6 +192,8 @@ public class MoviesController implements Initializable {
 
                         try {
                             DataTheMovie();
+                            stage = (Stage) button1.getScene().getWindow();
+                            stage.close();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -210,35 +202,22 @@ public class MoviesController implements Initializable {
 
                     if (compteur != 0 && compteur%3 == 0) {
                         a = 10;
-                        b += 280;
+                        b += 240;
 
                     }
                     compteur++;
-                    button1.setPrefSize(250, 250);
+                    button1.setPrefSize(210, 210);
                     button1.setLayoutX(a);
                     button1.setLayoutY(b);
 
                     pane2.getChildren().addAll(button1);
-                    a += 290;
+                    a += 250;
                 }
 
             }
 
         }
 
-        /*
-        Scene scene = new Scene(pane,400,400);
-        stage.setScene(scene);
-        stage.show();
-
-            Parent table = FXMLLoader.load(getClass().getResource("Movies.fxml"));
-            Scene tableview = new Scene(table);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            window.setScene(tableview);
-            window.show();
-
-             */
     }
     public void InitialSetup(){
 
@@ -249,18 +228,12 @@ public class MoviesController implements Initializable {
 
             String urlImage = info.movieArrayList.get(i).getUrlImage();
             ImageView view = new ImageView(urlImage);
-            view.setFitHeight(260);
-            view.setFitWidth(260);
+            view.setFitHeight(220);
+            view.setFitWidth(220);
 
             Button button1 = new Button(info.movieArrayList.get(i).getTitle(), view);
 
             button1.setStyle("-fx-background-color:  black");
-            /*
-
-            button1.setOnMouseDragEntered(ActionEvent -> button1.setStyle("-fx-border-color : white"));
-            button1.setOnMouseDragOver(ActionEvent -> button1.setStyle("-fx-border-color : red"));
-
-             */
 
 
             button1.setOnAction(ActionEvent-> {
@@ -272,26 +245,26 @@ public class MoviesController implements Initializable {
                         System.out.println(afficherMovie.getTitle());
                     }
                 }
-
-
                 try {
                     DataTheMovie();
+                    stage = (Stage) button1.getScene().getWindow();
+                    stage.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
             });
-            //System.out.println(afficherMovie.title);
+
             if (i != 0 && i % 3 == 0) {
                 a = 10;
-                b += 280;
+                b += 240;
             }
-            button1.setPrefSize(240, 240);
+            button1.setPrefSize(210, 210);
             button1.setLayoutX(a);
             button1.setLayoutY(b);
 
             pane2.getChildren().add(button1);
-            a += 290;
+            a += 250;
 
         }
 
@@ -312,9 +285,13 @@ public class MoviesController implements Initializable {
         Employe object = new Employe();
         object.start(stage);
 
+        stage = (Stage) Employee.getScene().getWindow();
+        stage.close();
+
     }
     @FXML
     void ShowMyMovies(ActionEvent event) throws IOException {
+
 
         Parent fxmlLoader = FXMLLoader.load(getClass().getResource("MyMovies.fxml"));
         Scene scene = new Scene(fxmlLoader,800,600);
@@ -322,6 +299,9 @@ public class MoviesController implements Initializable {
         //stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+
+        stage = (Stage) MyMovies.getScene().getWindow();
+        stage.close();
 
     }
 

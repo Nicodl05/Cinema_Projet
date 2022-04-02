@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cinema_projet.BuyTicketsController">
    <children>
       <TextField fx:id="CVVTextField" layoutX="194.0" layoutY="187.0" prefHeight="26.0" prefWidth="195.0" />
@@ -33,12 +32,13 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="300.0" layoutY="288.0" mnemonicParsing="false" onAction="#PayerOnAction" prefHeight="35.0" prefWidth="91.0" text="Payer" />
+      <Button fx:id="PayerButton" layoutX="300.0" layoutY="288.0" mnemonicParsing="false" onAction="#PayerOnAction" prefHeight="35.0" prefWidth="91.0" text="Payer" />
       <Label fx:id="InvalideLabel" layoutX="194.0" layoutY="266.0" />
-      <Label fx:id="AurevoirLabel" layoutX="104.0" layoutY="340.0" prefHeight="27.0" prefWidth="451.0">
+      <Label fx:id="AurevoirLabel" layoutX="54.0" layoutY="83.0" prefHeight="27.0" prefWidth="451.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
+      <Button fx:id="Retour" layoutX="14.0" layoutY="341.0" mnemonicParsing="false" onAction="#RetourOnAction" prefHeight="35.0" prefWidth="118.0" text="Annuler l'achat" />
    </children>
 </AnchorPane>

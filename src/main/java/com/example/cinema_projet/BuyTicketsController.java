@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.fxml.*;
@@ -32,6 +33,12 @@ public class BuyTicketsController implements Initializable {
 
     @FXML
     private Label AurevoirLabel;
+
+    @FXML
+    private Button Retour;
+
+    @FXML
+    private Button PayerButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -61,10 +68,27 @@ public class BuyTicketsController implements Initializable {
             stage.setScene(scene);
             stage.show();
 
+            stage = (Stage) PayerButton.getScene().getWindow();
+            stage.close();
+
         }
         else if(bool == false){
             InvalideLabel.setText("Saisie Invalide");
         }
+
+    }
+    @FXML
+    void RetourOnAction(ActionEvent event) throws IOException {
+
+        Parent fxmlLoader = FXMLLoader.load(getClass().getResource("SessionChoice.fxml"));
+        Scene scene = new Scene(fxmlLoader,800,600);
+        Stage stage = new Stage();
+        //stage.setTitle("Hello!");
+        stage.setScene(scene);
+        stage.show();
+
+        stage = (Stage) Retour.getScene().getWindow();
+        stage.close();
 
     }
 

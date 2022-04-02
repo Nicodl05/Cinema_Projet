@@ -4,13 +4,18 @@ import controller.DisplayMovie;
 import controller.Profile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import model.Movie;
 import model.User;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -18,6 +23,9 @@ import java.util.ResourceBundle;
 public class MyMoviesController implements Initializable {
     @FXML
     AnchorPane pane;
+
+    @FXML
+    private Button retour;
 
     ArrayList<String> likedMovies = new ArrayList<String>();
     ArrayList<Movie> loadHistoric = new ArrayList<Movie>();
@@ -82,6 +90,19 @@ public class MyMoviesController implements Initializable {
             }
 
         });
+    }
+    @FXML
+    void retournOnAction(ActionEvent event) throws IOException {
+
+        Parent fxmlLoader = FXMLLoader.load(getClass().getResource("Movies.fxml"));
+        Scene scene = new Scene(fxmlLoader,800,600);
+        Stage stage = new Stage();
+        //stage.setTitle("Hello!");
+        stage.setScene(scene);
+        stage.show();
+
+        stage = (Stage) retour.getScene().getWindow();
+        stage.close();
 
     }
 
