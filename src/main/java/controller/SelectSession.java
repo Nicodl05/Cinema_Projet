@@ -26,11 +26,10 @@ public class SelectSession {
     /**
      * Permet de créer une session et de l'insérer dans la db
      */
-    public void createSession(int t) {
+    public void createSession(int chosenMovie, int t) {
         int nbSession = (sqlTools.GetNbRow("Session") + 1);
         //On suppose qu'on reçoit le array issu de movies déjà chargé de dbRepository
         ArrayList<Movie> movieArrayList = new ArrayList<Movie>();
-        int chosenMovie = movieArrayList.get(0).getMovieId();  // on récup un film( le 1 ici)
         boolean isSessionPossible=sessionPossible(t);
         if (isSessionPossible){
             try {
@@ -41,8 +40,11 @@ public class SelectSession {
                 Reservation r = new Reservation();
                 sqlTools.getStmt().setInt(3, r.getReservId());
                 sqlTools.getStmt().setTime(4, sqlTools.translateTime(t));
+                System.out.println("Test 1");
+                System.out.println(nbSession+" "+chosenMovie+" "+ r.getReservId()+" "+sqlTools.translateTime(t));
             } catch (SQLException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                System.out.println(e);
             }
         }
         else{
