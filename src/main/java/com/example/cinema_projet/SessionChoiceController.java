@@ -39,13 +39,18 @@ public class SessionChoiceController implements Initializable {
     @FXML
     private Label TitreLabel;
 
+    @FXML
+    private TextField PrixTextfield;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         TitreLabel.setText(MoviesController.afficherMovie.getTitle());
-        DateComboBox.setValue("Test");
+        DateComboBox.setValue("Sessions");
         DateComboBox.getItems().addAll("Test", "Test2", "Test3");
+        //int price = (int)MoviesController.afficherMovie.getTicketPrice()*(int)NbBilletsTextfield.getText();
+        //PrixTextfield.setText(price);
 
 
     }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class LoginAccountCreate {
@@ -29,11 +30,15 @@ public class LoginAccountCreate {
 
         LoginController verif = new LoginController();
         user = new User();
+        String finalemail = "";
+        String finalPassword ="";
         try {
             String query = "Select * from Person ";
             sqlTools.setRs(sqlTools.executeQueryWithRs(query));
             while (sqlTools.getRs().next()) {
                 if (email.equals(sqlTools.getRs().getString("email")) && password.equals(sqlTools.getRs().getString("pwd"))) {
+                    System.out.println("dedans");
+                    verif.Connected();
                     user.setId(sqlTools.getRs().getInt("person_id"));
                     user.setFirstName( sqlTools.getRs().getString("f_name"));
                     user.setLastName(sqlTools.getRs().getString("l_name"));
@@ -44,20 +49,29 @@ public class LoginAccountCreate {
                         user.setEmployee( true);
                     else
                         user.setEmployee( false);
-                    verif.Connected();
+
 
                 }
-                if (email != sqlTools.getRs().getString("email") && password == sqlTools.getRs().getString("pwd"))
-                    System.out.println("Mauvais Mail");
-                if (email == sqlTools.getRs().getString("email") && password != sqlTools.getRs().getString("pwd"))
-                    System.out.println("Mauvais Mot de passe");
 
-                if (email != sqlTools.getRs().getString("email") && password != sqlTools.getRs().getString("pwd"))
-                    System.out.println("Mauvais Mail et Mot de passe");
+
 
             }
         } catch (SQLException | IOException e) {
             throw new Error("Problem", e);
+        }
+        
+        if (email != user.getEmail() && password == user.getPasswd()) {
+            user.setLastName("wrong email");
+
+        }
+        if (email == user.getEmail() && password != user.getPasswd()) {
+            user.setLastName("wrong password");
+
+        }
+        if (email != user.getEmail() && password != user.getPasswd()) {
+            System.out.println("blabla");
+            user.setLastName("wrong password and email");
+
         }
         return user;
     }
