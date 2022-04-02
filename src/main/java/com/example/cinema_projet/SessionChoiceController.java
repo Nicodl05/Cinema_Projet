@@ -58,7 +58,7 @@ public class SessionChoiceController implements Initializable {
     }
     @FXML
     public void Calcul(ActionEvent event){
-        
+
         price = Double.parseDouble(NbBilletsTextfield.getText());
         System.out.println(price);
         System.out.println(MoviesController.afficherMovie.getTicketPrice()*price);
@@ -73,8 +73,6 @@ public class SessionChoiceController implements Initializable {
 
         select.add_to_Historic(LoginController.personne,MoviesController.afficherMovie);
 
-        /*
-
         Parent fxmlLoader = FXMLLoader.load(getClass().getResource("BuyTickets.fxml"));
         Scene scene = new Scene(fxmlLoader,800,600);
         Stage stage = new Stage();
@@ -82,7 +80,7 @@ public class SessionChoiceController implements Initializable {
         stage.setScene(scene);
         stage.show();
 
-         */
+
 
     }
 

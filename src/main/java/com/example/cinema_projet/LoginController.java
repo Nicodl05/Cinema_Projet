@@ -47,7 +47,6 @@ public class LoginController implements Initializable {
 
 
     }
-
     public void ConnOnAction() {
         LoginAccountCreate login = new LoginAccountCreate();
         personne = login.login(MyMail.getText(), MyPassword.getText());
@@ -66,7 +65,6 @@ public class LoginController implements Initializable {
             PasswordLabel.setText("Mauvais Password");
         }
 
-
     }
 
     public void Connected() throws IOException {
@@ -83,7 +81,7 @@ public class LoginController implements Initializable {
 
     public void ForgetPassword(ActionEvent event) throws IOException {
 
-        Parent fxmlLoader = FXMLLoader.load(getClass().getResource("Movies.fxml"));
+        Parent fxmlLoader = FXMLLoader.load(getClass().getResource("ChangePassword.fxml"));
         Scene scene = new Scene(fxmlLoader, 800, 600);
         Stage stage = new Stage();
         //stage.setTitle("Hello!");
