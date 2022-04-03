@@ -93,10 +93,12 @@ public class SessionChoiceController implements Initializable {
     @FXML
     public void ReserverOnAction(ActionEvent event) throws IOException {
 
-
+/*
         int truc = Integer.valueOf(String.valueOf(ComboBox.getItems()));
         session.setSessionTime(tools.translateTime(truc));
 
+
+ */
         //session=new Session(, )
 
         DisplayMovie select = new DisplayMovie();
