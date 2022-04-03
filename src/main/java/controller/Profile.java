@@ -73,6 +73,22 @@ public class Profile {
      * Permet à l'utilsateur de save un movie dans les films liked à partir d'un film de son historique
      */
 
+    public void addToMovieLiked(Movie movie,User user2) {
+        // on suppose qu'on display tt l'historique
+            // pour des test
+        String query = "Insert into Movies_liked (movie_id, user_id) Values (?,?);";
+        try {
+            sql.setStmt(sql.executeQueryWithPS(query));
+            sql.getStmt().setInt(1, movie.getMovieId());
+            System.out.println(movie.getMovieId());
+            sql.getStmt().setInt(2, user2.getId());
+            System.out.println(user2.getId());
+            sql.getStmt().execute();
+        } catch (SQLException E) {
+            System.out.println(E);
+        }
+    }
+
 
     /**
      * Permet de charger entièrement l'historique d'un utilisateur

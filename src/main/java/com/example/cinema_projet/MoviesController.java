@@ -53,6 +53,7 @@ public class MoviesController implements Initializable {
     @FXML
     private MenuItem SeDeco;
 
+
     @FXML
     private MenuItem BecomeEmp;
 
@@ -321,12 +322,12 @@ public class MoviesController implements Initializable {
 
     }
 
+
     @FXML
     void BecomeEmpOnAction(ActionEvent event) {
         Profile profile = new Profile(LoginController.personne);
         profile.become_Emp();
 
     }
-
 
         }
