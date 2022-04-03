@@ -20,12 +20,15 @@ import javafx.stage.Stage;
 import model.Movie;
 import model.User;
 
+import java.awt.event.ActionEvent;
 import java.io.File;
+import java.net.URL;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-    public class Employe extends Application
+public class Employe extends Application
     {
         EmpModification moviesModif, movieAdded;
         DbRepository recupFilms;//Create an object of the Repository class
@@ -53,6 +56,7 @@ import java.util.ArrayList;
     @Override
     public void start(Stage primaryStage) throws Exception
     {
+        MoviesController mainPage = new MoviesController();
         //Create a window
         window=primaryStage;
         window.setTitle("Employés");//Set the Window title
@@ -389,6 +393,9 @@ import java.util.ArrayList;
         layout9.setBackground(new Background(new BackgroundFill(Color.DARKCYAN,CornerRadii.EMPTY,Insets.EMPTY)));
         layout9.getChildren().addAll(butPageDacc9,textscene9,sessionMovies,movieIDSession,sessionChoisie,submitButtonScene9);
         scene9 = new Scene(layout9,800,600);
+
+        //Scene 10 main menu
+
 
         //Create a layout
         layout=new BorderPane(ImageUser);
