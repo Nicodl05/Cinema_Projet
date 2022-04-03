@@ -1,5 +1,6 @@
 package com.example.cinema_projet;
 
+import controller.SelectSession;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.fxml.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import model.MovieSession;
+import model.Session;
 
 import java.io.IOException;
 import java.net.URL;
@@ -58,8 +61,12 @@ public class BuyTicketsController implements Initializable {
         bool = verifCB(NumTextField.getText(),DateTextField.getText(),CVVTextField.getText());
         if(bool == true)
         {
+
+
+            //MovieSession movieSession = new MovieSession(session.getSessionId(),MoviesController.afficherMovie.getMovieId(),)
+
             AurevoirLabel.setText("Votre Réservation à été prise en compte, A bientot !");
-            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            PauseTransition pause = new PauseTransition(Duration.seconds(2000));
 
             Parent fxmlLoader = FXMLLoader.load(getClass().getResource("Movies.fxml"));
             Scene scene = new Scene(fxmlLoader,800,600);

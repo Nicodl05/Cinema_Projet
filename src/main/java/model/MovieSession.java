@@ -9,6 +9,9 @@ public class MovieSession {
     //Constructor
     public MovieSession() {
     }
+    public MovieSession(int sessionId, int movieId, int usedSeatCount,Time sessionTIme){
+
+    }
 
     // Following
     // Getter et setter des attributs de notre classe

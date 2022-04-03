@@ -28,11 +28,10 @@ public class Reservation {
      *
      * @return un int correspond au prix
      */
-    public int newPrice() {
+    public double newPrice(User user) {
 
         // On suppose qu'on reçoit en paramètre un user
-        int price = 8; // on considère qu'il a été récupéré
-        user = new User();
+        double price = 8; // on considère qu'il a été récupéré
         String query = "Select * from Person where person_id=" + user.getId();
         try {
             sqlTools.setRs(sqlTools.executeQueryWithRs(query));

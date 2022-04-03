@@ -1,7 +1,10 @@
 package com.example.cinema_projet;
 
 import controller.DisplayMovie;
+import controller.Reservation;
+import controller.SQLTools;
 import controller.SelectSession;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,9 +17,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.Session;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SessionChoiceController implements Initializable {
@@ -25,7 +30,7 @@ public class SessionChoiceController implements Initializable {
     private AnchorPane panee;
 
     @FXML
-    private ComboBox<String> DateComboBox;
+    private ComboBox<String> ComboBox;
 
     @FXML
     private TextField NbBilletsTextfield;
@@ -47,30 +52,52 @@ public class SessionChoiceController implements Initializable {
 
     double price=0;
 
+    public static Session session;
+
+    ArrayList<String > sessionmovie = new ArrayList<>();
+
+    public SQLTools tools = new SQLTools();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         TitreLabel.setText(MoviesController.afficherMovie.getTitle());
-        /*
-        DateComboBox.setValue("Sessions");
-        DateComboBox.getItems().addAll("Test", "Test2", "Test3");
+        SelectSession session = new SelectSession(LoginController.personne);
+        sessionmovie = session.getSessionBasedOn(MoviesController.afficherMovie);
+        //DateComboBox.setValue("Sessions");
 
-         */
+
+        for(int i=0;i<sessionmovie.size();i++){
+            ComboBox.getItems().addAll(sessionmovie.get(i));
+        }
+
 
     }
     @FXML
     public void Calcul(ActionEvent event){
 
-        price = Double.parseDouble(NbBilletsTextfield.getText());
-        System.out.println(price);
-        System.out.println(MoviesController.afficherMovie.getTicketPrice()*price);
-        PrixTextfield.setText(String.valueOf(MoviesController.afficherMovie.getTicketPrice()*price));
+        if(LoginController.personne.getFirstName() == null)
+        {
+            price = Double.parseDouble(NbBilletsTextfield.getText());
+            PrixTextfield.setText(String.valueOf(MoviesController.afficherMovie.getTicketPrice()*price));
+        }
+        else{
+            price = Double.parseDouble(NbBilletsTextfield.getText());
+            PrixTextfield.setText(String.valueOf(MoviesController.afficherMovie.getTicketPrice()*(price*0.8)));
+
+        }
 
     }
 
     @FXML
     public void ReserverOnAction(ActionEvent event) throws IOException {
+
+
+        int truc = Integer.valueOf(String.valueOf(ComboBox.getItems()));
+        session.setSessionTime(tools.translateTime(truc));
+
+        //session=new Session(, )
 
         DisplayMovie select = new DisplayMovie();
 
