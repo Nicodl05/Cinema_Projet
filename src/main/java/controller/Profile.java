@@ -19,9 +19,14 @@ public class Profile {
     /**
      * Permet de mettre un user en tant qu'employé
      */
-    void become_Emp() {
+    public void become_Emp() {
         String query = "Update Person Set emp=" + 1 + " where person_id=" + user.getId() + ";";
-        sql.setRs(sql.executeQueryWithRs(query));
+        sql.setStmt(sql.executeQueryWithPS(query));
+        try {
+            sql.getStmt().executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
