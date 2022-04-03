@@ -62,8 +62,8 @@ public class BuyTicketsController implements Initializable {
         if(bool == true)
         {
 
-
-            //MovieSession movieSession = new MovieSession(session.getSessionId(),MoviesController.afficherMovie.getMovieId(),)
+            SelectSession movieSession = new SelectSession(LoginController.personne);
+            movieSession.userSelectedSession(SessionChoiceController.session,SessionChoiceController.movieSession,SessionChoiceController.variable);
 
             AurevoirLabel.setText("Votre Réservation à été prise en compte, A bientot !");
             PauseTransition pause = new PauseTransition(Duration.seconds(2000));

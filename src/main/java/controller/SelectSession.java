@@ -32,7 +32,7 @@ public class SelectSession {
         int nbSession = (sqlTools.GetNbRow("Session") + 1);
         //On suppose qu'on reçoit le array issu de movies déjà chargé de dbRepository
         ArrayList<Movie> movieArrayList = new ArrayList<Movie>();
-        boolean isSessionPossible = sessionPossible(t);
+       // boolean isSessionPossible = sessionPossible(t);
        // if (isSessionPossible) {
             try {
                 String query = "INSERT INTO Session (session_id, movie_id,reserv_id,session_time) VALUES (?,?,?,?);";
@@ -117,7 +117,7 @@ public class SelectSession {
         }
         return listSession;
     }
-
+/*
     public boolean sessionPossible(int t) {
         Time time = sqlTools.translateTime(t);
         boolean sessionpossible = true;
@@ -134,7 +134,7 @@ public class SelectSession {
         }
 
         return sessionpossible;
-    }
+    }*/
 
     /**
      * Permet de rajouter dans la table historique, le film visionné par un user

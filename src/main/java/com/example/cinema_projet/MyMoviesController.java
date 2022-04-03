@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import model.Movie;
 import model.User;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -76,6 +77,9 @@ public class MyMoviesController implements Initializable {
                 label1.setLayoutY(o+10);
                 pane2.getChildren().addAll(label1);
                 ImageView coeur = new ImageView("C:\\Users\\adrie\\Documents\\GitHub\\Cinema_Projet\\src\\main\\resources\\com\\example\\cinema_projet\\Coeur.png");
+                File file = new File("Coeur.png");
+                String abspath=file.getAbsolutePath();
+                coeur=new ImageView(abspath);
                 coeur.setFitHeight(20);
                 coeur.setFitWidth(20);
                 Button button = new Button("",coeur);

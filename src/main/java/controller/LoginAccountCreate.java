@@ -103,7 +103,7 @@ public class LoginAccountCreate {
         LocalDate date = LocalDate.parse(_bday, DateTimeFormatter.ISO_DATE);
         Date d = java.sql.Date.valueOf(date);
         try {
-            String query = "INSERT INTO Person (person_id, f_name, l_name, bday, email, pwd, emp ) VALUES (?,?,?,?,?,?,+0);";
+            String query = "INSERT INTO Person (person_id, f   _name, l_name, bday, email, pwd, emp ) VALUES (?,?,?,?,?,?,+0);";
             sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
             sqlTools.getStmt().setInt(1, nb_id);
             sqlTools.getStmt().setString(2, _fname);
