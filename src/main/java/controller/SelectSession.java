@@ -133,7 +133,6 @@ public class SelectSession {
             }
         }
 
-
         return sessionpossible;
     }
 

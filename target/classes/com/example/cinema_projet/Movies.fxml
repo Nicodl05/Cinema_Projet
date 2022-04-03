@@ -33,9 +33,9 @@
         <menus>
           <Menu mnemonicParsing="false" text="Mon compte">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Devenir Employé" />
+                  <MenuItem fx:id="BecomeEmp" mnemonicParsing="false" onAction="#BecomeEmpOnAction" text="Devenir Employé" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-              <MenuItem fx:id="SeDeco" mnemonicParsing="false" onAction="#SeDecoOnAction" text="Se déconnecter" />
+              <MenuItem mnemonicParsing="false" text="Se déconnecter" />
             </items>
           </Menu>
         </menus>

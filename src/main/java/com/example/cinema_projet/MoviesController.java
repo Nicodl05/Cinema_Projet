@@ -1,6 +1,7 @@
 package com.example.cinema_projet;
 
 import controller.DbRepository;
+import controller.Profile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -51,6 +52,9 @@ public class MoviesController implements Initializable {
 
     @FXML
     private MenuItem SeDeco;
+
+    @FXML
+    private MenuItem BecomeEmp;
 
     Stage stage;
     Button button1;
@@ -314,6 +318,13 @@ public class MoviesController implements Initializable {
     void SeDecoOnAction(ActionEvent event) throws IOException {
 
         Platform.exit();
+
+    }
+
+    @FXML
+    void BecomeEmpOnAction(ActionEvent event) {
+        Profile profile = new Profile(LoginController.personne);
+        profile.become_Emp();
 
     }
 
