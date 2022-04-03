@@ -62,8 +62,8 @@ import java.util.ArrayList;
         //userImage=new Image("C:\\Users\\adrie\\Documents\\GitHub\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png");
       //  userImage =new Image("C:\\Users\\Nicolas\\OneDrive - Groupe INSEEC (POCE)\\ING3\\S6\\Java\\Cinema_Projet\\src\\main\\java\\com\\example\\cinema_projet\\user.png"); // C'est mon chemin
         //userImage =new Image("https://github.com/Nicodl05/Cinema_Projet/blob/3719b1875f1f8e0bd93f7fb4d33dc76d9288aa43/src/main/java/com/example/cinema_projet/user.png");
-       File file = new File("user.png");
-       String abspath=file.getAbsolutePath();
+        File file = new File("user.png");
+        String abspath=file.getAbsolutePath();
         userImage = new Image(abspath);       //"user.png"
         ImageUser=new ImageView();
         ImageUser.setImage(userImage);
@@ -247,6 +247,7 @@ import java.util.ArrayList;
         MenuItem accesDossiers=new MenuItem("Accès Dossiers Clients");
         MenuItem ajouterunFilm=new MenuItem("Ajouter un Film");
         MenuItem ajouterUneSession = new MenuItem("Ajouter une Session");
+        MenuItem returnMainMenu = new MenuItem("Retour à la page principale");
 
         //What happens the button is pressed
         miseAjourFilm.setOnAction(onClick->window.setScene(scene2));
@@ -310,6 +311,8 @@ import java.util.ArrayList;
         fileMenu.getItems().add(new SeparatorMenuItem());
         fileMenu.getItems().add(ajouterunFilm);
         fileMenu.getItems().add(ajouterUneSession);
+        fileMenu.getItems().add(new SeparatorMenuItem());
+        fileMenu.getItems().add(returnMainMenu);
 
 
         //Main Menu Bar
