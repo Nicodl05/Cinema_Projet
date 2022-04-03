@@ -4,6 +4,7 @@ import controller.DbRepository;
 import controller.EmpModification;
 import controller.SelectSession;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -22,6 +23,7 @@ import model.User;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.Time;
@@ -39,7 +41,7 @@ public class Employe extends Application
         private ListView nomsFilms,userNames,moviesInfo,sessionMovies;//Create a list view that will contain the array list of the movies in the Repository class
         private ImageView ImageUser;//Image to display the Movie's Image
         private Image userImage;
-        private Scene scene2,scene3,scene4,scene5,scene6,scene7,scene8,scene9;//Create different scene
+        private Scene scene2,scene3,scene4,scene5,scene6,scene7,scene8,scene9,scene10;//Create different scene
         private Text textScene6,textScene3,textScene8,textscene2,textscene9;
         private TextField titreduFilm,genreduFilm,recapduFilm,releaseDateFilm,durationFilm,prixDuTicketFilm,modifPrix,titreFilmModif,ajouterNouveauTitre,filmId,filmAvailability,movieIDSession,timeSession;
         private String nouveauTitre,nouveauGenre,nouveauRecap,nouveauRelaseDate,nouveauPrix,nouveauDuration,titreFilmaModif;
@@ -306,6 +308,7 @@ public class Employe extends Application
             sessionTime*=60;
             session.createSession(movieIdSession,sessionTime);
         });
+        returnMainMenu.setOnAction(onClick->window.setScene(scene10));
 
         //The display of the Items
         fileMenu.getItems().add(miseAjourFilm);
@@ -395,6 +398,9 @@ public class Employe extends Application
         scene9 = new Scene(layout9,800,600);
 
         //Scene 10 main menu
+        AnchorPane layout10 = new AnchorPane();
+        layout10 = FXMLLoader.load(getClass().getResource("Movies.fxml"));
+        scene10 = new Scene(layout10);
 
 
         //Create a layout
