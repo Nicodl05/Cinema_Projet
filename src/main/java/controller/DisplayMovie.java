@@ -79,14 +79,23 @@ public class DisplayMovie {
      * @param user correspond à l'utilisateur qui a aimé le film
      */
     public void add_movie_like(User user, Movie movie) {
-        try {
-            String query = "INSERT INTO Movies_liked (movie_id,user_id) VALUES (?,?);";
-            sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
-            sqlTools.getStmt().setInt(1, user.getId());
-            sqlTools.getStmt().setInt(2, movie.getMovieId());
-            sqlTools.getStmt().execute();
-        } catch (SQLException e) {
-            System.out.println(e);
+        boolean test=false;
+        ArrayList<String > likedMovies= load_movies_liked(user);
+        for(var elem: likedMovies){
+            if(elem==movie.getTitle()){
+                test=true;
+            }
+        }
+        if(!test){
+            try {
+                String query = "INSERT INTO Movies_liked (movie_id,user_id) VALUES (?,?);";
+                sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
+                sqlTools.getStmt().setInt(1, user.getId());
+                sqlTools.getStmt().setInt(2, movie.getMovieId());
+                sqlTools.getStmt().execute();
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
         }
     }
 
