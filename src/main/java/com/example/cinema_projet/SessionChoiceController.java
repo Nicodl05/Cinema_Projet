@@ -23,7 +23,9 @@ import model.Session;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class SessionChoiceController implements Initializable {
@@ -69,8 +71,10 @@ public class SessionChoiceController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         TitreLabel.setText(MoviesController.afficherMovie.getTitle());
-        SelectSession session = new SelectSession(LoginController.personne);
-        sessionmovie = session.getSessionDb(MoviesController.afficherMovie);
+        SelectSession selectSession = new SelectSession(LoginController.personne);
+        sessionmovie = selectSession.getSessionDb(MoviesController.afficherMovie);
+        //System.out.println(sessionmovie.get(0).getSessionId());
+
 
 
         for(int i=0;i<sessionmovie.size();i++){
@@ -101,16 +105,28 @@ public class SessionChoiceController implements Initializable {
         int truc = Integer.valueOf(String.valueOf(ComboBox.getItems()));
         session.setSessionTime(tools.translateTime(truc));
 
- */
-        //session=new Session(, )
 
-        movieSession = new MovieSession(session.getSessionId(),MoviesController.afficherMovie.getMovieId(),session.getSessionTime());
+ */
+
+        for(int i=0;i<sessionmovie.size();i++){
+            String passage = String.valueOf(sessionmovie.get(i).getSessionTime());
+
+            if(Objects.equals("["+passage+"]",String.valueOf(ComboBox.getItems()))){
+                System.out.println("dedans");
+                session = new Session(sessionmovie.get(i).getSessionId(),sessionmovie.get(i).getMovieId(),sessionmovie.get(i).getReservId(),sessionmovie.get(i).getSessionTime());
+                System.out.println(sessionmovie.get(i).getSessionId());
+                System.out.println(session.getSessionId());
+                break;
+            }
+        }
+
+
+        //movieSession = new MovieSession(truc,MoviesController.afficherMovie.getMovieId(),session.getSessionTime());
+
         variable = Integer.valueOf(String.valueOf(NbBilletsTextfield.getText()));
         DisplayMovie select = new DisplayMovie();
 
         select.add_to_Historic(LoginController.personne,MoviesController.afficherMovie);
-
-
 
         Parent fxmlLoader = FXMLLoader.load(getClass().getResource("BuyTickets.fxml"));
         Scene scene = new Scene(fxmlLoader,600,400);

@@ -16,7 +16,6 @@ public class Session {
         this.reservId = reservId;
         this.sessionTime = sessionTime;
     }
-
     // Following
     // Getter et setter des attributs de notre classe
     public Time getSessionTime() {
@@ -50,4 +49,5 @@ public class Session {
     public void setSessionId(int sessionId) {
         this.sessionId = sessionId;
     }
+
 }

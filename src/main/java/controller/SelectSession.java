@@ -103,14 +103,15 @@ public class SelectSession {
         return listRoom;
     }
 
-    public ArrayList<Session> getSessionDb() {
+    public ArrayList<Session> getSessionDb(Movie movie) {
         ArrayList<Session> listSession = new ArrayList<>();
-        String query = "Select * from Session";
+        String query = "Select * from Session where movie_id = "+movie.getMovieId()+"";
         try {
             sqlTools.setRs(sqlTools.executeQueryWithRs(query));
             while ((sqlTools.getRs()).next()) {
                 Session session = new Session(sqlTools.getRs().getInt("session_id"), sqlTools.getRs().getInt("movie_id"), sqlTools.getRs().getInt("reserv_id"), sqlTools.getRs().getTime("session_time"));
                 listSession.add(session);
+                System.out.println(session.getSessionId() +" "+ session.getMovieId());
             }
         } catch (SQLException E) {
             E.printStackTrace();
@@ -158,18 +159,19 @@ public class SelectSession {
      * Permet de faire une modification dans la session quand une réservation a été faite
      *
      * @param session      correspond à la session pour la table reservation
-     * @param movieSession correspond à la session du film
+     * @param id correspond à la session du film
      */
-    public void userSelectedSession(Session session, MovieSession movieSession) {
-        if (movieSession.getSessionId() == session.getSessionId()) {
+    public void userSelectedSession(Session session, int id,int nb_tickets) {
+        if (id == session.getSessionId()) {
             int reservId = sqlTools.GetNbRow("Reservation");
             String query = "Insert into Reservation (reserv_id, user_id, movie_id, session_id) Values (?,?,?,?);";
             try {
                 sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
                 sqlTools.getStmt().setInt(1, reservId);
                 sqlTools.getStmt().setInt(2, user.getId());
-                sqlTools.getStmt().setInt(3, movieSession.getMovieId());
+                sqlTools.getStmt().setInt(3, id);
                 sqlTools.getStmt().setInt(4, session.getSessionId());
+                sqlTools.getStmt().execute();
             } catch (SQLException e) {
                 System.out.println(e);
             }
@@ -183,8 +185,8 @@ public class SelectSession {
             } catch (SQLException e) {
                 System.out.println(e);
             }
-            query = "Update Room Set seats=" + (originalSeats - 1) + " where session_id=" + session.getSessionId();
-            sqlTools.setRs(sqlTools.executeQueryWithRs(query));
+            query = "Update Room Set seats=" + (originalSeats - nb_tickets) + " where session_id=" + session.getSessionId();
+            sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
         } else
             System.out.println("Erreur de session");
     }
