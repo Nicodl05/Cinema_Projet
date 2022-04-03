@@ -36,18 +36,7 @@ public class HelloApplication extends Application {
 
 
       launch(args);
-      //  EmpModification empModification = new EmpModification();
-        //empModification.addMovie();
 
-
-      launch(args);
-      //  EmpModification empModification = new EmpModification();
-        //empModification.addMovie();
-        /*
-        SendMail s = new SendMail();
-        s.Emailsent();
-
-         */
 
     }
 }
