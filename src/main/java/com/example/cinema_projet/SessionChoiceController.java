@@ -97,7 +97,6 @@ public class SessionChoiceController implements Initializable {
         int truc = Integer.valueOf(String.valueOf(ComboBox.getItems()));
         session.setSessionTime(tools.translateTime(truc));
 
-
  */
         //session=new Session(, )
 
