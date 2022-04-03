@@ -35,12 +35,33 @@ public class Profile {
     /**
      * Permet de modifier un attribut d'une personne avec sélection de l'attribut
      */
-    public void modifyInfo() {
-        System.out.println("Info a modif");
-        String attribute = "f_name";    // for example
-        String newinfo = "Nicolas";
-        String query = "Update Person Set" + attribute + "=" + newinfo + " where person_id=" + user.getId();
-        sql.setRs( sql.executeQueryWithRs(query));
+    public void modifyInfo(String attribute, String newinfo) {
+        String query = "";
+        switch (attribute){
+            case "f_name":
+                query= "Update Person Set  f_name='" + newinfo + "' where person_id=" + user.getId();
+                break;
+            case "l_name":
+                query= "Update Person Set  l_name='" + newinfo + "' where person_id=" + user.getId();
+                break;
+            case "bday":
+                query= "Update Person Set  bday='" + newinfo + "' where person_id=" + user.getId();
+                break;
+            case "email":
+                query= "Update Person Set  email='" + newinfo + "' where person_id=" + user.getId();
+                break;
+            case "pwd":
+                query= "Update Person Set  pwd='" + newinfo + "' where person_id=" + user.getId();
+                break;
+
+        }
+
+        sql.setStmt(sql.executeQueryWithPS(query));
+        try {
+            sql.getStmt().executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -49,11 +70,14 @@ public class Profile {
     public void addToMovieLiked(Movie movie,User user2) {
         // on suppose qu'on display tt l'historique
             // pour des test
-        String query = "Insert into Movies_liked (movie_id, id_user) Values (?,?);";
+        String query = "Insert into Movies_liked (movie_id, user_id) Values (?,?);";
         try {
             sql.setStmt(sql.executeQueryWithPS(query));
             sql.getStmt().setInt(1, movie.getMovieId());
+            System.out.println(movie.getMovieId());
             sql.getStmt().setInt(2, user2.getId());
+            System.out.println(user2.getId());
+            sql.getStmt().execute();
         } catch (SQLException E) {
             System.out.println(E);
         }

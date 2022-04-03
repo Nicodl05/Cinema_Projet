@@ -25,7 +25,13 @@ public class MyMoviesController implements Initializable {
     AnchorPane pane;
 
     @FXML
+    private AnchorPane pane2;
+
+    @FXML
     private Button retour;
+
+    @FXML
+    private Label infoLabel;
 
     ArrayList<String> likedMovies = new ArrayList<String>();
     ArrayList<Movie> loadHistoric = new ArrayList<Movie>();
@@ -35,7 +41,7 @@ public class MyMoviesController implements Initializable {
 
         DisplayMovie Dmovie = new DisplayMovie();
         Profile profile = new Profile(LoginController.personne);
-        likedMovies=Dmovie.load_movies_liked(LoginController.personne);
+
         loadHistoric = profile.loadHistoric();
 
         MenuBar menuBar=new MenuBar();
@@ -46,48 +52,100 @@ public class MyMoviesController implements Initializable {
         fileMenu.getItems().add(new SeparatorMenuItem());
         MenuItem Myliked = new MenuItem("Mes Films Préférés");
         fileMenu.getItems().add(Myliked);
+        fileMenu.getItems().add(new SeparatorMenuItem());
+        MenuItem informations= new MenuItem("Mes données");
+        fileMenu.getItems().add(informations);
+
 
         menuBar.getMenus().addAll(fileMenu);
         pane.getChildren().add(menuBar);
 
 
         MyHisto.setOnAction(ActionEvent -> {
+
             int a=10;
             int o=50;
-
+            pane2.getChildren().clear();
+            infoLabel.setText("Mon Historique");
+            pane2.getChildren().addAll(infoLabel);
             for(int i = 0; i< loadHistoric.size();i++){
 
                 o+=30;
                 Label label1 = new Label(loadHistoric.get(i).getTitle());
                 label1.setLayoutX(a);
-                label1.setLayoutY(o);
-                pane.getChildren().addAll(label1);
+                label1.setLayoutY(o+10);
+                pane2.getChildren().addAll(label1);
                 ImageView coeur = new ImageView("C:\\Users\\adrie\\Documents\\GitHub\\Cinema_Projet\\src\\main\\resources\\com\\example\\cinema_projet\\Coeur.png");
-                coeur.setFitHeight(40);
-                coeur.setFitWidth(40);
+                coeur.setFitHeight(20);
+                coeur.setFitWidth(20);
                 Button button = new Button("",coeur);
-                button.setPrefSize(30, 30);
+                button.setPrefSize(10, 10);
+                button.setLayoutX(150);
+                button.setLayoutY(o);
+                int k=i;
                 button.setOnAction(ActionEvent2 -> {
 
-                    profile.addToMovieLiked(MoviesController.afficherMovie,LoginController.personne);
+                    profile.addToMovieLiked(loadHistoric.get(k),LoginController.personne);
 
                 });
-                pane.getChildren().addAll(button);
+                pane2.getChildren().addAll(button);
             }
         });
         Myliked.setOnAction(ActionEvent -> {
+            pane2.getChildren().clear();
+            pane2.getChildren().addAll(infoLabel);
+            infoLabel.setText("Mes Films Préférés");
             int a=10;
             int o=50;
-
+            likedMovies=Dmovie.load_movies_liked(LoginController.personne);
             for(int i = 0; i< likedMovies.size();i++){
 
+                System.out.println(likedMovies.get(i));
                 o+=30;
                 Label label1 = new Label(likedMovies.get(i));
                 label1.setLayoutX(a);
                 label1.setLayoutY(o);
-
-
+                pane2.getChildren().addAll(label1);
             }
+
+        });
+        informations.setOnAction(ActionEvent -> {
+            pane2.getChildren().clear();
+            pane2.getChildren().addAll(infoLabel);
+            infoLabel.setText("Mes données");
+
+            Label labelattribute = new Label("Choisissez un attribut");
+            Label labelnewinfo= new Label("Choisissez une nouvelle valeur");
+
+            labelattribute.setLayoutX(10);
+            labelattribute.setLayoutY(100);
+            labelnewinfo.setLayoutX(10);
+            labelnewinfo.setLayoutY(130);
+
+            TextField attribute = new TextField("");
+            TextField newinfo = new TextField("");
+
+            attribute.setLayoutX(190);
+            attribute.setLayoutY(95);
+
+            newinfo.setLayoutX(190);
+            newinfo.setLayoutY(125);
+
+            Button button = new Button("Modifier");
+
+            button.setLayoutX(190);
+            button.setLayoutY(170);
+
+            pane2.getChildren().addAll(labelattribute,labelnewinfo,attribute,newinfo,button);
+
+            button.setOnAction(ActionEvent2 -> {
+                profile.modifyInfo(attribute.getText(),newinfo.getText());
+            });
+
+
+
+
+
 
         });
     }

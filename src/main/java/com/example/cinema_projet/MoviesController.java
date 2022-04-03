@@ -1,6 +1,7 @@
 package com.example.cinema_projet;
 
 import controller.DbRepository;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -47,6 +48,9 @@ public class MoviesController implements Initializable {
 
     @FXML
     private Button MyMovies;
+
+    @FXML
+    private MenuItem SeDeco;
 
     Stage stage;
     Button button1;
@@ -302,6 +306,14 @@ public class MoviesController implements Initializable {
 
         stage = (Stage) MyMovies.getScene().getWindow();
         stage.close();
+
+    }
+
+
+    @FXML
+    void SeDecoOnAction(ActionEvent event) throws IOException {
+
+        Platform.exit();
 
     }
 
