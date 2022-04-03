@@ -17,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.Movie;
+import model.MovieSession;
 import model.Session;
 
 import java.io.IOException;
@@ -54,7 +56,11 @@ public class SessionChoiceController implements Initializable {
 
     public static Session session;
 
-    ArrayList<String > sessionmovie = new ArrayList<>();
+    public static int variable=0;
+
+    public static MovieSession movieSession;
+
+    public static ArrayList<Session> sessionmovie = new ArrayList<>();
 
     public SQLTools tools = new SQLTools();
 
@@ -64,14 +70,12 @@ public class SessionChoiceController implements Initializable {
 
         TitreLabel.setText(MoviesController.afficherMovie.getTitle());
         SelectSession session = new SelectSession(LoginController.personne);
-        sessionmovie = session.getSessionBasedOn(MoviesController.afficherMovie);
-        //DateComboBox.setValue("Sessions");
+        sessionmovie = session.getSessionDb(MoviesController.afficherMovie);
 
 
         for(int i=0;i<sessionmovie.size();i++){
-            ComboBox.getItems().addAll(sessionmovie.get(i));
+            ComboBox.getItems().addAll(String.valueOf(sessionmovie.get(i).getSessionTime()));
         }
-
 
     }
     @FXML
@@ -100,9 +104,13 @@ public class SessionChoiceController implements Initializable {
  */
         //session=new Session(, )
 
+        movieSession = new MovieSession(session.getSessionId(),MoviesController.afficherMovie.getMovieId(),session.getSessionTime());
+        variable = Integer.valueOf(String.valueOf(NbBilletsTextfield.getText()));
         DisplayMovie select = new DisplayMovie();
 
         select.add_to_Historic(LoginController.personne,MoviesController.afficherMovie);
+
+
 
         Parent fxmlLoader = FXMLLoader.load(getClass().getResource("BuyTickets.fxml"));
         Scene scene = new Scene(fxmlLoader,600,400);

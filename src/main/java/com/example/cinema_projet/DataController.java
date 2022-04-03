@@ -16,11 +16,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Movie;
 
 
+import javax.print.attribute.standard.Media;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -87,6 +90,7 @@ public class DataController implements Initializable{
     }
     @FXML
     public void TrailerOnAction(ActionEvent event){
+
 /*
         WebView webView = new WebView();
 
@@ -126,6 +130,10 @@ public class DataController implements Initializable{
         stage = (Stage) Retour.getScene().getWindow();
         stage.close();
 
+    }
+    @FXML
+    void hyperOnAction(ActionEvent event) throws URISyntaxException, IOException {
+        Desktop.getDesktop().browse(new URI(MoviesController.afficherMovie.getTrailer()));
     }
 
 

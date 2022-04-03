@@ -3,13 +3,13 @@ package model;
 import java.sql.Time;
 
 public class MovieSession {
-    private int sessionId, movieId, usedSeatCount;
+    private int sessionId, movieId;
     private Time sessionTIme;
 
     //Constructor
     public MovieSession() {
     }
-    public MovieSession(int sessionId, int movieId, int usedSeatCount,Time sessionTIme){
+    public MovieSession(int sessionId, int movieId,Time sessionTIme){
 
     }
 
@@ -22,6 +22,7 @@ public class MovieSession {
     public void setSessionTIme(Time sessionTIme) {
         this.sessionTIme = sessionTIme;
     }
+    /*
 
     public int getUsedSeatCount() {
         return usedSeatCount;
@@ -30,6 +31,8 @@ public class MovieSession {
     public void setUsedSeatCount(int usedSeatCount) {
         this.usedSeatCount = usedSeatCount;
     }
+
+     */
 
     public int getMovieId() {
         return movieId;

@@ -32,7 +32,6 @@ public class SelectSession {
         int nbSession = (sqlTools.GetNbRow("Session") + 1);
         //On suppose qu'on reçoit le array issu de movies déjà chargé de dbRepository
         ArrayList<Movie> movieArrayList = new ArrayList<Movie>();
-        boolean isSessionPossible = sessionPossible(t);
        // if (isSessionPossible) {
             try {
                 String query = "INSERT INTO Session (session_id, movie_id,reserv_id,session_time) VALUES (?,?,?,?);";
@@ -103,37 +102,21 @@ public class SelectSession {
         return listRoom;
     }
 
-    public ArrayList<Session> getSessionDb() {
+    public ArrayList<Session> getSessionDb(Movie movie) {
         ArrayList<Session> listSession = new ArrayList<>();
-        String query = "Select * from Session";
+        String query = "Select * from Session where movie_id ="+movie.getMovieId();
         try {
             sqlTools.setRs(sqlTools.executeQueryWithRs(query));
             while ((sqlTools.getRs()).next()) {
                 Session session = new Session(sqlTools.getRs().getInt("session_id"), sqlTools.getRs().getInt("movie_id"), sqlTools.getRs().getInt("reserv_id"), sqlTools.getRs().getTime("session_time"));
                 listSession.add(session);
+                System.out.println(session.getSessionId()+" "+ session.getMovieId() +" "+ session.getReservId());
             }
+
         } catch (SQLException E) {
             E.printStackTrace();
         }
         return listSession;
-    }
-
-    public boolean sessionPossible(int t) {
-        Time time = sqlTools.translateTime(t);
-        boolean sessionpossible = true;
-        ArrayList<Room> listRoom = getRoomDb();
-        ArrayList<Session> listSession = getSessionDb();
-        for (int i = 0; i < listRoom.size(); i++) {
-            for (int j = 0; j < listSession.size(); j++) {
-                if (listSession.get(j).getSessionId() == listRoom.get(j).getSessionId()) {
-                    if (listSession.get(j).getSessionTime() == time) {
-                        sessionpossible = false;
-                    }
-                }
-            }
-        }
-
-        return sessionpossible;
     }
 
     /**
@@ -160,7 +143,7 @@ public class SelectSession {
      * @param session      correspond à la session pour la table reservation
      * @param movieSession correspond à la session du film
      */
-    public void userSelectedSession(Session session, MovieSession movieSession) {
+    public void userSelectedSession(Session session, MovieSession movieSession,int nb_tickets) {
         if (movieSession.getSessionId() == session.getSessionId()) {
             int reservId = sqlTools.GetNbRow("Reservation");
             String query = "Insert into Reservation (reserv_id, user_id, movie_id, session_id) Values (?,?,?,?);";
@@ -183,7 +166,7 @@ public class SelectSession {
             } catch (SQLException e) {
                 System.out.println(e);
             }
-            query = "Update Room Set seats=" + (originalSeats - 1) + " where session_id=" + session.getSessionId();
+            query = "Update Room Set seats=" + (originalSeats - nb_tickets) + " where session_id=" + session.getSessionId();
             sqlTools.setRs(sqlTools.executeQueryWithRs(query));
         } else
             System.out.println("Erreur de session");
