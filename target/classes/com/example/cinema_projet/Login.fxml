@@ -13,13 +13,13 @@
          <children>
             <Label fx:id="PasswordLabel" layoutX="75.0" layoutY="181.0" style="-fx-text-fill: red;" />
             <Label fx:id="MailLabel" layoutX="75.0" layoutY="130.0" style="-fx-text-fill: red;" />
-            <Button fx:id="Conn" layoutX="74.0" layoutY="209.0" mnemonicParsing="false" onAction="#ConnOnAction" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: white;" text="Se connecter">
+            <Button fx:id="Conn" layoutX="74.0" layoutY="209.0" mnemonicParsing="false" onAction="#ConnOnAction" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: rgb(0, 122, 123);" text="Se connecter">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextField fx:id="MyPassword" layoutX="75.0" layoutY="155.0" promptText="Mot de passe" style="-fx-text-fill: white; -fx-background-color: rgba(0, 0, 0, 0.94); -fx-border-color: white;" text="password" />
-            <TextField fx:id="MyMail" layoutX="73.0" layoutY="104.0" promptText="Mail" style="-fx-background-color: rgba(0, 0, 0, 0.94); -fx-border-color: white; -fx-text-fill: white;" text="adrien.leboeuf@gmail.com" />
+            <TextField fx:id="MyPassword" layoutX="75.0" layoutY="155.0" promptText="Mot de passe" style="-fx-text-fill: white; -fx-background-color: rgba(0, 0, 0, 0.94); -fx-border-color: white;" />
+            <TextField fx:id="MyMail" layoutX="73.0" layoutY="104.0" promptText="Mail" style="-fx-background-color: rgba(0, 0, 0, 0.94); -fx-border-color: white; -fx-text-fill: white;" />
             <Button layoutX="65.0" layoutY="254.0" mnemonicParsing="false" onAction="#ForgetPassword" prefHeight="24.0" prefWidth="128.0" style="-fx-background-color: transparent; -fx-text-fill: orange;" text="Mot de passe oublié ?">
                <font>
                   <Font size="11.0" />

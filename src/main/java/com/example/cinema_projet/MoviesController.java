@@ -62,7 +62,10 @@ public class MoviesController implements Initializable {
     public static Movie afficherMovie = new Movie();
     public ArrayList<String> genre = new ArrayList<String>();
 
-
+    /**
+     La page d'accueil se charge avec les informations nécessaires, dont principalement l'ensemble des boutons et des images
+     que l'on affiche sur l'AnchorPane numéro 2
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -160,7 +163,11 @@ public class MoviesController implements Initializable {
         pane.getChildren().add(menuBar);
 
         InitialSetup();
+
     }
+    /**
+     Lorsque l'utilisateur trie par nom il faut correctement afficher les films sélectionnés
+     */
     @FXML
     public void ActualiseScene(ActionEvent event){
 
@@ -228,6 +235,9 @@ public class MoviesController implements Initializable {
         }
 
     }
+    /**
+     Il s'agit ici du chargement des informations initiales, à la page d'accueil
+     */
     public void InitialSetup(){
 
         DbRepository info = new DbRepository();
@@ -278,6 +288,9 @@ public class MoviesController implements Initializable {
         }
 
     }
+    /**
+        Changement de Scene
+     */
     public void DataTheMovie() throws IOException {
 
             Parent fxmlLoader = FXMLLoader.load(getClass().getResource("DataMovie.fxml"));
@@ -288,6 +301,10 @@ public class MoviesController implements Initializable {
             stage.show();
 
         }
+    /**
+     Changement de Scene
+     */
+
     @FXML
     void GoToEmployee(ActionEvent event) throws Exception {
 
@@ -298,6 +315,9 @@ public class MoviesController implements Initializable {
         stage.close();
 
     }
+    /**
+     Changement de Scene
+     */
     @FXML
     void ShowMyMovies(ActionEvent event) throws IOException {
 
@@ -314,6 +334,9 @@ public class MoviesController implements Initializable {
 
     }
 
+    /**
+      Button permettant de quitter l'application
+     */
 
     @FXML
     void SeDecoOnAction(ActionEvent event) throws IOException {
@@ -322,7 +345,9 @@ public class MoviesController implements Initializable {
 
     }
 
-
+    /**
+        Permet à une personne de devenir employé si elle le souhaite
+     */
     @FXML
     void BecomeEmpOnAction(ActionEvent event) {
         Profile profile = new Profile(LoginController.personne);

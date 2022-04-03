@@ -30,7 +30,9 @@ public class ChangePasswordController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-
+        /**
+         Appel de resetPassword avec en arguments les valeurs des TextFields
+         */
     }
     @FXML
     void NvMdpOnAction(ActionEvent event) throws IOException {

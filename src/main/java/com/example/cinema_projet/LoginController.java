@@ -51,7 +51,8 @@ public class LoginController implements Initializable {
 
     }
     /**
-        
+     En fonction des valeurs des textfiels on attribut des valeurs différentes au label afin d'indiquer
+     à l'utilisateur son erreur
      */
     public void ConnOnAction() {
         LoginAccountCreate login = new LoginAccountCreate();

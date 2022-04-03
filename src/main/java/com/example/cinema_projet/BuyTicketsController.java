@@ -48,13 +48,19 @@ public class BuyTicketsController implements Initializable {
 
     }
 
+    /**
+        Fonction pour vérifier la validité de la carte bancaire
+     */
+
     public boolean verifCB(String card, String date, String lasnb ){
         boolean test=false;
         if(card.length()==16 && date.length()==5 && lasnb.length()==3)
             test=true;
         return test;
     }
-
+    /**
+        Appel de verifCB et validation de la réservation avec changement de la DB
+     */
     @FXML
     void PayerOnAction(ActionEvent event) throws IOException {
         boolean bool = false;

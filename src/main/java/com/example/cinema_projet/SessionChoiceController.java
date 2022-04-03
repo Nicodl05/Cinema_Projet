@@ -82,6 +82,9 @@ public class SessionChoiceController implements Initializable {
         }
 
     }
+    /**
+        On calcul ici le prix que le client va payer en fonction du prix du billet et de son statut sur le site
+     */
     @FXML
     public void Calcul(ActionEvent event){
 
@@ -97,16 +100,12 @@ public class SessionChoiceController implements Initializable {
         }
 
     }
-
+    /**
+        La session est initialisé avec l'heure choisit dans la comboBox, tout comme le film et on ajoute le film à l'historique
+     */
     @FXML
     public void ReserverOnAction(ActionEvent event) throws IOException {
 
-/*
-        int truc = Integer.valueOf(String.valueOf(ComboBox.getItems()));
-        session.setSessionTime(tools.translateTime(truc));
-
-
- */
 
         for(int i=0;i<sessionmovie.size();i++){
             String passage = String.valueOf(sessionmovie.get(i).getSessionTime());
@@ -120,12 +119,9 @@ public class SessionChoiceController implements Initializable {
             }
         }
 
-
-        //movieSession = new MovieSession(truc,MoviesController.afficherMovie.getMovieId(),session.getSessionTime());
-
         variable = Integer.valueOf(String.valueOf(NbBilletsTextfield.getText()));
-        DisplayMovie select = new DisplayMovie();
 
+        DisplayMovie select = new DisplayMovie();
         select.add_to_Historic(LoginController.personne,MoviesController.afficherMovie);
 
         Parent fxmlLoader = FXMLLoader.load(getClass().getResource("BuyTickets.fxml"));

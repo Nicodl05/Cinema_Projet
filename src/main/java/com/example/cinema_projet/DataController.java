@@ -66,7 +66,9 @@ public class DataController implements Initializable{
     Stage stage2;
     AnchorPane plan;
 
-
+    /**
+     On initialise tout l'affichage avec les valeurs du film choisit par l'utilisateur
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -88,20 +90,7 @@ public class DataController implements Initializable{
 
 
     }
-    @FXML
-    public void TrailerOnAction(ActionEvent event){
 
-/*
-        WebView webView = new WebView();
-
-        webView.getEngine().load(MoviesController.afficherMovie.trailer);
-        Vbox vbox = Vbox(webView);
-        //Scene scene = new Scene(vbox,800,600);
-
-
-
- */
-    }
     @FXML
     public void ReserveButtonOnAction(ActionEvent event) throws IOException {
 
@@ -131,6 +120,9 @@ public class DataController implements Initializable{
         stage.close();
 
     }
+    /**
+      Lancement du navigateur avec l'url du film venant de la DataBase
+     */
     @FXML
     void hyperOnAction(ActionEvent event) throws URISyntaxException, IOException {
         Desktop.getDesktop().browse(new URI(MoviesController.afficherMovie.getTrailer()));

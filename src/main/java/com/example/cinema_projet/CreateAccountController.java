@@ -32,6 +32,9 @@ public class CreateAccountController {
     @FXML
     private TextField Password;
 
+    /**
+     Appel de Create_Account avec en arguments les valeurs des TextFields
+     */
     public void CreateButtononAction() throws IOException {
         LoginAccountCreate login = new LoginAccountCreate();
         login.Create_Account(FirstName.getText(),Name.getText(),Mail.getText(),Password.getText(),BirthDate.getText());

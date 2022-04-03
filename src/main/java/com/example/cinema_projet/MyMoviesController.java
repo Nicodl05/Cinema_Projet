@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -60,7 +61,10 @@ public class MyMoviesController implements Initializable {
 
         menuBar.getMenus().addAll(fileMenu);
         pane.getChildren().add(menuBar);
-
+        /**
+         Lors du clique sur historique on affiche l'historique du client en mettant le titre des films dans des labels
+         avec la possibilité de liker le film déjà vu.
+         */
 
         MyHisto.setOnAction(ActionEvent -> {
 
@@ -76,10 +80,12 @@ public class MyMoviesController implements Initializable {
                 label1.setLayoutX(a);
                 label1.setLayoutY(o+10);
                 pane2.getChildren().addAll(label1);
-                ImageView coeur = new ImageView("C:\\Users\\adrie\\Documents\\GitHub\\Cinema_Projet\\src\\main\\resources\\com\\example\\cinema_projet\\Coeur.png");
+
+                ImageView coeur;
+                //= new ImageView("C:\\Users\\adrie\\Documents\\GitHub\\Cinema_Projet\\src\\main\\resources\\com\\example\\cinema_projet\\Coeur.png");
                 File file = new File("Coeur.png");
-                String abspath=file.getAbsolutePath();
-                coeur=new ImageView(abspath);
+                Image image = new Image(file.toURI().toString());
+                coeur= new ImageView(image);
                 coeur.setFitHeight(20);
                 coeur.setFitWidth(20);
                 Button button = new Button("",coeur);
@@ -95,6 +101,9 @@ public class MyMoviesController implements Initializable {
                 pane2.getChildren().addAll(button);
             }
         });
+        /**
+         Lors du clique sur mes films pref on affiche les films pref du client en mettant le titre des films dans des labels
+         */
         Myliked.setOnAction(ActionEvent -> {
             pane2.getChildren().clear();
             pane2.getChildren().addAll(infoLabel);
@@ -113,6 +122,10 @@ public class MyMoviesController implements Initializable {
             }
 
         });
+        /**
+         Lors du clique on informations on permet à l'utilisateur de modifier ses informations, comme son nom
+         ou encore l'adresse mail
+         */
         informations.setOnAction(ActionEvent -> {
             pane2.getChildren().clear();
             pane2.getChildren().addAll(infoLabel);
@@ -145,11 +158,6 @@ public class MyMoviesController implements Initializable {
             button.setOnAction(ActionEvent2 -> {
                 profile.modifyInfo(attribute.getText(),newinfo.getText());
             });
-
-
-
-
-
 
         });
     }

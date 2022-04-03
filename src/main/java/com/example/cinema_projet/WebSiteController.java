@@ -24,8 +24,6 @@ public class WebSiteController {
     @FXML
     void InviterOnAction(ActionEvent event) throws IOException {
 
-
-
         Parent fxmlLoader = FXMLLoader.load(getClass().getResource("Movies.fxml"));
         Scene scene = new Scene(fxmlLoader,800,600);
         Stage stage = new Stage();
