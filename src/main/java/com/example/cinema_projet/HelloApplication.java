@@ -34,13 +34,11 @@ public class HelloApplication extends Application {
     public static void main(String[] args)  {
 
 
-<<<<<<< Updated upstream
+
       launch(args);
       //  EmpModification empModification = new EmpModification();
         //empModification.addMovie();
 
-=======
-         */
 
       launch(args);
       //  EmpModification empModification = new EmpModification();
@@ -50,6 +48,6 @@ public class HelloApplication extends Application {
         s.Emailsent();
 
          */
->>>>>>> Stashed changes
+
     }
 }
