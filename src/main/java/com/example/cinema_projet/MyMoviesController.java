@@ -76,6 +76,7 @@ public class MyMoviesController implements Initializable {
                 label1.setLayoutY(o+10);
                 pane2.getChildren().addAll(label1);
                 ImageView coeur = new ImageView("C:\\Users\\adrie\\Documents\\GitHub\\Cinema_Projet\\src\\main\\resources\\com\\example\\cinema_projet\\Coeur.png");
+                coeur=new ImageView("C:\\Users\\Nicolas\\OneDrive - Groupe INSEEC (POCE)\\ING3\\S6\\Java\\Cinema_Projet\\src\\main\resources\\com\\example\\cinema_projet\\Coeur.png");
                 coeur.setFitHeight(20);
                 coeur.setFitWidth(20);
                 Button button = new Button("",coeur);
