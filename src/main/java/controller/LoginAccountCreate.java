@@ -98,12 +98,12 @@ public class LoginAccountCreate {
      * @param _bday date de naissance
      */
     public void Create_Account(String _fname, String _lname, String _email, String _pwd, String _bday) {
-        int nb_id = sqlTools.GetNbRow("Person") + 1;
+        int nb_id = sqlTools.GetNbRow("Person") + 2;
         // Faire les saisies pour affichage
         LocalDate date = LocalDate.parse(_bday, DateTimeFormatter.ISO_DATE);
         Date d = java.sql.Date.valueOf(date);
         try {
-            String query = "INSERT INTO Person (person_id, f   _name, l_name, bday, email, pwd, emp ) VALUES (?,?,?,?,?,?,+0);";
+            String query = "INSERT INTO Person (person_id, f_name, l_name, bday, email, pwd, emp ) VALUES (?,?,?,?,?,?,+0);";
             sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
             sqlTools.getStmt().setInt(1, nb_id);
             sqlTools.getStmt().setString(2, _fname);

@@ -7,7 +7,7 @@
 
 <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cinema_projet.MyMoviesController">
    <children>
-      <Button fx:id="retour" layoutX="24.0" layoutY="540.0" mnemonicParsing="false" onAction="#retournOnAction" prefHeight="44.0" prefWidth="110.0" text="Retour" />
+      <Button fx:id="retour" layoutX="669.0" layoutY="542.0" mnemonicParsing="false" onAction="#retournOnAction" prefHeight="44.0" prefWidth="110.0" text="Retour" />
       <AnchorPane fx:id="pane2" layoutY="38.0" prefHeight="460.0" prefWidth="800.0">
          <children>
             <Label fx:id="infoLabel" layoutX="14.0" layoutY="14.0">
