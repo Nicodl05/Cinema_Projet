@@ -36,6 +36,7 @@ public class EmpModification {
     public EmpModification() {
 
     }
+
     /**
      * MAJ Disponibilité  d'un film
      *
@@ -55,6 +56,7 @@ public class EmpModification {
 
     /**
      * Maj prix d'un film
+     *
      * @param whichMovie titre du film auquel on doit modifier le prix
      */
     public void updateMoviePrice(String whichMovie, double newPrice) {
@@ -76,7 +78,7 @@ public class EmpModification {
      * @param id id du film
      * @return
      */
-    public String getTrailer(int id) {
+    public String getTrailera(int id) {
         TmdbMovies movies = new TmdbApi("810c86d39163e1219bbe9a906af41da0").getMovies();
         List<Video> path = movies.getVideos(id, "fr");
         String ytlink = "https://youtu.be/" + path.get(0).getKey();
@@ -117,7 +119,7 @@ public class EmpModification {
                     //movie_selected.actorIds = loadactorIds(movie_selected);
                     movie_selected.setReleaseDate(java.sql.Date.valueOf(parse(mdv.getReleaseDate(), DateTimeFormatter.ISO_DATE)));
                     movie_selected.setTicketPrice(8);
-                    movie_selected.setTrailer(getTrailer(mdv.getId()));
+                    movie_selected.setTrailer(getTrailera(mdv.getId()));
                 }
             }
         }
@@ -129,16 +131,78 @@ public class EmpModification {
      *
      * @return le film chargé par l'utilisateur
      */
-    public Movie addMovieDataManual(int movieId, boolean isAvailable, String title, String genre, String recap,Date releaseDate, double ticketPrice, Time duration) {
-        Movie movie = new Movie(movieId,isAvailable,title,genre,recap,releaseDate,ticketPrice,duration);
+    public Movie addMovieDataManual(int movieId, boolean isAvailable, String title, String genre, String recap, Date releaseDate, double ticketPrice, Time duration) {
+        Movie movie = new Movie(movieId, isAvailable, title, genre, recap, releaseDate, ticketPrice, duration);
         return movie;
     }
 
     /**
      * Ajoute un film dans la db qui a été chargé manuellement ou automatiquement
      */
-    public void addMovie(Movie movie) {
+    public String getCoverempty(String movie) {
+        String toreturn = "";
+        Movie movie_selected = new Movie();
+        MovieDb moviedb = new MovieDb();
+        System.out.println("title of the movie");
+        String query = movie;
+        TmdbApi api = new TmdbApi("810c86d39163e1219bbe9a906af41da0");  // apic créee
+        TmdbSearch search = new TmdbSearch(api); // objet recherche
+        TmdbSearch.MultiListResultsPage resultsPage = search.searchMulti(query, "fr", 1);
+        List<Multi> multiList = resultsPage.getResults();
+        ArrayList<MovieDb> list_movies = new ArrayList<MovieDb>();
+        for (var elem : multiList) {
+            if (elem.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb"))
+                list_movies.add((MovieDb) elem); // On récupère tous les films et le user choisit lequel rajouter
+        }
+        // Ajout du Click sur le film pour récupérer le nom du film;
+        String chosenMovie = list_movies.get(0).getTitle();
+        for (var element : list_movies) {
+            if (element.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb")) {
+                MovieDb mdv = api.getMovies().getMovie(element.getId(), "fr");
+                if (element.getTitle().equals(chosenMovie)) {
+                    toreturn =  getTrailera(mdv.getId());
+                }
+            }
+        }
+        return toreturn;
+    }
+    public String getTrailerx(String movie) {
+        String toreturn = "";
+        Movie movie_selected = new Movie();
+        MovieDb moviedb = new MovieDb();
+        System.out.println("title of the movie");
+        String query = movie;
+        TmdbApi api = new TmdbApi("810c86d39163e1219bbe9a906af41da0");  // apic créee
+        TmdbSearch search = new TmdbSearch(api); // objet recherche
+        TmdbSearch.MultiListResultsPage resultsPage = search.searchMulti(query, "fr", 1);
+        List<Multi> multiList = resultsPage.getResults();
+        ArrayList<MovieDb> list_movies = new ArrayList<MovieDb>();
+        for (var elem : multiList) {
+            if (elem.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb"))
+                list_movies.add((MovieDb) elem); // On récupère tous les films et le user choisit lequel rajouter
+        }
+        // Ajout du Click sur le film pour récupérer le nom du film;
+        String chosenMovie = list_movies.get(0).getTitle();
+        for (var element : list_movies) {
+            if (element.getClass().getName().equals("info.movito.themoviedbapi.model.MovieDb")) {
+                MovieDb mdv = api.getMovies().getMovie(element.getId(), "fr");
+                if (element.getTitle().equals(chosenMovie)) {
+                    toreturn = ("https://image.tmdb.org/t/p/w600_and_h900_bestv2/" + mdv.getPosterPath());
+                }
+            }
+        }
+        return toreturn;
+    }
 
+    public void addMovie(Movie movie) {
+        if (movie.getUrlImage() == null) {
+            movie.setUrlImage(" ");
+        }
+        if(movie.getTrailer()==null){
+            movie.setTrailer(" ");
+        }
+        if(movie.getMovieId()==-1)
+            movie.setMovieId(sqlTools.GetNbRow("Movies")+1);
         try {
             String query = "INSERT INTO Movies (movie_id, title, genre, release_date, r_time, ticket_price, recap, available, trailer,cover) VALUES (?,?,?,?,?,?,?,?,?,?);";
             sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
@@ -156,6 +220,7 @@ public class EmpModification {
             sqlTools.getStmt().setString(9, movie.getTrailer());   // A dev le trailer avec Api
             sqlTools.getStmt().setString(10, movie.getUrlImage());
             sqlTools.getStmt().execute();
+            System.out.println("done");
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -191,6 +256,7 @@ public class EmpModification {
 
     /**
      * Permet de retourner un user à partir de son nom de famille
+     *
      * @param lName nom de famille
      * @return un user
      */

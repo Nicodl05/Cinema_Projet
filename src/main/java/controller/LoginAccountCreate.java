@@ -59,8 +59,11 @@ public class LoginAccountCreate {
 
                 }
             }
-        } catch (SQLException | IOException e) {
+        } catch (SQLException  e)  {
             throw new Error("Problem", e);
+        }
+        catch (IOException i){
+            throw new Error("Problem2",i);
         }
         if(!test){
             for(var elem: emails){
