@@ -3,6 +3,7 @@ package controller;
 import model.*;
 
 
+import javax.print.DocFlavor;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +33,7 @@ public class SelectSession {
         //On suppose qu'on reçoit le array issu de movies déjà chargé de dbRepository
         ArrayList<Movie> movieArrayList = new ArrayList<Movie>();
         boolean isSessionPossible = sessionPossible(t);
-        if (isSessionPossible) {
+       // if (isSessionPossible) {
             try {
                 String query = "INSERT INTO Session (session_id, movie_id,reserv_id,session_time) VALUES (?,?,?,?);";
                 sqlTools.setStmt(sqlTools.executeQueryWithPS(query));
@@ -42,14 +43,11 @@ public class SelectSession {
                 sqlTools.getStmt().setInt(3, r.getReservId());
                 sqlTools.getStmt().setTime(4, sqlTools.translateTime(t));
                 sqlTools.getStmt().execute();
-                System.out.println("Test 1");
-                System.out.println(nbSession + " " + chosenMovie + " " + r.getReservId() + " " + sqlTools.translateTime(t));
-                System.out.println(chosenMovie);
             } catch (SQLException e) {
                 //e.printStackTrace();
                 System.out.println(e);
             }
-        } else {
+       /* } else {
             int nbRoom = (sqlTools.GetNbRow("Room") + 1);
             try {
                 String query = "INSERT INTO Room (room_id, seats,session_id) VALUES (?,?,?);";
@@ -73,7 +71,21 @@ public class SelectSession {
             } catch (SQLException E) {
                 E.printStackTrace();
             }
+        }*/
+    }
+    public ArrayList<String> getSessionBasedOn(Movie movie){
+        String query = "Select * from Session where movie_id="+movie.getMovieId();
+        ArrayList<String > sessionmovie = new ArrayList<>();
+        try{
+            sqlTools.setRs(sqlTools.executeQueryWithRs(query));
+            while(sqlTools.getRs().next()){
+                sessionmovie.add(String.valueOf(sqlTools.getRs().getTime("session_time")));
+            }
         }
+        catch (SQLException e){
+            System.out.println(e);
+        }
+        return sessionmovie;
     }
 
     public ArrayList<Room> getRoomDb() {
