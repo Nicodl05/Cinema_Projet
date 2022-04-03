@@ -292,11 +292,15 @@ public class MoviesController implements Initializable {
     void GoToEmployee(ActionEvent event) throws Exception {
 
         Employe object = new Employe();
-        object.start(stage);
+        if(LoginController.personne.isEmployee()==true)
+        {
+            object.start(stage);
 
-        stage = (Stage) Employee.getScene().getWindow();
-        stage.close();
-
+            stage = (Stage) Employee.getScene().getWindow();
+            stage.close();
+        }
+        else
+            System.out.println("Pas employé");
     }
     @FXML
     void ShowMyMovies(ActionEvent event) throws IOException {
